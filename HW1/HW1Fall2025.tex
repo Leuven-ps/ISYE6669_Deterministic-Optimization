@@ -1,0 +1,68 @@
+\documentclass{article}
+\usepackage[usenames]{color} %used for font color
+\usepackage{amssymb} %maths
+\usepackage{amsmath} %maths
+\usepackage{amsfonts}
+\usepackage[utf8]{inputenc} %useful to type directly diacritic characters
+\usepackage{soul}
+\usepackage{bm}
+\usepackage{graphicx}
+
+\def\x{\bm{x}}
+\def\y{\bm{y}}
+\def\c{\bm{c}}
+\def\d{\bm{d}}
+\def\A{\bm{A}}
+\def\B{\bm{B}}
+\def\b{\bm{b}}
+\def\y{\bm{y}}
+\def\Re{\mathbb{R}}
+\def\Z{\mathbb{Z}}
+
+\title{ISyE 6669 HW 1}
+\date{Fall 2025}
+\begin{document}
+\maketitle
+
+
+\begin{enumerate}
+\item Consider the following maximization problem
+% $$\min\{ x^2 + (y-1)^2 : \ x + 3 y \ge 6, \ x + y \ge 4, \ x \ge 0, \ y \ge 0\}.$$
+\begin{align*}
+    \max\quad & x^2 + (y-1)^2 \\
+\text{s.t.}\quad & x + 2y \le 6 \\
+& x - y \le 0 \\
+& x \ge 0,\ y \ge 0.
+\end{align*}
+Plot the feasible region of this problem with the feasible area shaded. Draw (in dashed lines) the contours of the objective function. Based on your 
+drawing, find all the optimal solutions and the optimal objective value of this problem. There may be multiple optimal solutions. Find all optimal solutions.
+
+%\item Recall the maximum volume box from Module 1, Lesson 1. Solve the following problem using basic calculus:
+%$$\max\{ (x + 1)(2 - 3x)^2:  \ -1 \le x \le 2/3\}$$
+%What is the optimal solution and the optimal objective value? Draw the objective function over the feasible region. 
+
+\item Solve the following problem using basic calculus:
+$$\max\{ -10x + 5x^{2\ }+9x^{3}+\ 8x^{4}+7x^{5}:  \ -1 \le x \le 1\}$$
+What is the optimal solution and the optimal objective value? Are there any local maxima that are not global maxima? 
+
+
+\item Consider the following optimization problem:
+\begin{align*}
+    (P)\quad \max \quad & x (z^2 - y^2) \\
+    \text{s.t.}\quad & y + |z|\le 1, \\
+    & x \in \{0,1\}, \; y\ge 0.
+\end{align*}
+Answer the questions:
+\begin{enumerate}
+    \item Is (P) a linear program, a mixed integer nonlinear program, or a mixed integer quadratic program? Choose all descriptions that apply.
+    
+    \item Write a minimization problem that is equivalent to (P).
+    
+    \item Find all the optimal solutions.
+\end{enumerate}
+
+\item Recall the portfolio optimization problem solved in Module 2, Lesson 3. Use the provided code file (\texttt{portopt\_cvxpy\_python3\_HW1.py}) and provided data file \texttt{monthly\_prices\_HW1.csv} to solve the exact same portfolio problem using this new data. Compare and contrast this new solution to the one obtained in the lesson.
+
+\end{enumerate}
+
+\end{document}
