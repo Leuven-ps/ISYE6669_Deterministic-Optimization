@@ -1,12 +1,20 @@
-\documentclass{article}
-\usepackage[usenames]{color} %used for font color
-\usepackage{amssymb} %maths
-\usepackage{amsmath} %maths
+\documentclass[11pt]{article}
+\usepackage[margin=1in, top=1.2in, bottom=1.2in]{geometry}
+\usepackage[usenames,dvipsnames]{color}
+\usepackage{amssymb}
+\usepackage{amsmath}
 \usepackage{amsfonts}
-\usepackage[utf8]{inputenc} %useful to type directly diacritic characters
+\usepackage{amsthm}
+\usepackage[utf8]{inputenc}
 \usepackage{soul}
 \usepackage{bm}
 \usepackage{graphicx}
+\usepackage{float}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{fancyhdr}
+\usepackage{subcaption}
 \graphicspath{{./figures/}}                % 画像フォルダを宣言
 \DeclareGraphicsExtensions{.pdf,.png,.jpg,.jpeg} % 候補拡張子
 
@@ -21,13 +29,27 @@
 \def\Re{\mathbb{R}}
 \def\Z{\mathbb{Z}}
 
-\title{ISyE 6669 HW 1}
+% Page style
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{ISyE 6669 - Deterministic Optimization}
+\fancyhead[R]{HW 1 - Fall 2025}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0pt}
+
+% Title formatting
+\title{\Large\textbf{ISyE 6669: Deterministic Optimization}\\\vspace{0.3em}\large Homework Assignment 1}
+\author{}
 \date{Fall 2025}
+
 \begin{document}
 \maketitle
+\thispagestyle{empty}
+\vspace{-1em}
 
 
-\begin{enumerate}
+\begin{enumerate}[leftmargin=*, itemsep=1.5em]
 \item Consider the following maximization problem
 \begin{align*}
     \max\quad & x^2 + (y-1)^2 \\
@@ -38,9 +60,11 @@
 Plot the feasible region of this problem with the feasible area shaded. Draw (in dashed lines) the contours of the objective function. Based on your 
 drawing, find all the optimal solutions and the optimal objective value of this problem. There may be multiple optimal solutions. Find all optimal solutions.
 
-\hrulefill
+\vspace{0.5em}
+\noindent\rule{\textwidth}{0.5pt}
+\vspace{0.5em}
 
-\textbf{Solution.}
+\noindent\textbf{Solution:}
 
 
 Looking at the six graphs in Figure 1, you can see a white triangular area in each plot. This white triangular region represents the set of points that satisfy all the constraints of the problem.
@@ -59,31 +83,69 @@ Therefore, the maximum value of $x^2 + (y-1)^2$ over the feasible region is 5, a
 
 
 
-\begin{figure}[htbp]
+\begin{figure}[H]
     \centering
-    \includegraphics[width=0.45\textwidth]{figures/HW1_a-1.png}
-    \includegraphics[width=0.45\textwidth]{figures/HW1_a-2.png}
-    \includegraphics[width=0.45\textwidth]{figures/HW1_a-3.png}
-    \includegraphics[width=0.45\textwidth]{figures/HW1_a-4.png}
-    \includegraphics[width=0.45\textwidth]{figures/HW1_a-5.png}
-    \includegraphics[width=0.45\textwidth]{figures/HW1_a-6.png}
-    \caption{Feasible region and objective contours for various $x^2 + (y - 1)^2$ values ($x^2 + (y - 1)^2 = 1$ to $x^2 + (y - 1)^2 = 6$).}
+    \begin{minipage}[t]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figures/HW1_a-1.png}
+        \subcaption{$x^2 + (y-1)^2 = 1$}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[t]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figures/HW1_a-2.png}
+        \subcaption{$x^2 + (y-1)^2 = 2$}
+    \end{minipage}
+    
+    \vspace{0.5em}
+    
+    \begin{minipage}[t]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figures/HW1_a-3.png}
+        \subcaption{$x^2 + (y-1)^2 = 3$}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[t]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figures/HW1_a-4.png}
+        \subcaption{$x^2 + (y-1)^2 = 4$}
+    \end{minipage}
+    
+    \vspace{0.5em}
+    
+    \begin{minipage}[t]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figures/HW1_a-5.png}
+        \subcaption{$x^2 + (y-1)^2 = 5$}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[t]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figures/HW1_a-6.png}
+        \subcaption{$x^2 + (y-1)^2 = 6$}
+    \end{minipage}
+    
+    \caption{Feasible region (white triangular area) and objective function contours for various values of $x^2 + (y - 1)^2$. The contour circles increase in size as the objective value increases from 1 to 6.}
     \label{fig:hw1_a1to6}
 \end{figure}
 
 
 
 \item Solve the following problem using basic calculus:
-$$\max\{ -10x + 5x^{2\ }+9x^{3}+\ 8x^{4}+7x^{5}:  \ -1 \le x \le 1\}$$
+\[
+\max\{ -10x + 5x^{2}+9x^{3}+ 8x^{4}+7x^{5}:  -1 \le x \le 1\}
+\]
 What is the optimal solution and the optimal objective value? Are there any local maxima that are not global maxima? 
 
 
-\hrulefill
+\vspace{0.5em}
+\noindent\rule{\textwidth}{0.5pt}
+\vspace{0.5em}
 
-\textbf{Solution.}
+\noindent\textbf{Solution:}
 
 \medskip
-\underline{Step 1. First derivative and critical points}
+\noindent\textbf{Step 1: First derivative and critical points}
 
 \[
 f'(x) = 35x^4 + 32x^3 + 27x^2 + 10x - 10.
@@ -92,7 +154,7 @@ This is a quartic equation, which is difficult to solve exactly.
 However, we can analyze the number and location of critical points using sign checks and convexity.
 
 \medskip
-\underline{Step 2. Convexity of $f'$}
+\noindent\textbf{Step 2: Convexity of $f'$}
 
 The second derivative is:
 \[
@@ -107,7 +169,7 @@ Therefore, $f''(x)$ is strictly increasing, which implies that $f'(x)$ is a \emp
 A strictly convex quartic can have at most two real roots.
 
 \medskip
-\underline{Step 3. Sign checks to locate roots}
+\noindent\textbf{Step 3: Sign checks to locate roots}
 
 We evaluate $f'(x)$ at several points:
 
@@ -131,7 +193,7 @@ f'(0.375) \approx -0.07 < 0,\quad f'(0.4) \approx 1.26 > 0,
 so the right root lies in $(0.375, 0.4)$.
 
 \medskip
-\underline{Step 4. Increasing/decreasing intervals}
+\noindent\textbf{Step 4: Increasing/decreasing intervals}
 
 From the sign of $f'$:
 
@@ -142,7 +204,7 @@ From the sign of $f'$:
 Thus, $x_1$ is a local maximum, $x_2$ is a local minimum.
 
 \medskip
-\underline{Step 5. Compare function values}
+\noindent\textbf{Step 5: Compare function values}
 
 We check $f(x)$ at candidate points:
 
@@ -160,7 +222,7 @@ f(-0.85) \approx 7.66.
 Therefore, the local maximum value is about $7.66$, which is \emph{less} than $f(1)=19$.
 
 \medskip
-\underline{Step 6. Final answer}
+\noindent\textbf{Step 6: Final answer}
 
 - The \textbf{optimal solution} is:
 \[
@@ -172,17 +234,22 @@ f(x^\ast) = 19.
 \]
 - There exists a \textbf{local maximum} at $x \approx -0.86$, but it is not a global maximum.
 
-\hrulefill
+\vspace{0.5em}
+\noindent\rule{\textwidth}{0.5pt}
+\vspace{0.5em}
 
-\textbf{Summary Table:}
+\noindent\textbf{Summary Table:}
 
-\[
-\begin{array}{c|cccccc}
-x & -1 & \cdots & x_1 & \cdots & x_2 & \cdots 1 \\ \hline
-f'(x) & + & & 0 & & 0 & + \\
-f(x) & \nearrow & \ \ \max\ \  & \searrow & \ \ \min\ \  & \nearrow &
-\end{array}
-\]
+\begin{center}
+\begin{tabular}{c|cccccc}
+\toprule
+$x$ & $-1$ & $\cdots$ & $x_1$ & $\cdots$ & $x_2$ & $\cdots$ & $1$ \\
+\midrule
+$f'(x)$ & $+$ & & $0$ & & $0$ & & $+$ \\
+$f(x)$ & $\nearrow$ & $\max$ & $\searrow$ & $\min$ & $\nearrow$ & \\
+\bottomrule
+\end{tabular}
+\end{center}
 
 
 \item Consider the following optimization problem:
@@ -192,7 +259,7 @@ f(x) & \nearrow & \ \ \max\ \  & \searrow & \ \ \min\ \  & \nearrow &
     & x \in \{0,1\}, \; y\ge 0.
 \end{align*}
 Answer the questions:
-\begin{enumerate}
+\begin{enumerate}[leftmargin=*, itemsep=1.5em]
     \item Is (P) a linear program, a mixed integer nonlinear program, or a mixed integer quadratic program? Choose all descriptions that apply.
     
     \item Write a minimization problem that is equivalent to (P).
@@ -200,10 +267,12 @@ Answer the questions:
     \item Find all the optimal solutions.
 \end{enumerate}
 
-\hrulefill
+\vspace{0.5em}
+\noindent\rule{\textwidth}{0.5pt}
+\vspace{0.5em}
 
-\textbf{Solution.}
-\begin{enumerate}
+\noindent\textbf{Solution:}
+\begin{enumerate}[leftmargin=*, itemsep=1.5em]
     \item[(a)] (P) is a \textbf{Mixed Integer Nonlinear Program} (MINLP).
 
     \begin{itemize}
@@ -222,14 +291,43 @@ Answer the questions:
     \end{align*}
     If the minimum value is $-v^\ast$, then the maximum value of the original problem (P) is $v^\ast$.
 
-\begin{figure}[htbp]
+\begin{figure}[H]
     \centering
-    \includegraphics[width=0.45\textwidth]{figures/HW1_3_a_-2.png}
-    \includegraphics[width=0.45\textwidth]{figures/HW1_3_a_-1.png}
-    \includegraphics[width=0.45\textwidth]{figures/HW1_3_a_0.png}
-    \includegraphics[width=0.45\textwidth]{figures/HW1_3_a_1.png}
-    \includegraphics[width=0.45\textwidth]{figures/HW1_3_a_2.png}
-    \caption{Feasible region and objective function contours for Problem 3. The white region represents the feasible set $y + |z| \le 1$, $y \ge 0$, and the colored contours show different values of the objective function $x(z^2 - y^2)$.}
+    \begin{minipage}[t]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figures/HW1_3_a_-2.png}
+        \subcaption{Objective value = $-2$}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[t]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figures/HW1_3_a_-1.png}
+        \subcaption{Objective value = $-1$}
+    \end{minipage}
+    
+    \vspace{0.5em}
+    
+    \begin{minipage}[t]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figures/HW1_3_a_0.png}
+        \subcaption{Objective value = $0$}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[t]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figures/HW1_3_a_1.png}
+        \subcaption{Objective value = $1$}
+    \end{minipage}
+    
+    \vspace{0.5em}
+    
+    \begin{minipage}[t]{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figures/HW1_3_a_2.png}
+        \subcaption{Objective value = $2$}
+    \end{minipage}
+    
+    \caption{Feasible region (white area) and objective function contours for Problem 3. The white region represents the feasible set $y + |z| \le 1$, $y \ge 0$, and the colored contours show different values of the objective function $x(z^2 - y^2)$ when $x=1$.}
     \label{fig:hw1_3_a}
 \end{figure}
 
@@ -258,59 +356,55 @@ See Figure~\ref{fig:hw1_3_a} for visualizations of the feasible region and objec
 
 \item Recall the portfolio optimization problem solved in Module 2, Lesson 3. Use the provided code file (\texttt{portopt\_cvxpy\_python3\_HW1.py}) and the provided data file (\texttt{monthly\_prices\_HW1.csv}) to solve the same portfolio problem with this new data. Compare and discuss the differences and similarities between this new solution and the one obtained in the lesson.
 
-\hrulefill
+\vspace{0.5em}
+\noindent\rule{\textwidth}{0.5pt}
+\vspace{0.5em}
 
-\textbf{Solution.}
+\noindent\textbf{Solution:}
 
 Using the provided data file \texttt{monthly\_prices\_HW1.csv} and running the code from \texttt{portopt\_cvxpy\_python3\_HW1.py}, we obtain the following results:
 
-\begin{verbatim}
----------------------
-MSFT: Exp ret = 0.024328, Risk = 0.062160
-V: Exp ret = 0.019058, Risk = 0.040485
-WMT: Exp ret = 0.030167, Risk = 0.056756
-----------------------
-Optimal portfolio
-----------------------
-x[MSFT] = 0.217181
-x[V] = 0.581434
-x[WMT] = 0.201385
-----------------------
-Exp ret = 0.022440
-risk    = 0.034429
-----------------------
-
-The optimal portfolio in the lesson video (Module 2, Lesson 3 example) is as follows:
-----------------------
-MSFT: Exp ret = 0.024611, Risk = 0.058040
-V: Exp ret = 0.018237, Risk = 0.042807
-WMT: Exp ret = 0.009066, Risk = 0.044461
-----------------------
-Optimal portfolio
-----------------------
-x[MSFT] = 0.5828
-x[V] = 0.2043
-x[WMT] = 0.2129
-----------------------
-Exp ret = 0.020000
-risk    = 0.038300
-----------------------
-
-\end{verbatim}
+\begin{table}[H]
+\centering
+\caption{Portfolio Optimization Results Comparison}
+\begin{tabular}{@{}lccc@{}}
+\toprule
+\textbf{Asset} & \textbf{New Data} & \textbf{Lesson Data} & \textbf{Change} \\
+\midrule
+\multicolumn{4}{l}{\textbf{Individual Asset Statistics}} \\
+\addlinespace[0.2em]
+MSFT & Exp: 2.43\%, Risk: 6.22\% & Exp: 2.46\%, Risk: 5.80\% & Risk $\uparrow$ \\
+V & Exp: 1.91\%, Risk: 4.05\% & Exp: 1.82\%, Risk: 4.28\% & Risk $\downarrow$ \\
+WMT & Exp: 3.02\%, Risk: 5.68\% & Exp: 0.91\%, Risk: 4.45\% & Exp $\uparrow$, Risk $\uparrow$ \\
+\addlinespace[0.3em]
+\midrule
+\multicolumn{4}{l}{\textbf{Optimal Portfolio Allocation}} \\
+\addlinespace[0.2em]
+MSFT & 21.7\% & 58.3\% & $-36.6$ pp \\
+V & 58.1\% & 20.4\% & $+37.7$ pp \\
+WMT & 20.1\% & 21.3\% & $-1.2$ pp \\
+\addlinespace[0.3em]
+\midrule
+\multicolumn{4}{l}{\textbf{Portfolio Performance}} \\
+\addlinespace[0.2em]
+Expected Return & 2.24\% & 2.00\% & $+0.24$ pp \\
+Risk (Std Dev) & 3.44\% & 3.83\% & $-0.39$ pp \\
+\bottomrule
+\end{tabular}
+\label{tab:portfolio_comparison}
+\end{table}
 
 \textbf{Comparison:}
 
-\begin{itemize}
-    \item \textbf{Differences in Investment Allocation} \\
-    In the lesson, the optimal investment allocation was MSFT: \$582.8, V: \$204.3, WMT: \$212.9 (for \$1000 investment), which represents MSFT: 58.3\%, V: 20.4\%, WMT: 21.3\%. With the new data, we have MSFT: 21.7\%, V: 58.1\%, WMT: 20.1\%. The investment allocation in V (Visa) has significantly increased, while MSFT (Microsoft) allocation has decreased substantially. WMT (Walmart) remains approximately the same.
+\textbf{Key Observations:}
+
+\begin{enumerate}[leftmargin=*, itemsep=0.8em]
+    \item \textbf{Portfolio Rebalancing}: The most significant change is the dramatic shift from MSFT (58.3\% $\rightarrow$ 21.7\%) to V (20.4\% $\rightarrow$ 58.1\%). This 37+ percentage point shift reflects the changing risk-return profile of these assets.
     
-    \item \textbf{Differences in Expected Return and Risk} \\
-    In the lesson, the expected monthly return was \$20 (2.0\%) with risk (standard deviation) of \$38.3 (3.83\%). With the new data, the expected return is 2.24\% and risk is 3.44\%, showing a slight increase in return and decrease in risk.
+    \item \textbf{Improved Risk-Return Trade-off}: The new portfolio achieves both higher expected return (2.24\% vs 2.00\%) and lower risk (3.44\% vs 3.83\%), indicating a more efficient portfolio allocation.
     
-    \item \textbf{Differences in Asset Risk (Standard Deviation)} \\
-    Based on the new data, V (Visa) has the lowest risk (standard deviation of 0.0405) among the three assets, which leads to a higher allocation to V in the optimal portfolio. The allocation to MSFT (Microsoft) decreases, while WMT (Walmart) remains similar. This shift in allocation can be explained by the differences in the individual risks (standard deviations) of the assets as observed in the data, without referring to the covariance values.
-    
-\end{itemize}
+    \item \textbf{Risk Profile Changes}: V (Visa) exhibits lower volatility in the new data (4.05\% vs 4.28\%) while maintaining similar expected returns, making it the preferred asset for risk-averse optimization.
+\end{enumerate}
 
 \textbf{Summary:}
 
