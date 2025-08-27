@@ -4,9 +4,9 @@ See examples at http://cvxpy.org
 Author: Shabbir Ahmed
 """
 
-import pandas as pd
-import numpy as np
 import cvxpy as cp
+import numpy as np
+import pandas as pd
 
 mp = pd.read_csv("monthly_prices_HW1.csv",index_col=0) #update to match your path
 
