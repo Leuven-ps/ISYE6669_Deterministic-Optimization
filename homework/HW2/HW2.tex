@@ -1,0 +1,226 @@
+\documentclass{article}
+\usepackage[usenames]{color} %used for font color
+\usepackage{amssymb} %maths
+\usepackage{amsmath} %maths
+\usepackage{amsfonts}
+\usepackage[utf8]{inputenc} %useful to type directly diacritic characters
+\usepackage{soul}
+\usepackage{bm}
+
+
+\def\x{\bm{x}}
+\def\y{\bm{y}}
+\def\c{\bm{c}}
+\def\d{\bm{d}}
+\def\A{\bm{A}}
+\def\B{\bm{B}}
+\def\b{\bm{b}}
+\def\y{\bm{y}}
+\def\Re{\mathbb{R}}
+\def\Z{\mathbb{Z}}
+
+
+\title{ISyE 6669 HW 2}
+\date{Fall 2025}
+\begin{document}
+\maketitle
+
+
+\begin{enumerate}
+
+\item Expand the following summations:\\ (For example, the
+answer to part (a) is $x_1 + x_2 + x_3$.)
+
+\begin{tabular}{r l l r l}
+(a) & $\sum_{i=1}^3 x_i$ & & (d) & $\sum_{i=1}^3\sum_{j=2}^4 (x_i
++
+y_{ij})$ \\
+(b) & $\sum_{t=1}^3 \frac{x^{2t}}{t!} $ & & (e) & $\sum_{k=-1}^3
+(2k+1)x_{k+1}$ \\
+(c) & $\sum_{i=1}^3\sum_{j=1}^i x_{ij}$ & & (f) & $\sum_{n=3}^5
+\sum_{m=n+1}^{n+3} x_ny_m$
+\end{tabular}
+
+Note that by definition $t!=1\cdot 2 \cdots (t-1) \cdot t$ for integer $t\ge 1$.
+
+\newpage
+
+\section*{Solution to Problem 1}
+
+\begin{enumerate}
+\item[(a)] $\sum_{i=1}^3 x_i = x_1 + x_2 + x_3$
+
+\item[(b)] $\sum_{t=1}^3 \frac{x^{2t}}{t!} = \frac{x^2}{1!} + \frac{x^4}{2!} + \frac{x^6}{3!} = x^2 + \frac{x^4}{2} + \frac{x^6}{6}$
+
+\item[(c)] $\sum_{i=1}^3\sum_{j=1}^i x_{ij} = \sum_{j=1}^1 x_{1j} + \sum_{j=1}^2 x_{2j} + \sum_{j=1}^3 x_{3j} = x_{11} + (x_{21} + x_{22}) + (x_{31} + x_{32} + x_{33})$
+
+\item[(d)] $\sum_{i=1}^3\sum_{j=2}^4 (x_i + y_{ij}) = \sum_{j=2}^4 (x_1 + y_{1j}) + \sum_{j=2}^4 (x_2 + y_{2j}) + \sum_{j=2}^4 (x_3 + y_{3j}) = (x_1 + y_{12} + x_1 + y_{13} + x_1 + y_{14}) + (x_2 + y_{22} + x_2 + y_{23} + x_2 + y_{24}) + (x_3 + y_{32} + x_3 + y_{33} + x_3 + y_{34}) = 3x_1 + 3x_2 + 3x_3 + y_{12} + y_{13} + y_{14} + y_{22} + y_{23} + y_{24} + y_{32} + y_{33} + y_{34}$
+
+\item[(e)] $\sum_{k=-1}^3 (2k+1)x_{k+1} = (2(-1)+1)x_0 + (2(0)+1)x_1 + (2(1)+1)x_2 + (2(2)+1)x_3 + (2(3)+1)x_4 = -x_0 + x_1 + 3x_2 + 5x_3 + 7x_4$
+
+\item[(f)] $\sum_{n=3}^5 \sum_{m=n+1}^{n+3} x_ny_m = \sum_{m=4}^6 x_3y_m + \sum_{m=5}^7 x_4y_m + \sum_{m=6}^8 x_5y_m = x_3(y_4 + y_5 + y_6) + x_4(y_5 + y_6 + y_7) + x_5(y_6 + y_7 + y_8)$
+\end{enumerate}
+
+\newpage
+
+\item Consider the following two vectors: $ \x = \left[
+\begin{array}{c}
+2 \\ 1 \\ 4 
+\end{array} \right],\; \y = \left[ \begin{array}{c}
+2 \\
+0 \\
+5 \end{array} \right]$, and a matrix $\A = \begin{bmatrix} 1 & -1 & 2 \\ -2 & 1 & -1 \\ 3 & 0 & -1 \end{bmatrix}$.
+\begin{itemize}
+\item[(a)] Let $n$ be the dimension of $\x$ and $\y$. What is the value of $n$?
+\item[(b)] Compute $3\x - 2\y$. 
+\item[(c)] Compute the inner product $\x^\top\y$.
+\item[(d)] Compute $\x\y^\top$.
+\item[(e)] Compute the Euclidean norm $\|\x - \y\|_2 = \sqrt{\sum_{i=1}^n (x_i-y_i)^2}$. Also called the $\ell_2$-norm.
+\item[(f)] Compute the $\ell_1$-norm $\|\x - \y\|_1 = {\sum_{i=1}^n |x_i-y_i|}$. 
+\item[(g)] Compute the $\ell_\infty$-norm $\|\x - \y\|_\infty = \max_{1\le i\le n} |x_i-y_i|$. 
+\item[(h)] Compute $\x^{\top}\A\y$. 
+% \item[(e)] Compute $x_2y_1$.
+\end{itemize}
+
+\newpage
+
+\section*{Solution to Problem 2}
+
+Given vectors and matrix:
+- $\mathbf{x} = [2, 1, 4]^T$
+- $\mathbf{y} = [2, 0, 5]^T$
+- $\mathbf{A} = \begin{bmatrix} 1 & -1 & 2 \\ -2 & 1 & -1 \\ 3 & 0 & -1 \end{bmatrix}$
+
+\begin{enumerate}
+\item[(a)] $n = 3$ (dimension of the vectors)
+
+\item[(b)] $3\mathbf{x} - 2\mathbf{y} = 3\begin{bmatrix} 2 \\ 1 \\ 4 \end{bmatrix} - 2\begin{bmatrix} 2 \\ 0 \\ 5 \end{bmatrix} = \begin{bmatrix} 6 \\ 3 \\ 12 \end{bmatrix} - \begin{bmatrix} 4 \\ 0 \\ 10 \end{bmatrix} = \begin{bmatrix} 2 \\ 3 \\ 2 \end{bmatrix}$
+
+\item[(c)] $\mathbf{x}^T\mathbf{y} = [2, 1, 4] \begin{bmatrix} 2 \\ 0 \\ 5 \end{bmatrix} = 2(2) + 1(0) + 4(5) = 4 + 0 + 20 = 24$
+
+\item[(d)] $\mathbf{x}\mathbf{y}^T = \begin{bmatrix} 2 \\ 1 \\ 4 \end{bmatrix} [2, 0, 5] = \begin{bmatrix} 4 & 0 & 10 \\ 2 & 0 & 5 \\ 8 & 0 & 20 \end{bmatrix}$
+
+\item[(e)] $\|\mathbf{x} - \mathbf{y}\|_2 = \sqrt{(2-2)^2 + (1-0)^2 + (4-5)^2} = \sqrt{0 + 1 + 1} = \sqrt{2}$
+
+\item[(f)] $\|\mathbf{x} - \mathbf{y}\|_1 = |2-2| + |1-0| + |4-5| = 0 + 1 + 1 = 2$
+
+\item[(g)] $\|\mathbf{x} - \mathbf{y}\|_\infty = \max\{|2-2|, |1-0|, |4-5|\} = \max\{0, 1, 1\} = 1$
+
+\item[(h)] $\mathbf{x}^T\mathbf{A}\mathbf{y} = [2, 1, 4] \begin{bmatrix} 1 & -1 & 2 \\ -2 & 1 & -1 \\ 3 & 0 & -1 \end{bmatrix} \begin{bmatrix} 2 \\ 0 \\ 5 \end{bmatrix}$
+
+First, compute $\mathbf{A}\mathbf{y}$:
+$\begin{bmatrix} 1 & -1 & 2 \\ -2 & 1 & -1 \\ 3 & 0 & -1 \end{bmatrix} \begin{bmatrix} 2 \\ 0 \\ 5 \end{bmatrix} = \begin{bmatrix} 1(2) + (-1)(0) + 2(5) \\ -2(2) + 1(0) + (-1)(5) \\ 3(2) + 0(0) + (-1)(5) \end{bmatrix} = \begin{bmatrix} 2 + 0 + 10 \\ -4 + 0 - 5 \\ 6 + 0 - 5 \end{bmatrix} = \begin{bmatrix} 12 \\ -9 \\ 1 \end{bmatrix}$
+
+Then, $\mathbf{x}^T(\mathbf{A}\mathbf{y}) = [2, 1, 4] \begin{bmatrix} 12 \\ -9 \\ 1 \end{bmatrix} = 2(12) + 1(-9) + 4(1) = 24 - 9 + 4 = 19$
+\end{enumerate}
+
+\newpage
+
+\item
+State whether each of the following sets is convex or not. Explain your reasoning.
+\begin{itemize}
+\item[(a)] $X = \{ (x_1,x_2)\in\mathbb{R}^2 ~|~ 2x_1^2 + 5|x_2| \le 10 \}$.
+\item[(b)] $X = \{ (x_1,x_2)\in\mathbb{R}^2 ~|~ 2x_1^2 - 5|x_2| \le 10 \}$.
+\item[(c)] $X = \{ (x_1,x_2) ~|~ {x_1 \over (x_2 - 2)} \le 2, ~~x_2 \ge 1 \}$.
+\item[(d)] $X = \{ (x_1,x_2) ~|~ {x_1 \over (x_2 - 2)} \le 2, ~~x_2 \ge 2 \}$.
+\end{itemize}
+
+\newpage
+
+\section*{Solution to Problem 3}
+
+\begin{enumerate}
+\item[(a)] $X = \{ (x_1,x_2)\in\mathbb{R}^2 ~|~ 2x_1^2 + 5|x_2| \le 10 \}$
+
+\textbf{Not convex.} Reason: The term $|x_2|$ is not a convex function. For example, $(0,2)$ and $(0,-2)$ belong to the set, but their midpoint $(0,0)$ satisfies $2(0)^2 + 5|0| = 0 \le 10$ and belongs to the set, but in general convex combinations may not belong to the set.
+
+\item[(b)] $X = \{ (x_1,x_2)\in\mathbb{R}^2 ~|~ 2x_1^2 - 5|x_2| \le 10 \}$
+
+\textbf{Not convex.} Reason: The term $-5|x_2|$ makes the boundary of the set non-convex. For example, $(0,2)$ and $(0,-2)$ belong to the set, but their midpoint $(0,0)$ satisfies $2(0)^2 - 5|0| = 0 \le 10$ and belongs to the set, but in general convex combinations may not belong to the set.
+
+\item[(c)] $X = \{ (x_1,x_2) ~|~ {x_1 \over (x_2 - 2)} \le 2, ~~x_2 \ge 1 \}$
+
+\textbf{Not convex.} Reason: The term ${x_1 \over (x_2 - 2)}$ is not a convex function. The denominator $(x_2 - 2)$ creates a singularity at $x_2 = 2$, and even though $x_2 \ge 1$, the function is not convex.
+
+\item[(d)] $X = \{ (x_1,x_2) ~|~ {x_1 \over (x_2 - 2)} \le 2, ~~x_2 \ge 2 \}$
+
+\textbf{Convex.} Reason: The condition $x_2 \ge 2$ ensures that the denominator $(x_2 - 2) \ge 0$, so ${x_1 \over (x_2 - 2)} \le 2$ becomes $x_1 \le 2(x_2 - 2)$, which is a linear constraint. Linear constraints and linear inequalities form convex sets.
+\end{enumerate}
+
+\newpage
+
+\item
+State whether the following problems are convex programs or not. Explain your reasoning.
+\begin{itemize}
+\item[(a)]
+$ \min\{x_1^3 + x_2^2 \ :  \ x_1 \le 2, \; x_2 \le 3\}$.
+\item[(b)] $ \max\{2x_1 + 3x_2 + 4x_3 + 5x_4 \ : \ x_1^2 + x_2^2 + x_3^2 + x_4^2 \le 1\}.$
+\item[(c)] $ \min\{\sum_{i=1}^n 2^i (x_i)^{2i} \ : \ \sum_{i=1}^n x_i \ge 10\}.$
+\end{itemize}
+
+\newpage
+
+\section*{Solution to Problem 4}
+
+\begin{enumerate}
+\item[(a)] $\min\{x_1^3 + x_2^2 \ : \ x_1 \le 2, \; x_2 \le 3\}$
+
+\textbf{Not a convex program.} Reason: The objective function $x_1^3$ is not a convex function. Cubic functions are not convex.
+
+\item[(b)] $\max\{2x_1 + 3x_2 + 4x_3 + 5x_4 \ : \ x_1^2 + x_2^2 + x_3^2 + x_4^2 \le 1\}$
+
+\textbf{Convex program.} Reason: The objective function is linear (convex), and the constraint $x_1^2 + x_2^2 + x_3^2 + x_4^2 \le 1$ defines a convex set (sphere). Although it's a maximization problem, maximizing a linear objective function can be treated as a convex program.
+
+\item[(c)] $\min\{\sum_{i=1}^n 2^i (x_i)^{2i} \ : \ \sum_{i=1}^n x_i \ge 10\}$
+
+\textbf{Not a convex program.} Reason: The terms $2^i (x_i)^{2i}$ in the objective function are not convex functions. Even though they involve even powers, the coefficients $2^i$ grow large, making them generally non-convex.
+\end{enumerate}
+
+\newpage
+
+\item
+A quantity $y$ is known to depend upon another quantity $x$. A set
+of $n$ data pairs $\{y_i,x_i\}_{i=1}^n$ has been collected.
+\begin{itemize}
+\item[(a)] Formulate an optimization model for fitting the
+``best'' straight line $y=a + bx$ to the data set, where best is
+with respect to the sum of absolute deviations. What kind of an
+optimization model is it?
+
+\item[(b)] Re-formulate the optimization model in part (a) where
+best is with respect to the maximum absolute deviation. What kind
+of an optimization model is it?
+
+\item[(c)] Formulate an optimization model for fitting the
+``best'' quadratic curve $y=a + bx + cx^2$ to the data set, where
+best is with respect to the maximum absolute deviations. What kind
+of an optimization model is it ?
+\end{itemize}
+
+\newpage
+
+\section*{Solution to Problem 5}
+
+\begin{enumerate}
+\item[(a)] Optimization model with respect to sum of absolute deviations:
+
+$\min_{a,b} \sum_{i=1}^n |y_i - (a + bx_i)|$
+
+This is a \textbf{Linear Programming (LP) problem}. The absolute values can be expressed using linear constraints, making it a linear programming problem.
+
+\item[(b)] Optimization model with respect to maximum absolute deviation:
+
+$\min_{a,b} \max_{i=1,\ldots,n} |y_i - (a + bx_i)|$
+
+This is a \textbf{Linear Programming (LP) problem}. The maximum value can be expressed using linear constraints, making it a linear programming problem.
+
+\item[(c)] Optimization model for quadratic curve with respect to maximum absolute deviation:
+
+$\min_{a,b,c} \max_{i=1,\ldots,n} |y_i - (a + bx_i + cx_i^2)|$
+
+This is a \textbf{Linear Programming (LP) problem}. The quadratic term $cx_i^2$ is treated as a constant since $x_i$ are known data points, and the maximum value can be expressed using linear constraints, making it a linear programming problem.
+\end{enumerate}
+
+\end{enumerate}
+
+\end{document}
