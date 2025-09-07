@@ -1,0 +1,119 @@
+\documentclass{article}
+\usepackage[usenames]{color} %used for font color
+\usepackage{amssymb} %maths
+\usepackage{amsmath} %maths
+\usepackage[utf8]{inputenc} %useful to type directly diacritic characters
+\usepackage{soul}
+\usepackage{bm}
+
+
+
+
+\def\x{\bm{x}}
+\def\c{\bm{c}}
+\def\d{\bm{d}}
+\def\A{\bm{A}}
+\def\B{\bm{B}}
+\def\b{\bm{b}}
+\def\y{\bm{y}}
+\def\Re{\mathbb{R}}
+\def\Z{\mathbb{Z}}
+
+
+\title{ISyE 6669 HW 3}
+\date{}
+\begin{document}
+\maketitle
+
+
+\begin{enumerate}
+
+\item Consider the following optimization problem:
+%\begin{align*}
+%\max \quad & \frac{1}{x} \\
+%\text{s.t.}\quad & x \ge 0.
+%\end{align*}
+\begin{align*}
+\min \quad & x \\
+\text{s.t.}\quad & xy \geq 1\\
+\text{}\quad & x \geq 0, y \geq 0
+\end{align*}
+Does this problem have an optimal solution? Explain your answer.
+
+\item Consider the following optimization problem
+\begin{align*}
+    \min \quad & (x^2 - 2x + 1)(x^2 + 6x + 9) \\
+    \text{s.t.} \quad & x \in \mathbb{R}.
+\end{align*}
+\begin{enumerate}
+    \item Find all the global minimum solutions. Explain how you find them. Hint: there may be multiple ones. 
+    
+    \item Is there any local minimum solution that is not a global minimum solution?
+    
+    \item Is the objective function $f(x)=(x^2 - 2x + 1)(x^2 + 6x + 9)$ a convex function on $\mathbb{R}$?
+\end{enumerate}
+
+\item Consider the following optimization problem
+%\begin{align*}
+%    \min \quad & e^x + y^3\\
+%    \text{s.t.} \quad & 2x + y \le 6 \\
+%                      & x + 2y \le 6 \\
+%                      & x + y  \ge 5.
+%\end{align*}
+\begin{align*}
+    \min \quad & e^x + y^3\\
+    \text{s.t.} \quad & x + y \le 1 \\
+                      & x + 2y \ge 6 \\
+                      & 2x + y  \ge 6.
+\end{align*}
+
+Does this problem have an optimal solution? Explain your answer.
+
+\item Consider the following problem
+\begin{align*}
+    \min \quad & x^2 + f(x) \\
+    \text{s.t.} \quad & x \in \mathbb{R},
+\end{align*}
+where the function $f(x)$ is defined as
+\begin{align*}
+    f(x) = \begin{cases}
+                x, & -1 < x < 1\\
+                2, & x \in \{-1, 1\}\\
+                +\infty, & x>1 \text{ or } x<-1
+            \end{cases}.
+\end{align*}    
+\begin{enumerate}
+    \item Is the objective function a convex function defined on $\mathbb{R}$? Explain your answer by checking the definition of convexity.
+    
+    \item Find an optimal solution, or explain why there is no optimal solution.  
+\end{enumerate}
+
+\item For each of the statements below, state whether it is true or false. Justify your answer.
+\begin{enumerate}
+
+\item If I solve an optimization problem, then remove a constraint and solve it again, the solution must change.
+
+\item Consider the following optimization problem
+\begin{align*}
+    (P)\quad \max \quad & f(\x) \\
+    \text{s.t.}\quad & g_i(\x)\ge b_i, \;\; \forall i \in I.
+\end{align*}
+Suppose the optimal objective value of (P) is $v_P$. Then, the Lagrangian dual of (P) is given by
+\begin{align}
+    (D) \quad \min\{\mathcal{L}(\bm{\lambda}) : \bm{\lambda} \ge \bm{0}\},
+\end{align}
+where $\mathcal{L}(\bm{\lambda}) = \max_{\x}\{f(\x) + \sum_{i\in I}\lambda_i(g_i(x)-b_i)\}$. Furthermore, suppose the optimal objective value of (D) is $v_D$, then $v_P \le v_D$. 
+
+%\item Consider an optimization problem:
+%$$(P) \quad \min f(\x) \ {\rm s.t.} \ \x \in X$$
+%where $X$ is a non-empty closed convex set. Suppose that the problem $(P)$ has the property that every local optimal solution is also globally optimal, then $f(x)$ must be a convex function.
+\item The following set is convex:
+$$\{x \in \mathbb{R}^{10} \,|\, \|x\|_2 = 1\}$$
+
+\item Suppose $f:\mathbb{R} \rightarrow \mathbb{R}$ and suppose for any real number $p$, the set:
+$$S_p:= \{ x \in \mathbb{R}\,|\, f(x) \leq p\},$$
+is convex. Then $f$ is a convex function.
+\end{enumerate}
+\end{enumerate}
+
+\end{document}
