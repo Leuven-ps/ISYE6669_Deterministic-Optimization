@@ -1,0 +1,64 @@
+\documentclass{article}
+\usepackage[usenames]{color} %used for font color
+\usepackage{amssymb} %maths
+\usepackage{amsmath} %maths
+\usepackage[utf8]{inputenc} %useful to type directly diacritic characters
+\usepackage{soul}
+
+\def\x{\mathbf{x}}
+
+
+\def\y{\mathbf{y}}
+\def\c{\mathbf{c}}
+\def\d{\mathbf{d}}
+\def\A{\mathbf{A}}
+\def\B{\mathbf{B}}
+\def\b{\mathbf{b}}
+\def\y{\mathbf{y}}
+\def\R{\mathbb{R}}
+\def\Z{\mathbb{Z}}
+
+
+\title{ISyE 6669 HW 4}
+\date{Fall 2025}
+\begin{document}
+\maketitle
+
+
+\noindent
+
+\section{Convex optimization}
+Convex optimization is the backbone of modern optimization. We learned some simple algorithmic schemes such as gradient descent and the Newton method among others. These two algorithms are especially suited to minimize convex functions when they are continuously differentiable or have second-order derivatives.
+
+\begin{enumerate}
+    \item[1.1] Use Newton's method to Minimize the convex function $f(x)=-x+2^x$ on the entire real line $x\in\R$. You need to first write down the first-order and second-order derivatives of $f(x)$. Then, write down a step in the Newton's method, e.g. $x^{k+1} = x^k - f'(x^k)/f''(x^k)$. You need to plug in the expressions of the derivatives. Carry out the Newton's method from the initial point $x^0 = 0$. Write down $x^k, f(x^k), f'(x^k)$ in each iteration, until you reach a solution with the first-order derivative $|f'(x^k)|<10^{-5}$. You should only need less than 10 steps.
+    
+    \item[1.2] To minimize a convex function $f(x)$ without any constraint, it is equivalent to solving the first-order optimality condition $f'(x)=0$, i.e. find the point $x^*$ on the curve $y=f'(x)$ that crosses the horizon line $y=0$. Such a $x^*$ is also called a \emph{zero} of the equation $f'(x)=0$. The curve $y=f'(x)$ is usually a nonlinear curve. Think of Question 1. What Newton's method actually does is to solve this nonlinear equation by solving a sequence of linear equations that approximate this nonlinear equation. How do we approximate a nonlinear curve by a linear one? Right, use the tangent line at a point of the nonlinear curve, or equivalently, use the Taylor's expansion we all know from calculus. 
+    
+    So suppose we want to solve $f'(x)=0$ and suppose the second-order derivative $f''(x)$ always exists. First, write down the tangent line of the curve $y=f'(x)$ at a point $x^k$. Hint: the line passing through the point $(x=a,y=b)$ with slope $k$ has the equation $y=k(x-a)+b$. 
+    
+    Suppose your equation for the tangent line is $y=k(x-a)+b$. Of course, you need to fill in $k,a,b$ and express them in $x^k, f'(x^k), f''(x^k)$. Then, solve the equation $k(x-a)+b=0$ and write down the expression of the solution in $k,a,b$. The solution is the next iteration $x^{k+1}$. If you have done everything correctly, you should recover the Newton's iterate. The next step of Newton's method starts from $x^{k+1}$, forms the tangent line of the curve $y=f'(x)$ at $x^{k+1}$, and finds the zero of this linear equation, and continues.
+    
+    Plot $y=f'(x)$ for $f(x)=-x + 2^x$. Start from $x^0=0$. Draw the tangent line at $x^0$, find the zero, and continue, until you plot the tangent line at $x^3$. You should see the same sequence as you find in the first question, and this should give you a geometric understanding of Newton's method.
+    
+    
+\end{enumerate}
+
+\section{Nonconvex optimization}
+The following problems involve optimization of nonlinear nonconvex functions with some simple constraints, such as an interval or a box in higher dimension. 
+To minimize each of the following functions, you can use the command {\tt minimize} from {\tt scipy.optimize}. Due to the nonconvex and sometimes nonsmooth (i.e. not differentiable at some points) nature of the objective function, you need to be careful about the starting point and the constraints you set. For example, you may need to set the box small enough to help the solver find a good local optimum. You need to provide a printout of your code, along with the solution. 
+
+\begin{enumerate}
+
+
+\item Minimize $f(x_1, x_2)=(1-x_2+x_1x_2)^2+(2-x_2+x_1x_2^2)^2+(3-x_2+x_1x_2^3)^2$ over the box $-5\le x_1, x_2 \le 5$. Start from $(0,0)$. Plot the function $f(x_1,x_2)$ over the box $[-5,5]^2$ using both a 2D contour plot and a 3D plot.
+
+
+
+\item Consider the following function:
+$$f(x_1,x_2) = (2x_1 + x_2^2 - 4)^2 + (x_1^2 + x_2 - 8)^2,\ -5\le x_1,x_2 \le 5.$$ 
+Try to find as many local minima as you can. Plot the function $f(x_1,x_2)$ over the box $[-5,5]^2$ using both a 2D contour plot and a 3D plot. Hint: You can start the algorithm that you choose from different starting points.
+
+
+\end{enumerate}
+\end{document}
