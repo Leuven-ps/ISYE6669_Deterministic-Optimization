@@ -40,6 +40,20 @@
 \end{align*}
 Does this problem have an optimal solution? Explain your answer.
 
+\textbf{Answer:} No, this problem does not have an optimal solution.
+
+To see this, consider any $\varepsilon > 0$. The point $(\varepsilon, 1/\varepsilon)$ is feasible since:
+\begin{itemize}
+    \item $\varepsilon \geq 0$ and $1/\varepsilon \geq 0$ (non-negativity constraints satisfied)
+    \item $\varepsilon \cdot (1/\varepsilon) = 1 \geq 1$ (constraint $xy \geq 1$ satisfied)
+\end{itemize}
+
+The objective value at this point is $f(\varepsilon) = \varepsilon$. As $\varepsilon \to 0$, we have $f(\varepsilon) \to 0$, which means the infimum of the objective function is 0.
+
+However, the point $x = 0$ is infeasible because if $x = 0$, then the constraint $xy \geq 1$ cannot be satisfied for any $y \geq 0$ (since $0 \cdot y = 0 < 1$).
+
+Since we can make the objective value arbitrarily close to 0 but never actually achieve it with a feasible solution, the minimum is not attained. Therefore, no optimal solution exists.
+
 \item Consider the following optimization problem
 \begin{align*}
     \min \quad & (x^2 - 2x + 1)(x^2 + 6x + 9) \\
@@ -51,6 +65,44 @@ Does this problem have an optimal solution? Explain your answer.
     \item Is there any local minimum solution that is not a global minimum solution?
     
     \item Is the objective function $f(x)=(x^2 - 2x + 1)(x^2 + 6x + 9)$ a convex function on $\mathbb{R}$?
+\end{enumerate}
+
+\textbf{Answer:}
+
+\begin{enumerate}
+    \item \textbf{Global minimum solutions:}
+    
+    First, we can factorize the function as $f(x) = (x-1)^2(x+3)^2$.
+    
+    Since both $(x-1)^2$ and $(x+3)^2$ are always greater than or equal to zero, the minimum value occurs only when both terms are zero simultaneously.
+    
+    That happens at $x = 1$ and $x = -3$, where the function value is 0.
+    
+    Therefore, the global minimum value is 0, achieved at $x = 1$ and $x = -3$.
+    
+    \item \textbf{Local minimum that is not global:}
+    
+    Taking the first derivative of $f(x)$, we get:
+    $$f'(x) = 4(x-1)(x+1)(x+3).$$
+    
+    From the sign of $f'(x)$, we can see the function decreases before $x=-3$, reaches a minimum at $x=-3$, increases until $x=-1$, reaches a local maximum there, decreases again until $x=1$, and finally increases for $x>1$.
+    
+    Thus, the local minima occur at $x=-3$ and $x=1$, and since $f(-3)=f(1)=0$, these are also the global minima.
+    
+    Therefore, there is no local minimum that is not global.
+    
+    \item \textbf{Convexity:}
+    
+    To check whether $f(x)$ is convex, we take the second derivative:
+    $$f''(x) = 12x^2 + 24x - 4.$$
+    
+    Looking at the discriminant of this quadratic, we have:
+    $$\Delta = 24^2 - 4 \cdot 12 \cdot (-4) = 768 > 0,$$
+    which means $f''(x)$ has two distinct real roots.
+    
+    Since the sign of $f''(x)$ changes across these roots, the second derivative is not always non-negative.
+    
+    Therefore, $f(x)$ is not convex over $\mathbb{R}$.
 \end{enumerate}
 
 \item Consider the following optimization problem
@@ -68,6 +120,12 @@ Does this problem have an optimal solution? Explain your answer.
 \end{align*}
 
 Does this problem have an optimal solution? Explain your answer.
+
+\textbf{Answer:} No, this problem does not have an optimal solution.
+
+First, we analyze the constraints and find that they are mutually inconsistent, resulting in an empty feasible set.
+
+Therefore, the optimization problem is infeasible, and no optimal solution exists.
 
 \item Consider the following problem
 \begin{align*}
@@ -88,10 +146,77 @@ where the function $f(x)$ is defined as
     \item Find an optimal solution, or explain why there is no optimal solution.  
 \end{enumerate}
 
+\textbf{Answer:}
+
+\begin{enumerate}
+    \item \textbf{Convexity of the objective function:}
+    
+    The objective function is $g(x) = x^2 + f(x)$ where $f(x)$ is defined as above.
+    
+    First, consider the domain $-1 < x < 1$ where $f(x) = x$. In this region, $g(x) = x^2 + x$. Taking the second derivative, we get $g''(x) = 2$, which is non-negative. Therefore, $g(x)$ is convex on $(-1, 1)$.
+    
+    For the other cases, we use Jensen's inequality to check convexity:
+    
+    \textbf{Case A:} One point is at boundary $-1$, the other is an interior point $y \in (-1,1)$.
+    
+    For any $\theta \in [0,1]$, let $z = \theta(-1) + (1-\theta)y$.
+    \begin{itemize}
+        \item If $\theta = 1$, then $z = -1$ and $f(z) = 2 \leq \theta \cdot 2 + (1-\theta)f(y) = 2$, which trivially holds.
+        \item If $\theta \in [0,1)$, then $z \in (-1,1)$ (convex combination of $-1$ and $y > -1$ exceeds $-1$).
+    \end{itemize}
+    
+    Therefore, $f(z) = g(z)$ and $f(y) = g(y)$, and since $f(-1) = 2 \geq g(-1) = 0$, we have:
+    \begin{align}
+    f(z) &= g(z) \\
+    &\leq \theta g(-1) + (1-\theta)g(y) \quad \text{(convexity of } g\text{)} \\
+    &= (1-\theta)g(y) \\
+    &\leq \theta \cdot 2 + (1-\theta)g(y) \\
+    &= \theta f(-1) + (1-\theta)f(y).
+    \end{align}
+    
+    This holds for any $y \in (-1,1)$ and any $\theta \in [0,1]$.
+    
+    \textbf{Case B:} One point is at boundary $1$, the other is an interior point $y \in (-1,1)$.
+    
+    Using the same argument as above with $f(1) = 2 \geq g(1) = 0$, the inequality holds similarly.
+    
+    \textbf{Case C:} Both points are at boundaries ($-1$ and $1$).
+    
+    For any $\theta \in [0,1]$, let $z = \theta(-1) + (1-\theta)1 \in [-1,1]$.
+    \begin{itemize}
+        \item If $z = \pm 1$, then $f(z) = 2 = \theta \cdot 2 + (1-\theta) \cdot 2$ with equality.
+        \item If $z \in (-1,1)$, then $f(z) = g(z) \leq \theta g(-1) + (1-\theta)g(1) = 0 \leq \theta \cdot 2 + (1-\theta) \cdot 2$, so it holds.
+    \end{itemize}
+    
+    \textbf{Case D:} Either point is outside the domain.
+    
+    The right-hand side becomes $+\infty$, so the inequality holds trivially.
+    
+    Therefore, the objective function $g(x) = x^2 + f(x)$ is convex on $\mathbb{R}$.
+    
+    \item \textbf{Optimal solution:}
+    
+    To find the optimal solution, we analyze the objective function $g(x) = x^2 + f(x)$ in different regions:
+    
+    \begin{itemize}
+        \item For $-1 < x < 1$: $g(x) = x^2 + x$. Taking the derivative, we get $g'(x) = 2x + 1$. Setting $g'(x) = 0$, we find $x = -\frac{1}{2}$ as the critical point. The value at this point is $g(-\frac{1}{2}) = (-\frac{1}{2})^2 + (-\frac{1}{2}) = \frac{1}{4} - \frac{1}{2} = -\frac{1}{4}$.
+        
+        \item At the endpoints $x = \pm 1$: $g(\pm 1) = 1 + 2 = 3$.
+        
+        \item For $x > 1$ or $x < -1$: $g(x) = x^2 + \infty = +\infty$.
+    \end{itemize}
+    
+    Therefore, the global minimum value is $-\frac{1}{4}$ achieved at $x = -\frac{1}{2}$.
+\end{enumerate}
+
 \item For each of the statements below, state whether it is true or false. Justify your answer.
 \begin{enumerate}
 
 \item If I solve an optimization problem, then remove a constraint and solve it again, the solution must change.
+
+\textbf{Answer:} False.
+
+Counterexample: Consider the problem $\min x^2$ subject to $x \geq 0$ and $x \geq -1$. The optimal solution is $x = 0$. If we remove the constraint $x \geq -1$, the problem becomes $\min x^2$ subject to $x \geq 0$, which still has the same optimal solution $x = 0$. The solution does not change because the removed constraint was not binding at the optimal solution.
 
 \item Consider the following optimization problem
 \begin{align*}
@@ -102,7 +227,15 @@ Suppose the optimal objective value of (P) is $v_P$. Then, the Lagrangian dual o
 \begin{align}
     (D) \quad \min\{\mathcal{L}(\bm{\lambda}) : \bm{\lambda} \ge \bm{0}\},
 \end{align}
-where $\mathcal{L}(\bm{\lambda}) = \max_{\x}\{f(\x) + \sum_{i\in I}\lambda_i(g_i(x)-b_i)\}$. Furthermore, suppose the optimal objective value of (D) is $v_D$, then $v_P \le v_D$. 
+where $\mathcal{L}(\bm{\lambda}) = \max_{\x}\{f(\x) + \sum_{i\in I}\lambda_i(g_i(x)-b_i)\}$. Furthermore, suppose the optimal objective value of (D) is $v_D$, then $v_P \le v_D$.
+
+\textbf{Answer:} False.
+
+The statement is incorrect. In Lagrangian duality, we have the weak duality property: $v_P \leq v_D$ for maximization problems. However, the statement claims $v_P \leq v_D$ which is actually correct for maximization problems. But there's an error in the dual formulation. For a maximization problem with constraints $g_i(\x) \geq b_i$, the correct dual should be:
+$$(D) \quad \min\{\mathcal{L}(\bm{\lambda}) : \bm{\lambda} \geq \bm{0}\},$$
+where $\mathcal{L}(\bm{\lambda}) = \max_{\x}\{f(\x) - \sum_{i\in I}\lambda_i(g_i(\x)-b_i)\}$ (note the minus sign, not plus).
+
+The given formulation with the plus sign is incorrect for this type of constraint. 
 
 %\item Consider an optimization problem:
 %$$(P) \quad \min f(\x) \ {\rm s.t.} \ \x \in X$$
@@ -110,9 +243,21 @@ where $\mathcal{L}(\bm{\lambda}) = \max_{\x}\{f(\x) + \sum_{i\in I}\lambda_i(g_i
 \item The following set is convex:
 $$\{x \in \mathbb{R}^{10} \,|\, \|x\|_2 = 1\}$$
 
+\textbf{Answer:} False.
+
+The set $\{x \in \mathbb{R}^{10} \,|\, \|x\|_2 = 1\}$ is the unit sphere in $\mathbb{R}^{10}$, which is not convex.
+
+To see this, consider two points on the sphere: $x_1 = (1, 0, 0, \ldots, 0)$ and $x_2 = (-1, 0, 0, \ldots, 0)$. Both points satisfy $\|x_1\|_2 = \|x_2\|_2 = 1$. However, their convex combination $\frac{1}{2}x_1 + \frac{1}{2}x_2 = (0, 0, 0, \ldots, 0)$ has $\|\frac{1}{2}x_1 + \frac{1}{2}x_2\|_2 = 0 \neq 1$, so it does not belong to the set. Therefore, the set is not convex.
+
 \item Suppose $f:\mathbb{R} \rightarrow \mathbb{R}$ and suppose for any real number $p$, the set:
 $$S_p:= \{ x \in \mathbb{R}\,|\, f(x) \leq p\},$$
 is convex. Then $f$ is a convex function.
+
+\textbf{Answer:} True.
+
+This statement is true by definition. A function $f: \mathbb{R} \rightarrow \mathbb{R}$ is convex if and only if all its sublevel sets $S_p = \{x \in \mathbb{R} \,|\, f(x) \leq p\}$ are convex for every real number $p$.
+
+This is a fundamental characterization of convex functions: a function is convex if and only if all its sublevel sets are convex sets. Therefore, if we are given that all sublevel sets $S_p$ are convex, then by definition, $f$ must be a convex function.
 \end{enumerate}
 \end{enumerate}
 
