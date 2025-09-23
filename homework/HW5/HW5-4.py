@@ -53,88 +53,107 @@ def main() -> None:
         5: 8    # c_3
     }
     
-    # 送電線のリスト（双方向）
+    # 送電線のリスト
     LINES = list(LINE_FLOW_LIMITS.keys())
 
     model = gb.Model()
-    f = model.addVars(LINES, name="x")
-    p = model.addVars(GENERATOR_NODES, name="p")
-    theta = model.addVars(range(1,NUM_NODES+1), name="theta")
+    
+    # 変数定義
+    f = model.addVars(LINES, lb=-gb.GRB.INFINITY, name="f")
+    p = model.addVars(GENERATOR_NODES, lb=0.0, name="p")
+    theta = model.addVars(range(1, NUM_NODES+1), lb=-gb.GRB.INFINITY, name="theta")
 
+    # 参照ノード制約
+    model.addConstr(theta[1] == 0, name="ref_bus")
+
+    # 発電機制約
     for node in GENERATOR_NODES:
         # 発電量の上下限
-        model.addConstr(p[node] == GENERATION_COSTS[node], name=f"p_{node}_cost")
         model.addConstr(p[node] >= GENERATION_BOUNDS[node]["min"], name=f"p_{node}_min")
         model.addConstr(p[node] <= GENERATION_BOUNDS[node]["max"], name=f"p_{node}_max")
 
-        # 発電機の平衡
-        inflow = 0
+        # 発電機の電力バランス
         outflow = 0
+        inflow = 0
         for start, end in LINES:
             if start == node:
-                inflow += f[(start, end)]
-            if end == node:
                 outflow += f[(start, end)]
-        model.addConstr(inflow - outflow == p[node], name=f"p_{node}_balance")
+            if end == node:
+                inflow += f[(start, end)]
+        model.addConstr(inflow - outflow == -p[node], name=f"p_{node}_balance") 
     
+    # 負荷制約
     for node in LOAD_NODES:
-        # 負荷の平衡
+        # 負荷の電力バランス
         inflow = 0
         outflow = 0
         for start, end in LINES:
-            if start == node:
-                inflow += f[(start, end)]
             if end == node:
+                inflow += f[(start, end)]
+            if start == node:
                 outflow += f[(start, end)]
         model.addConstr(inflow - outflow == DEMANDS[node], name=f"d_{node}_balance")
 
+    # 送電線制約
     for line in LINES:
-        model.addConstr(f[line] >= -LINE_FLOW_LIMITS[line], name=f"f_{line}_min")
-        model.addConstr(f[line] <= LINE_FLOW_LIMITS[line], name=f"f_{line}_max")
-
-        # nodal potential
         start, end = line
-        model.addConstr(theta[start] - theta[end] == LINE_SUSCEPTANCE[line] * (theta[start] - theta[end]), name=f"theta_{line}_nodal")
+        limit = LINE_FLOW_LIMITS[line]
+        susceptance = LINE_SUSCEPTANCE[line]
+        
+        # フロー容量制限
+        model.addConstr(f[line] >= -limit, name=f"f_{line}_min")
+        model.addConstr(f[line] <= limit, name=f"f_{line}_max")
 
+        # DC電力フロー制約
+        model.addConstr(f[line] == susceptance * (theta[start] - theta[end]), name=f"theta_{line}_nodal")
+
+    # 目的関数
     model.setObjective(gb.quicksum(p[node] * GENERATION_COSTS[node] for node in GENERATOR_NODES), sense=gb.GRB.MINIMIZE)
+    
+    # 最適化実行
     model.optimize()
     
     if model.status == gb.GRB.OPTIMAL:
-        print("Optimal solution:")
+        print("=== 最適解 ===")
+        print("発電量:")
         for node in GENERATOR_NODES:
-            print(f"  p[{node}] = {p[node].x}")
-        print(f"Optimal value: {model.objVal}")
+            print(f"  p[{node}] = {p[node].x:.2f} MW")
+        
+        print("\n送電線フロー:")
+        for line in LINES:
+            print(f"  f{line} = {f[line].x:.2f} MW")
+        
+        print("\n位相角:")
+        for node in range(1, NUM_NODES+1):
+            print(f"  theta[{node}] = {theta[node].x:.4f} rad")
+            
+        print(f"\n最適値（総コスト）: ${model.objVal:.2f}")
+        
+        # デュアル変数（電気料金）の取得
+        print("\n=== 電気料金（デュアル変数） ===")
+        for node in LOAD_NODES:
+            constraint = model.getConstrByName(f"d_{node}_balance")
+            if constraint:
+                dual_value = constraint.pi
+                print(f"ノード {node} の電気料金: ${abs(dual_value):.2f}/MWh")
+                
     elif model.status == gb.GRB.INFEASIBLE:
-        print("Model is infeasible. Computing IIS...")
+        print("モデルが実行不可能です。")
         model.computeIIS()
         print("IIS constraints:")
         for c in model.getConstrs():
             if c.IISConstr:
-                print(f"  {c.constrName}: {c}")
-        print("IIS bounds:")
-        for v in model.getVars():
-            if v.IISLBound:
-                print(f"  {v.varName} >= {v.lb}")
-            if v.IISUBound:
-                print(f"  {v.varName} <= {v.ub}")
+                print(f"  {c.constrName}")
     else:
-        print(f"Optimization failed with status: {model.status}")
+        print(f"最適化が失敗しました。ステータス: {model.status}")
 
-    
-    print("=== 電力システム最適化問題 ===")
-    print(f"ノード数: {NUM_NODES}")
+    print("\n=== 問題設定 ===")
     print(f"発電機ノード: {GENERATOR_NODES}")
     print(f"負荷ノード: {LOAD_NODES}")
     print(f"電力需要: {DEMANDS}")
     print(f"発電機容量制限: {GENERATION_BOUNDS}")
     print(f"送電線容量制限: {LINE_FLOW_LIMITS}")
-    print(f"送電線サセプタンス: {LINE_SUSCEPTANCE}")
     print(f"発電コスト: {GENERATION_COSTS}")
-    print()
-    
-    # TODO: CVXPYを使用した最適化問題の実装
-    # TODO: 最適解の計算
-    # TODO: デュアル変数（電気料金）の計算
 
 
 if __name__ == "__main__":

@@ -1,6 +1,6 @@
 # Fdb version 4
-["pdflatex"] 1758526536.84706 "/Users/ryosuke.umeda/codes/OMSCS/ISYE6669_Deterministic-Optimization/homework/HW5/HW5.tex" "HW5.pdf" "HW5" 1758526537.54287 2
-  "/Users/ryosuke.umeda/codes/OMSCS/ISYE6669_Deterministic-Optimization/homework/HW5/HW5.tex" 1758526535.71768 18427 2df3cfddf25594c0b5386e763b370aac ""
+["pdflatex"] 1758596703.84948 "/Users/ryosuke.umeda/codes/OMSCS/ISYE6669_Deterministic-Optimization/homework/HW5/HW5.tex" "HW5.pdf" "HW5" 1758596704.74825 0
+  "/Users/ryosuke.umeda/codes/OMSCS/ISYE6669_Deterministic-Optimization/homework/HW5/HW5.tex" 1758596703.556 18451 7d3de2489e64701ecba52e5e3715bcc0 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc" 1136849721 2900 1537cc8184ad1792082cd229ecc269f4 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/tfm/jknappen/ec/tcrm1095.tfm" 1136768653 1536 02c06700a42be0f5a28664c7273f82e7 ""
@@ -86,8 +86,8 @@
   "/usr/local/texlive/2025/texmf-var/web2c/pdftex/pdflatex.fmt" 1753319602 3345741 fe748b394dd281baab9f649630748946 ""
   "/usr/local/texlive/2025/texmf.cnf" 1741450484 577 418a7058ec8e006d8704f60ecd22c938 ""
   "Figure_1.png" 1758265365.82558 239141 dfef69b7b9ebfcb875bc3d442af9fb2a ""
-  "HW5.aux" 1758526537.45276 937 daaca67ef2e9cde82e2afdcb31bc6d67 "pdflatex"
-  "HW5.tex" 1758526535.71768 18427 2df3cfddf25594c0b5386e763b370aac ""
+  "HW5.aux" 1758596704.68173 937 daaca67ef2e9cde82e2afdcb31bc6d67 "pdflatex"
+  "HW5.tex" 1758596703.556 18451 7d3de2489e64701ecba52e5e3715bcc0 ""
   "HW5power.png" 1758203509.87383 17502 aa0d18a5e3bdec46834a97abc7dab4fa ""
   "newwaterfig.pdf" 1758203509.88589 76436 0b656eb59b4f594870769a4c9d175b28 ""
   (generated)
