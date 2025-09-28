@@ -1,0 +1,111 @@
+\documentclass[11pt]{article}
+\renewcommand{\baselinestretch}{1.5}
+
+\setlength{\oddsidemargin}{-0.1in}
+\setlength{\evensidemargin}{-0.1in} 
+\setlength{\textwidth}{6.54in}
+\setlength{\topmargin}{0in} 
+\setlength{\textheight}{8.5in}
+
+\linespread{1}
+
+\usepackage{makeidx}
+\usepackage{amsmath,amssymb, amsthm}
+\usepackage{latexsym,remreset}
+\usepackage[toc,page]{appendix}
+\usepackage{graphicx}
+\usepackage{multirow}
+\usepackage{bbm}
+
+
+\usepackage{url}
+%% Define a new 'leo' style for the package that will use a smaller font.
+\makeatletter
+\def\url@leostyle{%
+  \@ifundefined{selectfont}{\def\UrlFont{\sf}}{\def\UrlFont{\small\ttfamily}}}
+\makeatother
+%% Now actually use the newly defined style.
+\urlstyle{leo}
+
+\newtheorem{assumption}{Assumption}
+\newtheorem{definition}{Definition}
+\newtheorem{lemma}{Lemma}
+\newtheorem{proposition}{Proposition}
+\newtheorem{corollary}{Corollary}
+\newtheorem{remark}{Remark}
+\newtheorem{theorem}{Theorem}
+\newcommand{\mb}[1]{\ensuremath{\boldsymbol{#1}}}
+\newcommand{\vol}{{\sf volume}}
+\newcommand{\Stochb}{$\Pi_{\mathrm {Stoch}}(b)$}
+\newcommand{\tf}{\text{translation factor}}
+
+\title{ISyE6669 Homework Week 6}
+\author{}
+\date{Fall 2025}
+
+\begin{document}
+\maketitle
+
+%\section{Week 6}
+\begin{enumerate}
+
+\item Consider the following nonlinear optimization problem:
+\begin{align*}
+    \min \quad & |2x+3y| + |2x-3y| \\
+    \text{s.t.}\quad & \max\{y,x+y,x-y\}\le 5.
+\end{align*}
+Reformulate it as a linear program.
+
+\item Consider the following sets. For each set, determine whether it can be represented using linear inequalities. If it can, provide a formulation using linear inequalities.
+\begin{itemize}
+\item $\{x | \textup{max}\{ 3x + 5, 7x - 3\} \geq 6\}$
+\item $\{x | \textup{max}\{ 3x + 5, 7x - 3\} \leq 6\}$
+\item $\{x| \ |5x -3| \leq 4\}$
+\item $\{x| \ |5x -3| \geq 4\}$
+\end{itemize}
+
+\item A response variable $y$ is known to depend on a predictor $x$. 
+A set of $n$ data pairs $\{(x_i,y_i)\}_{i=1}^n$ has been collected.  Formulate an optimization model for fitting the ``best'' straight line
+  \[
+    y = a + bx
+  \]
+  to the data, where best is measured with respect to the {sum of absolute deviations} 
+  between observed and predicted values. Can this problem be reformulated as a linear program?
+
+\item Hill-O-Beans Coffee Company blends four component beans into three final blends of coffee: One is sold to luxury hotels, another to restaurants and the third to supermarkets for store-label brands. The company has four reliable bean supplies: Argentine Abundo, Peruvian Colmado, Brazilian Maximo and Chilean Saboro. The table below summarizes the very precise recipes for the final coffee blends, the cost and availability information for the four components and the wholesale price per pound of the final blends. The percentages indicate the fraction of each component to be used in each blend.\\\\
+    \begin{tabular}{|c|c|c|c|c|c|}
+      \hline
+      % after \\: \hline or \cline{col1-col2} \cline{col3-col4} ...
+      Component & Hotel & Restaurant & Market & Cost/Pound & Weekly Availability \\
+      \hline
+      Abundo & 20\% & 35\% & 10\% & 0.60 & 40,000 \\
+      \hline
+      Colmado & 40\% & 15\% & 35\% & 0.80 & 25,000 \\
+      \hline
+      Maximo & 15\% & 20\% & 40\% & 0.55 & 20,000 \\
+      \hline
+      Saboro & 25\% & 30\% & 15\% & 0.70 & 45,000 \\
+      \hline
+      Wholesale price/pound & 1.25 & 1.50 & 1.40 &  & \\
+      \hline
+    \end{tabular}\\\\
+The processor's plant can handle no more than 100,000 pounds. There is no problem in selling the final blends although the marketing department requires minimum production levels of 10,000, 25,000 and 30,000 pounds respectively for the hotel, restaurant and market blends. 
+
+Write a linear program to maximize the weekly profit of Hill-O-Beans.
+ Make sure to explicitly define all decision variables. Implement your model in CVXPY and print out the optimal objective value. What is the optimal amount of each bland which should be produced?
+
+
+\item A farm grows two types of mangoes. This year the yield of mangoes of type 1 is $1000$ units and that of type 2 is $700$ units. The farm sells all of its mangoes. The mangoes can be sold to a retail company and can also be sold in a local market directly. The contract with the retail company has the following details: 
+\begin{enumerate}
+\item At least $60\%$ of the total amount of mangoes sold to the retail company must be of type 2.
+\item The retail company has a demand of $1000$ units of mangoes and pays $\$3$ per unit for both types of mangoes.
+\item It is possible to sell less than the demand to the retail company: If the total amount of mangoes sold to the retail company is less than $1000$ units, then there is a penalty of $\$0.05$ per unit shortfall from 1000 units. (For example, if the farm decides to sell 900 units of mangoes to the retail company, then the farm earns $900*3  - (1000 - 900) *0.05$) 
+\item It is possible to sell more than the demand to the retail company. However if the number of units of mangoes is more than $1200$, then each unit over the first $1200$ units is purchased by the retail store at the rate of $\$2.5$ per unit. (For example, if the farm decides to sell 1300 units of mangoes to the retail company, then the farm earns $1200*3  + (1300 - 1200) *2.5$)
+\end{enumerate}
+Mangoes of type 1 sell at $\$2.2$ per unit in the local market and mangoes of type 2 sell for $\$3.1$ per unit in the local market. Any amount of mangoes can be sold in the local market. Formulate a linear program to maximize the net revenue of the farm.
+
+
+
+	
+\end{enumerate}
+\end{document}
