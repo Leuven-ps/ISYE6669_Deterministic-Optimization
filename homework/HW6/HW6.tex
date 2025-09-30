@@ -56,6 +56,37 @@
 \end{align*}
 Reformulate it as a linear program.
 
+\textbf{Answer:}
+
+The problem can be formulated as a linear program as follows:
+
+\begin{align*}
+\min \quad & z_1 + z_2 \\
+\text{s.t.} \quad & -z_1 \leq 2x + 3y \leq z_1 \\
+& -z_2 \leq 2x - 3y \leq z_2 \\
+& y \leq 5 \\
+& x + y \leq 5 \\
+& x - y \leq 5 \\
+& z_1, z_2 \geq 0
+\end{align*}
+
+\textbf{Solution:}
+
+The original problem is a nonlinear optimization problem containing absolute value functions and max functions. To convert this to a linear program, we follow these steps:
+
+1. Introduce auxiliary variables $z_1, z_2$ to linearize the absolute value functions $|2x+3y|$ and $|2x-3y|$.
+
+2. Replace $|2x+3y|$ with $z_1$ by adding the constraint $-z_1 \leq 2x + 3y \leq z_1$.
+
+3. Replace $|2x-3y|$ with $z_2$ by adding the constraint $-z_2 \leq 2x - 3y \leq z_2$.
+
+4. Decompose the max constraint $\max\{y, x+y, x-y\} \leq 5$ into linear constraints:
+   - $y \leq 5$
+   - $x + y \leq 5$ 
+   - $x - y \leq 5$
+
+This transforms the original nonlinear problem into a linear program.
+
 \item Consider the following sets. For each set, determine whether it can be represented using linear inequalities. If it can, provide a formulation using linear inequalities.
 \begin{itemize}
 \item $\{x | \textup{max}\{ 3x + 5, 7x - 3\} \geq 6\}$
@@ -64,6 +95,44 @@ Reformulate it as a linear program.
 \item $\{x| \ |5x -3| \geq 4\}$
 \end{itemize}
 
+\textbf{Answer:}
+
+\begin{itemize}
+\item $\{x | \textup{max}\{ 3x + 5, 7x - 3\} \geq 6\}$: Yes, can be represented as $x \geq \frac{1}{3}$
+\item $\{x | \textup{max}\{ 3x + 5, 7x - 3\} \leq 6\}$: Yes, can be represented as $x \leq \frac{1}{3}$
+\item $\{x| \ |5x -3| \leq 4\}$: Yes, can be represented as $-\frac{1}{5} \leq x \leq \frac{7}{5}$
+\item $\{x| \ |5x -3| \geq 4\}$: No, cannot be represented using linear inequalities only
+\end{itemize}
+
+\textbf{Solution:}
+
+For each set, we analyze the conditions:
+
+1. $\{x | \textup{max}\{ 3x + 5, 7x - 3\} \geq 6\}$: 
+   - We need either $3x + 5 \geq 6$ or $7x - 3 \geq 6$
+   - $3x + 5 \geq 6 \Rightarrow x \geq \frac{1}{3}$
+   - $7x - 3 \geq 6 \Rightarrow x \geq \frac{9}{7}$
+   - Since $\frac{1}{3} < \frac{9}{7}$, the condition reduces to $x \geq \frac{1}{3}$
+
+2. $\{x | \textup{max}\{ 3x + 5, 7x - 3\} \leq 6\}$:
+   - We need both $3x + 5 \leq 6$ and $7x - 3 \leq 6$
+   - $3x + 5 \leq 6 \Rightarrow x \leq \frac{1}{3}$
+   - $7x - 3 \leq 6 \Rightarrow x \leq \frac{9}{7}$
+   - Since $\frac{1}{3} < \frac{9}{7}$, the condition reduces to $x \leq \frac{1}{3}$
+
+3. $\{x| \ |5x -3| \leq 4\}$:
+   - This is equivalent to $-4 \leq 5x - 3 \leq 4$
+   - $-4 \leq 5x - 3 \Rightarrow x \geq -\frac{1}{5}$
+   - $5x - 3 \leq 4 \Rightarrow x \leq \frac{7}{5}$
+   - Therefore: $-\frac{1}{5} \leq x \leq \frac{7}{5}$
+
+4. $\{x| \ |5x -3| \geq 4\}$:
+   - This is equivalent to $5x - 3 \leq -4$ or $5x - 3 \geq 4$
+   - $5x - 3 \leq -4 \Rightarrow x \leq -\frac{1}{5}$
+   - $5x - 3 \geq 4 \Rightarrow x \geq \frac{7}{5}$
+   - This represents a union of two intervals: $x \leq -\frac{1}{5}$ or $x \geq \frac{7}{5}$
+   - However, this cannot be represented using linear inequalities only, as it requires a disjunction (OR condition) which is not linear
+
 \item A response variable $y$ is known to depend on a predictor $x$. 
 A set of $n$ data pairs $\{(x_i,y_i)\}_{i=1}^n$ has been collected.  Formulate an optimization model for fitting the ``best'' straight line
   \[
@@ -71,6 +140,29 @@ A set of $n$ data pairs $\{(x_i,y_i)\}_{i=1}^n$ has been collected.  Formulate a
   \]
   to the data, where best is measured with respect to the {sum of absolute deviations} 
   between observed and predicted values. Can this problem be reformulated as a linear program?
+
+\textbf{Answer:}
+
+Yes, this problem can be reformulated as a linear program. The optimization model is:
+
+\begin{align*}
+\min \quad & \sum_{i=1}^n z_i \\
+\text{s.t.} \quad & -z_i \leq y_i - a - bx_i \leq z_i \quad \forall i = 1, 2, \ldots, n \\
+& z_i \geq 0 \quad \forall i = 1, 2, \ldots, n
+\end{align*}
+
+\textbf{Solution:}
+
+To minimize the sum of absolute deviations, we introduce variables $z_i$ for each data point that represent the absolute deviation for that point. The objective is to minimize the sum of these absolute deviations.
+
+For each data point $(x_i, y_i)$, the deviation between the observed value $y_i$ and the predicted value $a + bx_i$ is $|y_i - a - bx_i|$. To minimize the sum of absolute deviations, we minimize $\sum_{i=1}^n |y_i - a - bx_i|$.
+
+By introducing variables $z_i$ and the constraints $-z_i \leq y_i - a - bx_i \leq z_i$ for all $i$, we ensure that $z_i$ is at least as large as the absolute deviation for point $i$. Minimizing $\sum_{i=1}^n z_i$ will minimize the sum of absolute deviations.
+
+This formulation is a linear program because:
+- The objective function is linear in $z_i$
+- All constraints are linear in the variables $a$, $b$, and $z_i$
+- The decision variables are continuous and unrestricted (except for the constraint structure)
 
 \item Hill-O-Beans Coffee Company blends four component beans into three final blends of coffee: One is sold to luxury hotels, another to restaurants and the third to supermarkets for store-label brands. The company has four reliable bean supplies: Argentine Abundo, Peruvian Colmado, Brazilian Maximo and Chilean Saboro. The table below summarizes the very precise recipes for the final coffee blends, the cost and availability information for the four components and the wholesale price per pound of the final blends. The percentages indicate the fraction of each component to be used in each blend.\\\\
     \begin{tabular}{|c|c|c|c|c|c|}
@@ -94,6 +186,75 @@ The processor's plant can handle no more than 100,000 pounds. There is no proble
 Write a linear program to maximize the weekly profit of Hill-O-Beans.
  Make sure to explicitly define all decision variables. Implement your model in CVXPY and print out the optimal objective value. What is the optimal amount of each bland which should be produced?
 
+\textbf{Answer:}
+
+\textbf{Decision Variables:}
+\begin{itemize}
+\item $X_0$ = amount of hotel blend produced (pounds)
+\item $X_1$ = amount of restaurant blend produced (pounds)  
+\item $X_2$ = amount of market blend produced (pounds)
+\item $Y_1$ = amount of Abundo component used (pounds)
+\item $Y_2$ = amount of Colmado component used (pounds)
+\item $Y_3$ = amount of Maximo component used (pounds)
+\item $Y_4$ = amount of Saboro component used (pounds)
+\end{itemize}
+
+\textbf{Linear Programming Formulation:}
+
+\begin{align*}
+\max \quad & 1.25X_0 + 1.50X_1 + 1.40X_2 - 0.60Y_1 - 0.80Y_2 - 0.55Y_3 - 0.70Y_4 \\
+\text{s.t.} \quad & Y_1 = 0.20X_0 + 0.35X_1 + 0.10X_2 \\
+& Y_2 = 0.40X_0 + 0.15X_1 + 0.35X_2 \\
+& Y_3 = 0.15X_0 + 0.20X_1 + 0.40X_2 \\
+& Y_4 = 0.25X_0 + 0.30X_1 + 0.15X_2 \\
+& Y_1 \leq 40,000 \\
+& Y_2 \leq 25,000 \\
+& Y_3 \leq 20,000 \\
+& Y_4 \leq 45,000 \\
+& Y_1 + Y_2 + Y_3 + Y_4 \leq 100,000 \\
+& X_0 \geq 10,000 \\
+& X_1 \geq 25,000 \\
+& X_2 \geq 30,000 \\
+& X_0, X_1, X_2, Y_1, Y_2, Y_3, Y_4 \geq 0
+\end{align*}
+
+\textbf{Solution:}
+
+The problem is formulated as a linear program to maximize weekly profit. The objective function represents total revenue from sales minus total cost of components. The constraints ensure:
+
+1. Component-blend relationships based on the recipe percentages
+2. Weekly availability limits for each component
+3. Plant capacity constraint (total processing limit)
+4. Minimum production requirements for each blend
+5. Non-negativity constraints
+
+\textbf{Optimal Solution:}
+
+The optimal solution found using Gurobi optimization:
+
+\begin{itemize}
+\item \textbf{Optimal objective value:} \$55,200.00
+\item \textbf{Optimal production amounts:}
+  \begin{itemize}
+  \item Hotel blend (X0): 10,000 pounds
+  \item Restaurant blend (X1): 32,500 pounds  
+  \item Market blend (X2): 30,000 pounds
+  \end{itemize}
+\item \textbf{Component usage:}
+  \begin{itemize}
+  \item Abundo (Y1): 16,375 pounds
+  \item Colmado (Y2): 19,375 pounds
+  \item Maximo (Y3): 20,000 pounds
+  \item Saboro (Y4): 16,750 pounds
+  \end{itemize}
+\item \textbf{Financial summary:}
+  \begin{itemize}
+  \item Total revenue: \$103,250.00
+  \item Total cost: \$48,050.00
+  \item Total profit: \$55,200.00
+  \end{itemize}
+\end{itemize}
+
 
 \item A farm grows two types of mangoes. This year the yield of mangoes of type 1 is $1000$ units and that of type 2 is $700$ units. The farm sells all of its mangoes. The mangoes can be sold to a retail company and can also be sold in a local market directly. The contract with the retail company has the following details: 
 \begin{enumerate}
@@ -103,6 +264,54 @@ Write a linear program to maximize the weekly profit of Hill-O-Beans.
 \item It is possible to sell more than the demand to the retail company. However if the number of units of mangoes is more than $1200$, then each unit over the first $1200$ units is purchased by the retail store at the rate of $\$2.5$ per unit. (For example, if the farm decides to sell 1300 units of mangoes to the retail company, then the farm earns $1200*3  + (1300 - 1200) *2.5$)
 \end{enumerate}
 Mangoes of type 1 sell at $\$2.2$ per unit in the local market and mangoes of type 2 sell for $\$3.1$ per unit in the local market. Any amount of mangoes can be sold in the local market. Formulate a linear program to maximize the net revenue of the farm.
+
+\textbf{Answer:}
+
+\textbf{Decision Variables:}
+\begin{itemize}
+\item $X_{1D}$ = amount of type 1 mangoes sold directly to local market (units)
+\item $X_{1R}$ = amount of type 1 mangoes sold to retail company (units)
+\item $X_{2D}$ = amount of type 2 mangoes sold directly to local market (units)
+\item $X_{2R}$ = amount of type 2 mangoes sold to retail company (units)
+\end{itemize}
+
+\textbf{Linear Programming Formulation:}
+
+Let $y = X_{1R} + X_{2R}$ be the total amount sold to retail company.
+
+\begin{align*}
+\max \quad & z + 2.2X_{1D} + 3.1X_{2D} \\
+\text{s.t.} \quad & X_{1D} + X_{1R} = 1000 \\
+& X_{2D} + X_{2R} = 700 \\
+& X_{2R} \geq 0.6(X_{1R} + X_{2R}) \\
+& y = X_{1R} + X_{2R} \\
+& z \leq 3.05y - 50 \\
+& z \leq 3y \\
+& z \leq 2.5y + 600 \\
+& y \geq 0 \\
+& X_{1D}, X_{1R}, X_{2D}, X_{2R} \geq 0
+\end{align*}
+
+\textbf{Solution:}
+
+The problem is formulated as a linear program to maximize net revenue. The revenue from retail company is a piecewise linear function of $y = X_{1R} + X_{2R}$:
+
+1. If $y \leq 1000$: Revenue = $3y - (1000-y) \times 0.05 = 3.05y - 50$
+2. If $1000 < y \leq 1200$: Revenue = $3y$  
+3. If $y > 1200$: Revenue = $3 \times 1200 + 2.5(y-1200) = 2.5y + 600$
+
+This piecewise linear function is represented using the min function: $\min\{3.05y - 50, 3y, 2.5y + 600\}$.
+
+The variable $z$ represents this minimum value, constrained by:
+- $z \leq 3.05y - 50$ (first segment)
+- $z \leq 3y$ (second segment)  
+- $z \leq 2.5y + 600$ (third segment)
+
+The constraints ensure:
+1. All type 1 mangoes (1000 units) must be sold either directly or to retail
+2. All type 2 mangoes (700 units) must be sold either directly or to retail
+3. At least 60\% of retail sales must be type 2 mangoes
+4. Non-negativity constraints for all variables
 
 
 
