@@ -1,0 +1,127 @@
+\documentclass[11pt]{article}
+\renewcommand{\baselinestretch}{1.5}
+
+\setlength{\oddsidemargin}{-0.1in}
+\setlength{\evensidemargin}{-0.1in} 
+\setlength{\textwidth}{6.54in}
+\setlength{\topmargin}{0in} 
+\setlength{\textheight}{8.5in}
+
+\linespread{1}
+
+\usepackage{makeidx}
+\usepackage{amsmath,amssymb, amsthm}
+\usepackage{latexsym,remreset}
+\usepackage[toc,page]{appendix}
+\usepackage{graphicx}
+\usepackage{multirow}
+\usepackage{bbm}
+%\usepackage[pdftex]{graphicx} 
+
+\usepackage{url}
+%% Define a new 'leo' style for the package that will use a smaller font.
+\makeatletter
+\def\url@leostyle{%
+  \@ifundefined{selectfont}{\def\UrlFont{\sf}}{\def\UrlFont{\small\ttfamily}}}
+\makeatother
+%% Now actually use the newly defined style.
+\urlstyle{leo}
+
+\newtheorem{assumption}{Assumption}
+\newtheorem{definition}{Definition}
+\newtheorem{lemma}{Lemma}
+\newtheorem{proposition}{Proposition}
+\newtheorem{corollary}{Corollary}
+\newtheorem{remark}{Remark}
+\newtheorem{theorem}{Theorem}
+\newcommand{\mb}[1]{\ensuremath{\boldsymbol{#1}}}
+\newcommand{\vol}{{\sf volume}}
+\newcommand{\Stochb}{$\Pi_{\mathrm {Stoch}}(b)$}
+\newcommand{\tf}{\text{translation factor}}
+
+\title{ISyE6669 Homework 7\\
+Fall 2025}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+\section{Week 7}
+\begin{enumerate}
+\item \textbf{Geometry of LP}
+\begin{enumerate}
+    
+    
+    \item Let $P$ be a triangle in a plane with three extreme points $A=[1,1]^\top, B=[2,4]^\top, C=[4,2]^\top$. Let $x=[2, 2]^\top$ be a point in the triangle $P$. Express $x$ as a convex combination of the three extreme points $A,B,C$. You should write $x=\lambda_1 A + \lambda_2 B + \lambda_3 C$, where $\lambda_1+\lambda_2+\lambda_3=1$ and all nonnegative. You need to give the numerical values of $\lambda_1, \lambda_2, \lambda_3$.
+    
+    \item Consider the following polyhedron $P$ defined as
+    \begin{align*}
+        P = \left\{(x,y)\in\mathbb{R}^2 : x + 2y \ge 3,\; x-y\le 1, \; y\ge 1, \; x\le -1\right\}.
+    \end{align*}
+    Find all the extreme points and extreme rays of $P$.
+    
+    \item  Remember that a polytope is a bounded polyhedron. Give an example of a polytope in dimension $n$ defined by exactly $2n$ inequalities, such that removing any inequality describing the polytope makes the resulting polyhedron unbounded.  Hint: First think of an example in $\mathbb{R}^2$ and then generalize it.
+    
+    By the way, an interesting fact is that examples of the above kind do not occur if the number of inequalities is more than $2n$. For example if a polytope is in dimension $n$ and is defined by $2n +1$ inequalities, then there always exists one inequality such that removing this inequality leaves the resulting (possibly larger) polyhedron bounded. I encourage you to experiment in $n =2$ dimension to see this fact!
+
+    
+\end{enumerate}
+
+\item \textbf{Reformulation as linear program}
+\begin{enumerate}
+    \item Consider the following linear program:
+\begin{align*}
+    \max \quad & x + 2y \\
+    \text{s.t.}\quad & x + y \le 4,\\
+    & 2x - y \ge -2,\\
+    & 2x + y \le 6, \\
+    & x \le 0.
+\end{align*}
+Convert the above LP to a standard form LP.
+
+\item Alexis Cornby makes her living buying and selling corn. On January 1, she has 50 tons of corn and \$1000. On the first day of each month Alexis can buy corn at the following prices per ton: January $\$300$; February, $\$350$; March, $\$400$; April, $\$500$. On the last day of each month, Alexis can sell corn at following prices per ton: January, $\$250$; February, $\$400$; March, $\$350$; April, $\$550$. Alexis stores her corn in a warehouse that can hold at most 100 tons of corn. She must be able to pay cash for all corn at the time of purchase. Write a linear programming model that can be solved to determine how Alexis can maximize her cash on hand at the end of April. 
+
+\end{enumerate}
+
+
+	\item \textbf{Basic Solution and Basic Feasible Solution}
+	\begin{enumerate}
+		\item Consider the following linear program:
+
+	\begin{eqnarray*}
+		&\begin{array}{cccccc}
+			\min & -x_1 & - & 2x_2 &  & \\
+			\text{s.t.} & x_1  & - & x_2  & \leq & 1 \\
+			& 2x_1 & - & x_2 & \geq & -1 \\
+			& 2x_1 & + & x_2 & \leq & 5 \\
+		\end{array} \\
+		&\begin{array}{rr}
+			x_1\geq 0, & x_2\geq 0. \\
+		\end{array}
+	\end{eqnarray*}
+		Graph the constraints of this linear program, and indicate the feasible region.
+		
+		\item Transform it into a standard form LP.
+		
+		Denote $\mb{x}=[x_1,x_2,x_3,x_4,x_5]^\top$ as the vector of variables, and use the standard form notation: 
+		\begin{align*}
+		\min \quad & \mb{c}^\top\mb{x} \\
+		\text{s.t.}\quad & \mb{A}\mb{x} = \mb{b} \\
+		& \mb{x}\geq \mb{0},
+		\end{align*}
+		specify $\mb{c},\mb{A},\mb{b}$ for the above problem.
+		
+		\item Use the procedure discussed in lecture to find \textit{all} basic solutions. For each basic solution, specify the basis matrix, the basic variables, the non-basic variables, and the associated cost coefficients for each part. For example, for the following basis matrix \begin{align*}
+		\mb{B}=[\mb{A}_3,\mb{A}_4,\mb{A}_5]=\begin{bmatrix}1 & 0 & 0 \\ 0 & -1 & 0 \\ 0 & 0 & 1 \end{bmatrix},
+		\end{align*}
+		where $\mb{A}_i$ is the $i$-th column of $\mb{A}$, the corresponding basic variables, non-basic variables, and cost coefficients are
+		\begin{align*}
+		\mb{x}_B = \begin{bmatrix} x_3\\x_4\\x_5\end{bmatrix}=\begin{bmatrix} 1\\-1\\5\end{bmatrix}, \;\; \mb{x}_N = \begin{bmatrix} x_1\\x_2\end{bmatrix}=\begin{bmatrix} 0\\0\end{bmatrix},\;\; \mb{c}_B=\begin{bmatrix} 0\\0\\0\end{bmatrix},\;\;\mb{c}_N=\begin{bmatrix} -1\\-2\end{bmatrix}.
+		\end{align*} 
+		Specify all basic solutions in this way. [Hint: The nonbasic variables are always zero. So the key is to compute the basic variables. It will require inverting the basis matrix $\mb{B}$. You can use Python to compute the inverse of a matrix. Scipy has very fast linear algebra packages. You only need to invoke ``from scipy import linalg'' and use ``linalg.inv($A$)'' to invert a matrix $A$.]
+		
+		\item Among all the basic solutions you found, which basic solutions are feasible, thus are basic feasible solutions? Which basic solutions are infeasible? Locate each basic solution on the graph you drew in part (a). [Hint: You only need to look at the $(x_1,x_2)$ part of each basic solution.]  What is the optimal solution?
+	\end{enumerate}
+\end{enumerate}
+\end{document}
