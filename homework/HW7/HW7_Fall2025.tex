@@ -54,14 +54,69 @@ Fall 2025}
     
     
     \item Let $P$ be a triangle in a plane with three extreme points $A=[1,1]^\top, B=[2,4]^\top, C=[4,2]^\top$. Let $x=[2, 2]^\top$ be a point in the triangle $P$. Express $x$ as a convex combination of the three extreme points $A,B,C$. You should write $x=\lambda_1 A + \lambda_2 B + \lambda_3 C$, where $\lambda_1+\lambda_2+\lambda_3=1$ and all nonnegative. You need to give the numerical values of $\lambda_1, \lambda_2, \lambda_3$.
+
+    \textbf{Solution:}
+    We need to solve for $\lambda_1, \lambda_2, \lambda_3$ in the equation $x = \lambda_1 A + \lambda_2 B + \lambda_3 C$.
+    
+    Substituting the given values:
+    \begin{align*}
+    \begin{bmatrix} 2 \\ 2 \end{bmatrix} = \lambda_1 \begin{bmatrix} 1 \\ 1 \end{bmatrix} + \lambda_2 \begin{bmatrix} 2 \\ 4 \end{bmatrix} + \lambda_3 \begin{bmatrix} 4 \\ 2 \end{bmatrix}
+    \end{align*}
+    
+    This gives us the system of three equations:
+    \begin{align*}
+    \lambda_1 + 2\lambda_2 + 4\lambda_3 &= 2 \\
+    \lambda_1 + 4\lambda_2 + 2\lambda_3 &= 2 \\
+    \lambda_1 + \lambda_2 + \lambda_3 &= 1
+    \end{align*}
+    
+    Solving this system of linear equations:
+    \begin{align*}
+    \lambda_1 = \frac{1}{2}, \quad \lambda_2 = \frac{1}{4}, \quad \lambda_3 = \frac{1}{4}
+    \end{align*}
+    
+    Therefore, $x = \frac{1}{2}A + \frac{1}{4}B + \frac{1}{4}C$.
     
     \item Consider the following polyhedron $P$ defined as
     \begin{align*}
         P = \left\{(x,y)\in\mathbb{R}^2 : x + 2y \ge 3,\; x-y\le 1, \; y\ge 1, \; x\le -1\right\}.
     \end{align*}
     Find all the extreme points and extreme rays of $P$.
+
+    \textbf{Solution:}
+    Please refer to the accompanying figure for the graphical representation of the polyhedron.
+    
+    \begin{figure}[h]
+    \centering
+    \includegraphics[width=0.7\textwidth]{HW7-1b.png}
+    \caption{Polyhedron $P$ with extreme point and extreme rays}
+    \end{figure}
+    
+    \textbf{Extreme Points:}
+    The polyhedron $P$ has exactly one extreme point: $(-1, 2)$.
+    
+    \textbf{Extreme Rays:}
+    The polyhedron $P$ has two extreme rays:
+    \begin{itemize}
+        \item Direction vector $(0, 1)$
+        \item Direction vector $(-2, 1)$
+    \end{itemize}
     
     \item  Remember that a polytope is a bounded polyhedron. Give an example of a polytope in dimension $n$ defined by exactly $2n$ inequalities, such that removing any inequality describing the polytope makes the resulting polyhedron unbounded.  Hint: First think of an example in $\mathbb{R}^2$ and then generalize it.
+
+    \textbf{Solution:}
+    Consider the unit hypercube in $\mathbb{R}^n$ defined by the following $2n$ inequalities:
+    \begin{align*}
+    x_i \geq 0 \quad \text{and} \quad x_i \leq 1 \quad \text{for } i = 1, 2, \ldots, n
+    \end{align*}
+    
+    This polytope is bounded since all coordinates are constrained between 0 and 1. However, removing any single inequality makes the polyhedron unbounded:
+    \begin{itemize}
+        \item Removing $x_i \geq 0$ allows the $i$-th coordinate to extend to $-\infty$
+        \item Removing $x_i \leq 1$ allows the $i$-th coordinate to extend to $+\infty$
+    \end{itemize}
+    
+    Therefore, the unit hypercube provides the desired example of a polytope in dimension $n$ with exactly $2n$ inequalities where removing any inequality results in an unbounded polyhedron.
     
     By the way, an interesting fact is that examples of the above kind do not occur if the number of inequalities is more than $2n$. For example if a polytope is in dimension $n$ and is defined by $2n +1$ inequalities, then there always exists one inequality such that removing this inequality leaves the resulting (possibly larger) polyhedron bounded. I encourage you to experiment in $n =2$ dimension to see this fact!
 
@@ -80,7 +135,71 @@ Fall 2025}
 \end{align*}
 Convert the above LP to a standard form LP.
 
-\item Alexis Cornby makes her living buying and selling corn. On January 1, she has 50 tons of corn and \$1000. On the first day of each month Alexis can buy corn at the following prices per ton: January $\$300$; February, $\$350$; March, $\$400$; April, $\$500$. On the last day of each month, Alexis can sell corn at following prices per ton: January, $\$250$; February, $\$400$; March, $\$350$; April, $\$550$. Alexis stores her corn in a warehouse that can hold at most 100 tons of corn. She must be able to pay cash for all corn at the time of purchase. Write a linear programming model that can be solved to determine how Alexis can maximize her cash on hand at the end of April. 
+    \textbf{Solution:}
+    To convert to standard form, we introduce the following variable transformations:
+    \begin{itemize}
+        \item Let $x' = -x$ (since $x \leq 0$, we have $x' \geq 0$)
+        \item Let $y = y^+ - y^-$ where $y^+, y^- \geq 0$ (to handle unrestricted $y$)
+        \item Add slack variables $s_1, s_2, s_3 \geq 0$
+    \end{itemize}
+    
+    The standard form LP becomes:
+    \begin{align*}
+    \min \quad & -x' - 2y^+ + 2y^- \\
+    \text{s.t.}\quad & -x' + y^+ - y^- + s_1 = 4 \\
+    & -2x' - y^+ + y^- - s_2 = -2 \\
+    & -2x' + y^+ - y^- + s_3 = 6 \\
+    & x', y^+, y^-, s_1, s_2, s_3 \geq 0
+    \end{align*}
+
+\item Alexis Cornby makes her living buying and selling corn. On January 1, she has 50 tons of corn and \$1000. On the first day of each month Alexis can buy corn at the following prices per ton: January $\$300$; February, $\$350$; March, $\$400$; April, $\$500$. On the last day of each month, Alexis can sell corn at following prices per ton: January, $\$250$; February, $\$400$; March, $\$350$; April, $\$550$. Alexis stores her corn in a warehouse that can hold at most 100 tons of corn. She must be able to pay cash for all corn at the time of purchase. Write a linear programming model that can be solved to determine how Alexis can maximize her cash on hand at the end of April.
+
+\textbf{Solution:}
+Let us define the following variables:
+\begin{itemize}
+    \item $X_{iB}$ = tons of corn bought in month $i$ (for $i = 1, 2, 3, 4$)
+    \item $X_{iS}$ = tons of corn sold in month $i$ (for $i = 1, 2, 3, 4$)
+    \item $X_0 = 50$ = initial corn inventory
+    \item $P_0 = 1000$ = initial cash
+\end{itemize}
+
+\textbf{Objective Function:}
+Maximize cash on hand at the end of April:
+\begin{align*}
+\max \quad & P_0 - 300X_{1B} + 250X_{1S} - 350X_{2B} + 400X_{2S} \\
+& - 400X_{3B} + 350X_{3S} - 500X_{4B} + 550X_{4S}
+\end{align*}
+
+\textbf{Constraints:}
+
+1. Inventory constraints (non-negative inventory):
+\begin{align*}
+X_0 + X_{1B} - X_{1S} &\geq 0 \\
+X_0 + X_{1B} - X_{1S} + X_{2B} - X_{2S} &\geq 0 \\
+X_0 + X_{1B} - X_{1S} + X_{2B} - X_{2S} + X_{3B} - X_{3S} &\geq 0 \\
+X_0 + X_{1B} - X_{1S} + X_{2B} - X_{2S} + X_{3B} - X_{3S} + X_{4B} - X_{4S} &\geq 0
+\end{align*}
+
+2. Cash constraints (non-negative cash):
+\begin{align*}
+P_0 - 300X_{1B} &\geq 0 \\
+P_0 - 300X_{1B} + 250X_{1S} - 350X_{2B} &\geq 0 \\
+P_0 - 300X_{1B} + 250X_{1S} - 350X_{2B} + 400X_{2S} - 400X_{3B} &\geq 0 \\
+P_0 - 300X_{1B} + 250X_{1S} - 350X_{2B} + 400X_{2S} - 400X_{3B} + 350X_{3S} - 500X_{4B} &\geq 0
+\end{align*}
+
+3. Storage capacity constraints (at most 100 tons):
+\begin{align*}
+X_0 + X_{1B} - X_{1S} &\leq 100 \\
+X_0 + X_{1B} - X_{1S} + X_{2B} - X_{2S} &\leq 100 \\
+X_0 + X_{1B} - X_{1S} + X_{2B} - X_{2S} + X_{3B} - X_{3S} &\leq 100 \\
+X_0 + X_{1B} - X_{1S} + X_{2B} - X_{2S} + X_{3B} - X_{3S} + X_{4B} - X_{4S} &\leq 100
+\end{align*}
+
+4. Non-negativity constraints:
+\begin{align*}
+X_{1B}, X_{2B}, X_{3B}, X_{4B}, X_{1S}, X_{2S}, X_{3S}, X_{4S} \geq 0
+\end{align*} 
 
 \end{enumerate}
 
@@ -102,6 +221,15 @@ Convert the above LP to a standard form LP.
 	\end{eqnarray*}
 		Graph the constraints of this linear program, and indicate the feasible region.
 		
+		\textbf{Solution:}
+		Please refer to the accompanying figure for the graphical representation of the constraints and feasible region.
+		
+		\begin{figure}[h]
+		\centering
+		\includegraphics[width=0.7\textwidth]{HW7-3a.png}
+		\caption{Linear program constraints and feasible region}
+		\end{figure}
+		
 		\item Transform it into a standard form LP.
 		
 		Denote $\mb{x}=[x_1,x_2,x_3,x_4,x_5]^\top$ as the vector of variables, and use the standard form notation: 
@@ -112,6 +240,27 @@ Convert the above LP to a standard form LP.
 		\end{align*}
 		specify $\mb{c},\mb{A},\mb{b}$ for the above problem.
 		
+		\textbf{Solution:}
+		We introduce slack variables $x_3, x_4, x_5$ to convert inequalities to equalities. The standard form LP becomes:
+		\begin{align*}
+		\min \quad & -x_1 - 2x_2 \\
+		\text{s.t.}\quad & x_1 - x_2 + x_3 = 1 \\
+		& -2x_1 + x_2 + x_4 = 1 \\
+		& 2x_1 + x_2 + x_5 = 5 \\
+		& x_1, x_2, x_3, x_4, x_5 \geq 0
+		\end{align*}
+		
+		Therefore, we have:
+		\begin{align*}
+		\mb{c} &= \begin{bmatrix} -1 \\ -2 \\ 0 \\ 0 \\ 0 \end{bmatrix}, \quad
+		\mb{A} = \begin{bmatrix} 
+		1 & -1 & 1 & 0 & 0 \\
+		-2 & 1 & 0 & 1 & 0 \\
+		2 & 1 & 0 & 0 & 1
+		\end{bmatrix}, \quad
+		\mb{b} = \begin{bmatrix} 1 \\ 1 \\ 5 \end{bmatrix}
+		\end{align*}
+		
 		\item Use the procedure discussed in lecture to find \textit{all} basic solutions. For each basic solution, specify the basis matrix, the basic variables, the non-basic variables, and the associated cost coefficients for each part. For example, for the following basis matrix \begin{align*}
 		\mb{B}=[\mb{A}_3,\mb{A}_4,\mb{A}_5]=\begin{bmatrix}1 & 0 & 0 \\ 0 & -1 & 0 \\ 0 & 0 & 1 \end{bmatrix},
 		\end{align*}
@@ -121,7 +270,187 @@ Convert the above LP to a standard form LP.
 		\end{align*} 
 		Specify all basic solutions in this way. [Hint: The nonbasic variables are always zero. So the key is to compute the basic variables. It will require inverting the basis matrix $\mb{B}$. You can use Python to compute the inverse of a matrix. Scipy has very fast linear algebra packages. You only need to invoke ``from scipy import linalg'' and use ``linalg.inv($A$)'' to invert a matrix $A$.]
 		
+		\textbf{Solution:}
+		There are $\binom{5}{3} = 10$ possible combinations of basic variables. Here are all basic solutions:
+		
+		\textbf{1. Basic variables: $x_1, x_2, x_3$; Non-basic variables: $x_4, x_5$}
+		\begin{align*}
+		\mb{B} = \begin{bmatrix} 1 & -1 & 1 \\ -2 & 1 & 0 \\ 2 & 1 & 0 \end{bmatrix}, \;\; 
+		\mb{x}_B = \begin{bmatrix} 1 \\ 3 \\ 3 \end{bmatrix}, \;\; 
+		\mb{x}_N = \begin{bmatrix} 0 \\ 0 \end{bmatrix}, \;\; 
+		\mb{c}_B = \begin{bmatrix} -1 \\ -2 \\ 0 \end{bmatrix}, \;\; 
+		\mb{c}_N = \begin{bmatrix} 0 \\ 0 \end{bmatrix}
+		\end{align*}
+		
+		\textbf{2. Basic variables: $x_1, x_2, x_4$; Non-basic variables: $x_3, x_5$}
+		\begin{align*}
+		\mb{B} = \begin{bmatrix} 1 & -1 & 0 \\ -2 & 1 & 1 \\ 2 & 1 & 0 \end{bmatrix}, \;\; 
+		\mb{x}_B = \begin{bmatrix} 2 \\ 1 \\ 4 \end{bmatrix}, \;\; 
+		\mb{x}_N = \begin{bmatrix} 0 \\ 0 \end{bmatrix}, \;\; 
+		\mb{c}_B = \begin{bmatrix} -1 \\ -2 \\ 0 \end{bmatrix}, \;\; 
+		\mb{c}_N = \begin{bmatrix} 0 \\ 0 \end{bmatrix}
+		\end{align*}
+		
+		\textbf{3. Basic variables: $x_1, x_2, x_5$; Non-basic variables: $x_3, x_4$}
+		\begin{align*}
+		\mb{B} = \begin{bmatrix} 1 & -1 & 0 \\ -2 & 1 & 0 \\ 2 & 1 & 1 \end{bmatrix}, \;\; 
+		\mb{x}_B = \begin{bmatrix} -2 \\ -3 \\ 12 \end{bmatrix}, \;\; 
+		\mb{x}_N = \begin{bmatrix} 0 \\ 0 \end{bmatrix}, \;\; 
+		\mb{c}_B = \begin{bmatrix} -1 \\ -2 \\ 0 \end{bmatrix}, \;\; 
+		\mb{c}_N = \begin{bmatrix} 0 \\ 0 \end{bmatrix}
+		\end{align*}
+		
+		\textbf{4. Basic variables: $x_1, x_3, x_4$; Non-basic variables: $x_2, x_5$}
+		\begin{align*}
+		\mb{B} = \begin{bmatrix} 1 & 1 & 0 \\ -2 & 0 & 1 \\ 2 & 0 & 0 \end{bmatrix}, \;\; 
+		\mb{x}_B = \begin{bmatrix} 2.5 \\ -1.5 \\ 6 \end{bmatrix}, \;\; 
+		\mb{x}_N = \begin{bmatrix} 0 \\ 0 \end{bmatrix}, \;\; 
+		\mb{c}_B = \begin{bmatrix} -1 \\ 0 \\ 0 \end{bmatrix}, \;\; 
+		\mb{c}_N = \begin{bmatrix} -2 \\ 0 \end{bmatrix}
+		\end{align*}
+		
+		\textbf{5. Basic variables: $x_1, x_3, x_5$; Non-basic variables: $x_2, x_4$}
+		\begin{align*}
+		\mb{B} = \begin{bmatrix} 1 & 1 & 0 \\ -2 & 0 & 0 \\ 2 & 0 & 1 \end{bmatrix}, \;\; 
+		\mb{x}_B = \begin{bmatrix} -0.5 \\ 1.5 \\ 6 \end{bmatrix}, \;\; 
+		\mb{x}_N = \begin{bmatrix} 0 \\ 0 \end{bmatrix}, \;\; 
+		\mb{c}_B = \begin{bmatrix} -1 \\ 0 \\ 0 \end{bmatrix}, \;\; 
+		\mb{c}_N = \begin{bmatrix} -2 \\ 0 \end{bmatrix}
+		\end{align*}
+		
+		\textbf{6. Basic variables: $x_1, x_4, x_5$; Non-basic variables: $x_2, x_3$}
+		\begin{align*}
+		\mb{B} = \begin{bmatrix} 1 & 0 & 0 \\ -2 & 1 & 0 \\ 2 & 0 & 1 \end{bmatrix}, \;\; 
+		\mb{x}_B = \begin{bmatrix} 1 \\ 3 \\ 3 \end{bmatrix}, \;\; 
+		\mb{x}_N = \begin{bmatrix} 0 \\ 0 \end{bmatrix}, \;\; 
+		\mb{c}_B = \begin{bmatrix} -1 \\ 0 \\ 0 \end{bmatrix}, \;\; 
+		\mb{c}_N = \begin{bmatrix} -2 \\ 0 \end{bmatrix}
+		\end{align*}
+		
+		\textbf{7. Basic variables: $x_2, x_3, x_4$; Non-basic variables: $x_1, x_5$}
+		\begin{align*}
+		\mb{B} = \begin{bmatrix} -1 & 1 & 0 \\ 1 & 0 & 1 \\ 1 & 0 & 0 \end{bmatrix}, \;\; 
+		\mb{x}_B = \begin{bmatrix} 5 \\ 6 \\ -4 \end{bmatrix}, \;\; 
+		\mb{x}_N = \begin{bmatrix} 0 \\ 0 \end{bmatrix}, \;\; 
+		\mb{c}_B = \begin{bmatrix} -2 \\ 0 \\ 0 \end{bmatrix}, \;\; 
+		\mb{c}_N = \begin{bmatrix} -1 \\ 0 \end{bmatrix}
+		\end{align*}
+		
+		\textbf{8. Basic variables: $x_2, x_3, x_5$; Non-basic variables: $x_1, x_4$}
+		\begin{align*}
+		\mb{B} = \begin{bmatrix} -1 & 1 & 0 \\ 1 & 0 & 0 \\ 1 & 0 & 1 \end{bmatrix}, \;\; 
+		\mb{x}_B = \begin{bmatrix} 1 \\ 2 \\ 4 \end{bmatrix}, \;\; 
+		\mb{x}_N = \begin{bmatrix} 0 \\ 0 \end{bmatrix}, \;\; 
+		\mb{c}_B = \begin{bmatrix} -2 \\ 0 \\ 0 \end{bmatrix}, \;\; 
+		\mb{c}_N = \begin{bmatrix} -1 \\ 0 \end{bmatrix}
+		\end{align*}
+		
+		\textbf{9. Basic variables: $x_2, x_4, x_5$; Non-basic variables: $x_1, x_3$}
+		\begin{align*}
+		\mb{B} = \begin{bmatrix} -1 & 0 & 0 \\ 1 & 1 & 0 \\ 1 & 0 & 1 \end{bmatrix}, \;\; 
+		\mb{x}_B = \begin{bmatrix} -1 \\ 2 \\ 6 \end{bmatrix}, \;\; 
+		\mb{x}_N = \begin{bmatrix} 0 \\ 0 \end{bmatrix}, \;\; 
+		\mb{c}_B = \begin{bmatrix} -2 \\ 0 \\ 0 \end{bmatrix}, \;\; 
+		\mb{c}_N = \begin{bmatrix} -1 \\ 0 \end{bmatrix}
+		\end{align*}
+		
+		\textbf{10. Basic variables: $x_3, x_4, x_5$; Non-basic variables: $x_1, x_2$}
+		\begin{align*}
+		\mb{B} = \begin{bmatrix} 1 & 0 & 0 \\ 0 & 1 & 0 \\ 0 & 0 & 1 \end{bmatrix}, \;\; 
+		\mb{x}_B = \begin{bmatrix} 1 \\ 1 \\ 5 \end{bmatrix}, \;\; 
+		\mb{x}_N = \begin{bmatrix} 0 \\ 0 \end{bmatrix}, \;\; 
+		\mb{c}_B = \begin{bmatrix} 0 \\ 0 \\ 0 \end{bmatrix}, \;\; 
+		\mb{c}_N = \begin{bmatrix} -1 \\ -2 \end{bmatrix}
+		\end{align*}
+		
 		\item Among all the basic solutions you found, which basic solutions are feasible, thus are basic feasible solutions? Which basic solutions are infeasible? Locate each basic solution on the graph you drew in part (a). [Hint: You only need to look at the $(x_1,x_2)$ part of each basic solution.]  What is the optimal solution?
+		
+		\textbf{Solution:}
+		Based on the accompanying figures showing each basic solution plotted on the feasible region:
+		
+		\begin{figure}[h]
+		\centering
+		\begin{minipage}{0.3\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{1_feasible.png}
+			\caption{Solution 1: Feasible}
+		\end{minipage}
+		\begin{minipage}{0.3\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{2_feasible.png}
+			\caption{Solution 2: Feasible}
+		\end{minipage}
+		\begin{minipage}{0.3\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{3_infeasible.png}
+			\caption{Solution 3: Infeasible}
+		\end{minipage}
+		\end{figure}
+		
+		\begin{figure}[h]
+		\centering
+		\begin{minipage}{0.3\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{4_infeasible.png}
+			\caption{Solution 4: Infeasible}
+		\end{minipage}
+		\begin{minipage}{0.3\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{5_infeasible.png}
+			\caption{Solution 5: Infeasible}
+		\end{minipage}
+		\begin{minipage}{0.3\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{6_feasible.png}
+			\caption{Solution 6: Feasible}
+		\end{minipage}
+		\end{figure}
+		
+		\begin{figure}[h]
+		\centering
+		\begin{minipage}{0.3\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{7_infeasible.png}
+			\caption{Solution 7: Infeasible}
+		\end{minipage}
+		\begin{minipage}{0.3\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{8_feasible.png}
+			\caption{Solution 8: Feasible}
+		\end{minipage}
+		\begin{minipage}{0.3\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{9_infeasible.png}
+			\caption{Solution 9: Infeasible}
+		\end{minipage}
+		\end{figure}
+		
+		\begin{figure}[h]
+		\centering
+		\includegraphics[width=0.3\textwidth]{10_feasbile.png}
+		\caption{Solution 10: Feasible}
+		\end{figure}
+		
+		\textbf{Feasible Basic Solutions (Basic Feasible Solutions):}
+		\begin{itemize}
+			\item Solution 1: $(x_1, x_2) = (1, 3)$ with objective value $-7$
+			\item Solution 2: $(x_1, x_2) = (2, 1)$ with objective value $-4$
+			\item Solution 6: $(x_1, x_2) = (1, 0)$ with objective value $-1$
+			\item Solution 8: $(x_1, x_2) = (0, 1)$ with objective value $-2$
+			\item Solution 10: $(x_1, x_2) = (0, 0)$ with objective value $0$
+		\end{itemize}
+		
+		\textbf{Infeasible Basic Solutions:}
+		\begin{itemize}
+			\item Solution 3: $(x_1, x_2) = (-2, -3)$ (violates non-negativity constraints)
+			\item Solution 4: $(x_1, x_2) = (2.5, 0)$ (outside feasible region)
+			\item Solution 5: $(x_1, x_2) = (-0.5, 0)$ (violates non-negativity constraint)
+			\item Solution 7: $(x_1, x_2) = (0, 5)$ (outside feasible region)
+			\item Solution 9: $(x_1, x_2) = (0, -1)$ (violates non-negativity constraint)
+		\end{itemize}
+		
+		\textbf{Optimal Solution:}
+		The optimal solution is \textbf{Solution 1} with $(x_1, x_2) = (1, 3)$ and optimal objective value $-7$. This corresponds to the corner point of the feasible region that minimizes the objective function $-x_1 - 2x_2$.
 	\end{enumerate}
 \end{enumerate}
 \end{document}
