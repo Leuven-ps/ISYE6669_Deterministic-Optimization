@@ -1,0 +1,103 @@
+\documentclass[11pt]{article}
+%\parskip 1.0\parskip plus 3pt minus 1pt
+\renewcommand{\baselinestretch}{1.5}
+
+\setlength{\oddsidemargin}{-0.1in}
+\setlength{\evensidemargin}{-0.1in} 
+\setlength{\textwidth}{6.54in}
+\setlength{\topmargin}{0in} 
+\setlength{\textheight}{8.5in}
+%\setlength{\oddsidemargin}{0in}
+%\setlength{\evensidemargin}{0.15in} 
+%\setlength{\textwidth}{6.2in}
+%\setlength{\topmargin}{-0.3in} 
+%\setlength{\textheight}{8.9in}
+
+\linespread{1}
+
+\usepackage{makeidx}
+\usepackage{amsmath,amssymb, amsthm}
+\usepackage{latexsym,remreset}
+\usepackage[toc,page]{appendix}
+\usepackage{graphicx}
+\usepackage{multirow}
+\usepackage{bbm}
+%\usepackage[pdftex]{graphicx} 
+
+\usepackage{url}
+%% Define a new 'leo' style for the package that will use a smaller font.
+\makeatletter
+\def\url@leostyle{%
+  \@ifundefined{selectfont}{\def\UrlFont{\sf}}{\def\UrlFont{\small\ttfamily}}}
+\makeatother
+%% Now actually use the newly defined style.
+\urlstyle{leo}
+
+\newtheorem{assumption}{Assumption}
+\newtheorem{definition}{Definition}
+\newtheorem{lemma}{Lemma}
+\newtheorem{proposition}{Proposition}
+\newtheorem{corollary}{Corollary}
+\newtheorem{remark}{Remark}
+\newtheorem{theorem}{Theorem}
+\newcommand{\mb}[1]{\ensuremath{\boldsymbol{#1}}}
+\newcommand{\vol}{{\sf volume}}
+\newcommand{\Stochb}{$\Pi_{\mathrm {Stoch}}(b)$}
+\newcommand{\tf}{\text{translation factor}}
+
+\title{ISyE6669 Homework 8\\
+Fall 2025}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+
+
+	\begin{enumerate}
+		\item Consider the following linear program:
+	\begin{eqnarray*}
+		&\begin{array}{cccccc}
+			\min & -x_1 & - & 2x_2 &  & \\
+			\text{s.t.} & x_1  & - & x_2  & \leq & 1 \\
+			& 2x_1 & - & x_2 & \geq & -1 \\
+			& 2x_1 & + & x_2 & \leq & 5 \\
+		\end{array} \\
+		&\begin{array}{rr}
+			x_1\geq 0, & x_2\geq 0. \\
+		\end{array}
+	\end{eqnarray*}
+		Graph the constraints of this linear program, and indicate the feasible region.
+		
+	\item To solve this problem using the simplex method, first transform it into a standard form LP.
+
+Let $x_3$, $x_4$, $x_5$ be the slack variables with respect to the first, second, third constraint respectively. Denote $\mb{x}=[x_1,x_2,x_3,x_4,x_5]^\top$ as the vector of variables, and use the standard form notation: 
+\begin{align*}
+\min \quad & \mb{c}^\top\mb{x} \\
+\text{s.t.}\quad & \mb{A}\mb{x} = \mb{b} \\
+& \mb{x}\geq \mb{0},
+\end{align*}
+specify $\mb{c},\mb{A},\mb{b}$ for the above problem. 
+
+\item Now we want to solve the above standard-form linear program by the simplex method. If in an iteration of the Simplex method, there is any ambiguity about which nonbasic variable to enter the basis or which basic variable to exit the basis, use Bland's rule. 
+\begin{enumerate}
+	
+	\item For each iteration of the simplex method, write down the following information in the format given below:
+	\begin{itemize}
+		\item Iteration $k=\underline{\text{numerical value, e.g. 1, 2, ...}}$;
+		\item Basis $\mb{B} = [\mb{A}_i,\mb{A}_j,\mb{A}_k]=\underline{\text{numerical value}}$ (i.e. you need to specify $i,j,k$ as well as the numerical values of the columns);
+		\item Basis inverse $\mb{B}^{-1} = \underline{\text{numerical value}}$;
+		\item Basic variable $\mb{x}_B = [x_i, x_j, x_k] = \underline{\text{numerical value}}$ (you need to specify $i,j,k$ and numerical values of $x_i,x_j,x_k$);
+		\item Nonbasic variable $\mb{x}_N = [x_p, x_q] = \underline{\text{numerical value}}$ (you need to specify $p,q$ and numerical values of $x_p,x_q$);
+		\item Reduced cost for each nonbasic variable $\bar{c}_p = c_p - \mb{c}_B^\top\mb{B}^{-1}\mb{A}_? = \underline{\text{numerical values}}$; Same for $\bar{c}_q$; (you need to determine the index ``?'' for $\mb{A}_?$);
+		\item Is the current solution optimal? If not, which nonbasic variable enters the basis?
+		\item Direction $\mb{d}_B = -\mb{B}^{-1}\mb{A}_?=\underline{\text{numerical value}}$. Does the simplex method terminate with an unbounded optimum?
+		\item Min-ratio test $\theta^* = \min_{i : {d}_{B(i)<0}}\{x_{B(i)}/(-d_{B(i)})\}=\min\{\underline{\text{numerical values of the ratios}}\}=\underline{\text{numerical value of $\theta^*$}}$. 
+		\item Which basic variable exits the basis?
+	\end{itemize}
+	Start at iteration $k=1$ with the basis $\mb{B}^1=[\mb{A}_3,\mb{A}_4,\mb{A}_5]$. Solve the above linear program with simplex method and write down all the information required above for each iteration. Also indicate the basic feasible solution at each step on the picture in $(x_1, x_2)$. What is the optimal solution of the above LP in $(x_1, \dots, x_5)$? What is the optimal cost?
+\end{enumerate}
+From this exercise, you can see how the simplex method works and geometrically what each step is doing. 
+\end{enumerate}
+\end{document}
