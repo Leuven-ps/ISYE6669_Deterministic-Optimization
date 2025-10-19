@@ -1,0 +1,137 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[margin=0.5cm]{geometry}
+\usepackage{multicol}
+\usepackage{amsmath,amssymb}
+\usepackage{enumitem}
+\usepackage{array}
+
+\setlength{\columnseprule}{0.4pt}
+\setlist{nosep,leftmargin=*}
+\pagestyle{empty}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{2pt}
+
+\newcommand{\mysection}[1]{\vspace{3pt}\textbf{\underline{#1}}\vspace{2pt}}
+\newcommand{\mysubsection}[1]{\vspace{2pt}\textbf{#1:}\vspace{1pt}}
+\newcommand{\mb}[1]{\mathbf{#1}}
+
+\begin{document}
+
+\begin{multicols}{2}
+
+\mysection{PROBLEM SETUP}
+
+\mysubsection{Original LP}
+\begin{align*}
+\min \quad & -x_1 - 2x_2 \\
+\text{s.t.} \quad & x_1 - x_2 \leq 1 \\
+& 2x_1 - x_2 \geq -1 \\
+& 2x_1 + x_2 \leq 5 \\
+& x_1, x_2 \geq 0
+\end{align*}
+
+\mysubsection{Standard Form}
+Introduce slack variables $x_3, x_4, x_5$:
+\begin{align*}
+\min \quad & -x_1 - 2x_2 \\
+\text{s.t.} \quad & x_1 - x_2 + x_3 = 1 \\
+& -2x_1 + x_2 + x_4 = 1 \\
+& 2x_1 + x_2 + x_5 = 5 \\
+& x_1, x_2, x_3, x_4, x_5 \geq 0
+\end{align*}
+
+\mysubsection{Matrix Form}
+\begin{align*}
+\mb{c} &= \begin{bmatrix} -1 \\ -2 \\ 0 \\ 0 \\ 0 \end{bmatrix} \\
+\mb{A} &= \begin{bmatrix} 
+1 & -1 & 1 & 0 & 0 \\
+-2 & 1 & 0 & 1 & 0 \\
+2 & 1 & 0 & 0 & 1
+\end{bmatrix} \\
+\mb{b} &= \begin{bmatrix} 1 \\ 1 \\ 5 \end{bmatrix}
+\end{align*}
+
+\mysubsection{General Framework}
+For standard form LP with basis $\mb{B}$, nonbasic $\mb{N}$:
+
+Basic equations:
+\begin{align}
+\mb{x}_B = \mb{B}^{-1}\mb{b} - \mb{B}^{-1}\mb{N}\mb{x}_N \tag{1}
+\end{align}
+
+Objective:
+\begin{align}
+Z = \mb{c}_B^\top\mb{B}^{-1}\mb{b} + \bar{\mb{c}}_N^\top\mb{x}_N \tag{2}
+\end{align}
+
+Reduced costs:
+\begin{align}
+\bar{\mb{c}}_N = \mb{c}_N^\top - \mb{c}_B^\top\mb{B}^{-1}\mb{N} \tag{3}
+\end{align}
+
+Direction:
+\begin{align}
+\mb{d}_B = -\mb{B}^{-1}\mb{A}_j \tag{4}
+\end{align}
+
+\columnbreak
+
+\mysection{ITERATION EXAMPLE k=1}
+
+\mysubsection{Initial Setup}
+
+Basis $\mb{B}^1 = [\mb{A}_3,\mb{A}_4,\mb{A}_5] = \begin{bmatrix} 1 & 0 & 0 \\ 0 & 1 & 0 \\ 0 & 0 & 1 \end{bmatrix}$
+
+Basis inverse $\mb{B}^{-1} = \begin{bmatrix} 1 & 0 & 0 \\ 0 & 1 & 0 \\ 0 & 0 & 1 \end{bmatrix}$
+
+Basic variables $\mb{x}_B = [x_3, x_4, x_5] = \mb{B}^{-1}\mb{b} = \begin{bmatrix} 1 \\ 1 \\ 5 \end{bmatrix}$
+
+Nonbasic variables $\mb{x}_N = [x_1, x_2] = \begin{bmatrix} 0 \\ 0 \end{bmatrix}$
+
+Cost vectors: $\mb{c}_B = \begin{bmatrix} 0 \\ 0 \\ 0 \end{bmatrix}$, $\mb{c}_N = \begin{bmatrix} -1 \\ -2 \end{bmatrix}$
+
+Nonbasic matrix $\mb{N} = \begin{bmatrix} 1 & -1 \\ -2 & 1 \\ 2 & 1 \end{bmatrix}$
+
+\mysubsection{Reduced Cost Calculation}
+Using equation (5):
+\begin{align*}
+\bar{c}_1 &= c_1 - \mb{c}_B^\top\mb{B}^{-1}\mb{A}_1 \\
+&= -1 - \begin{bmatrix} 0 & 0 & 0 \end{bmatrix} \begin{bmatrix} 1 \\ -2 \\ 2 \end{bmatrix} = -1 \\
+\bar{c}_2 &= c_2 - \mb{c}_B^\top\mb{B}^{-1}\mb{A}_2 \\
+&= -2 - \begin{bmatrix} 0 & 0 & 0 \end{bmatrix} \begin{bmatrix} -1 \\ 1 \\ 1 \end{bmatrix} = -2
+\end{align*}
+
+\mysubsection{Objective Value}
+Using equation (4):
+\begin{align*}
+Z &= \mb{c}_B^\top\mb{B}^{-1}\mb{b} + \bar{\mb{c}}_N^\top\mb{x}_N \\
+&= \begin{bmatrix} 0 & 0 & 0 \end{bmatrix} \begin{bmatrix} 1 \\ 1 \\ 5 \end{bmatrix} + \begin{bmatrix} -1 & -2 \end{bmatrix} \begin{bmatrix} 0 \\ 0 \end{bmatrix} = 0
+\end{align*}
+
+\mysubsection{Optimality Test}
+Current solution NOT optimal since $\bar{c}_1 = -1 < 0$ and $\bar{c}_2 = -2 < 0$.
+
+By Bland's rule: choose smallest subscript among negative reduced costs. Choose $x_1$ to enter basis.
+
+\mysubsection{Direction Calculation}
+Using equation (6):
+\begin{align*}
+\mb{d}_B &= -\mb{B}^{-1}\mb{A}_1 \\
+&= -\begin{bmatrix} 1 & 0 & 0 \\ 0 & 1 & 0 \\ 0 & 0 & 1 \end{bmatrix} \begin{bmatrix} 1 \\ -2 \\ 2 \end{bmatrix} = \begin{bmatrix} -1 \\ 2 \\ -2 \end{bmatrix}
+\end{align*}
+
+Since $d_{B(2)} = 2 > 0$ and $d_{B(3)} = -2 < 0$, not unbounded.
+
+\mysubsection{Min-Ratio Test}
+\begin{align*}
+\theta^* &= \min_{i : d_{B(i)} < 0}\left\{\frac{x_{B(i)}}{-d_{B(i)}}\right\} \\
+&= \min\left\{\frac{x_3}{-d_{B(1)}}, \frac{x_5}{-d_{B(3)}}\right\} \\
+&= \min\left\{\frac{1}{1}, \frac{5}{2}\right\} \\
+&= \min\{1, 2.5\} = 1
+\end{align*}
+
+The basic variable $x_3$ exits the basis (smallest ratio).
+
+\end{multicols}
+
+\end{document}
