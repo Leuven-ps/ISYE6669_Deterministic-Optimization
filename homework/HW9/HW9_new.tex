@@ -1,0 +1,220 @@
+\documentclass[11pt]{article}
+%\parskip 1.0\parskip plus 3pt minus 1pt
+\renewcommand{\baselinestretch}{1.5}
+
+\setlength{\oddsidemargin}{-0.1in}
+\setlength{\evensidemargin}{-0.1in} 
+\setlength{\textwidth}{6.54in}
+\setlength{\topmargin}{0in} 
+\setlength{\textheight}{8.5in}
+%\setlength{\oddsidemargin}{0in}
+%\setlength{\evensidemargin}{0.15in} 
+%\setlength{\textwidth}{6.2in}
+%\setlength{\topmargin}{-0.3in} 
+%\setlength{\textheight}{8.9in}
+
+\linespread{1}
+
+\usepackage{makeidx}
+\usepackage{amsmath,amssymb, amsthm}
+\usepackage{latexsym,remreset}
+\usepackage[toc,page]{appendix}
+\usepackage{graphicx}
+\usepackage{multirow}
+\usepackage{bbm}
+\usepackage{bm}
+%\usepackage[pdftex]{graphicx} 
+
+\usepackage{url}
+%% Define a new 'leo' style for the package that will use a smaller font.
+\makeatletter
+\def\url@leostyle{%
+  \@ifundefined{selectfont}{\def\UrlFont{\sf}}{\def\UrlFont{\small\ttfamily}}}
+\makeatother
+%% Now actually use the newly defined style.
+\urlstyle{leo}
+
+\newtheorem{assumption}{Assumption}
+\newtheorem{definition}{Definition}
+\newtheorem{lemma}{Lemma}
+\newtheorem{proposition}{Proposition}
+\newtheorem{corollary}{Corollary}
+\newtheorem{remark}{Remark}
+\newtheorem{theorem}{Theorem}
+\newcommand{\mb}[1]{\ensuremath{\boldsymbol{#1}}}
+\newcommand{\vol}{{\sf volume}}
+\newcommand{\Stochb}{$\Pi_{\mathrm {Stoch}}(b)$}
+\newcommand{\tf}{\text{translation factor}}
+
+\def \A{\bm{A}}
+\def \b{\bm{b}}
+\def \c{\bm{c}}
+\def \x{\bm{x}}
+\def \0{\bm{0}}
+
+\title{ISyE6669-OAN Homework Week 9}
+\author{Fall 2025}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{enumerate}
+
+    \item Directly write down the dual linear programs of the following linear programs. You do not need to write down the Lagrangian relaxation procedure.
+    \begin{enumerate}
+        \item \begin{align*}
+                \max \quad & x + y + z \\
+                \text{s.t.}\quad & 10x - y + 5z \le 2, \\
+                & 2y - 3z = 3,\\
+                & x + y - 2z \ge -4,\\
+                & x\ge 0, y\le 0, z\, \text{free}.
+              \end{align*}
+    
+        \item \begin{align*}
+            \min \quad & \c^\top \x \\
+            \text{s.t.}\quad & \A\x \le \b, \\
+            & \x\ge \0.
+        \end{align*}
+    \end{enumerate}
+
+    % \item Give a concrete example of a primal minimization linear program involving only one variable $x$ and its dual linear program such that the primal problem is infeasible and the dual has unbounded optimum. You cannot use examples given in the lectures.
+    
+    \item Long John Jarvis discovered a vast treasure hidden on a deserted island. There was an unlimited amount of gold and silver coins, jewel-encrusted plates, and ivory statues, all of which were completely unguarded and could be taken at no risk. Unfortunately, Long Jong's ship had been sunk, and he only had a small rowboat to put his treasure. The rowboat could hold up to 400 pounds of treasure with a volume up to 500 cubic feet. The following table gives the value, size, and weight of each type of treasure:
+
+\begin{center}
+\begin{tabular}{cccc}
+\hline
+ & Unit Value (thousands of dollars) & Size (cubic feet) & Weight (pounds) \\
+\hline
+Gold coin & 4 & 2 & 3 \\
+Silver coin & 1 & 1  & 2 \\
+Jewel-encrusted plate & 3 & 3 & 1 \\
+Ivory Statue & 10 & 4 & 6 \\
+\hline
+\end{tabular}
+\end{center}
+
+
+Being a very worldly and intelligent pirate, Long John was familiar with the basic principles of linear programming. He came up with the following decision variables $x_1, x_2, x_3, x_4$ to be the numbers of gold coins, silver coins, jewel-encrusted plates, and ivory statues that he would take. Then, he set up the following LP to decide how much each treasure he should take in order to maximize his wealth. 
+\begin{align*}
+(P)\quad\max \quad & 4x_1 + x_2 + 3x_3 + 10x_4 \\
+\text{s.t.}\quad & 2x_1 + x_2 + 3x_3 + 4x_4 \leq 500\\
+			    & 3x_1 + 2x_2 + x_3 + 6x_4 \leq 400\\
+                       & x_1, x_2, x_3, x_4 \geq 0.
+\end{align*} 
+
+Because the rowboat's limits were merely estimations, Long John was not concerned with restricting his variables to be integers; he could just round up the solution to the nearest integers if necessary. 
+
+A much more important problem for Long John was that his laptop with python and gurobi was destroyed when his ship was sunk, so he could only solve LPs graphically by drawing on the sand with a stick. However, since his LP had four variables, it would require a 4-dimensional graph to solve, which was obviously impossible for Long John to draw.
+
+Not knowing how to solve his LP, Long John just grabbed as many ivory statues (66 statues) as he could and returned home with a wealth of \$660K. However, as a more advanced student of linear programming than Long John was, you can do better! Work through the following steps to retrieve more treasure!
+
+\begin{enumerate}
+\item Form the dual minimization problem of the above LP that Long John came up with. 
+%Think about how to construct the dual by using the logic of finding the best \textit{upper} bound to the primal maximization problem. Extra credit will be awarded if you can articulate the reasoning similar to the three examples shown in class.
+\item Use a computer program to draw the feasible region of your dual problem. Hopefully you don't need a 4-dimensional graph!
+\item Point out on the graph the optimal solution of the dual problem. Find out the numerical values of this optimal dual solution. Hint: You might need to solve a simple set of linear equations, which you can do by writing on the sand, but no need to run any simplex method. 
+\item What is the optimal objective value of the dual problem? So, how much more wealth can you get than Long John did? Notice that we haven't figured out the primal optimal solution yet. So continue.
+\item By just looking at the dual problem, decide which primal constraints must be active at the primal optimal solution. Hint: Look at which dual optimal variables are nonzero. Then use the Primal Complementary Slackness.
+\item By just looking at the dual problem, decide which primal variables of the optimal primal solution
+ must be zero. Hint: Look at which dual constraints are active, and which are not active at the dual optimal solution. Then, use the Dual Complementary Slackness.
+\item Now, find out the primal optimal solution. This again you can do by just writing on the sand. You can grab the treasure now!
+\end{enumerate}
+    
+\item Let $A$ be a $n \times n$ skew-symmetric matrix. Remember that a skew-symmetric matrix is a matrix which is equal to the negative of its transpose, i.e., $A = -A^{\top}$. (For example:  $\left[\begin{array}{ccc} 0 &2 &-7 \\ -2& 0 &-1\\ 7 &1 & 0\end{array}\right]$ is a $3 \times 3$ skew-symmetric matrix.) Consider the linear program:
+\begin{eqnarray}\label{eq:symlp}
+\begin{array}{rcl}
+&\textup{max}& c^{\top}x \\
+&\textup{s.t.}& Ax \leq -c \\
+&& x \geq 0.
+\end{array}
+\end{eqnarray}
+We will assume that the above problem is feasible and bounded. 
+\begin{enumerate}
+\item Write down the dual LP of the above LP (\ref{eq:symlp}).
+\item Show that the feasible region of the primal LP and the dual LP is exactly the same, that is show that (a) if $x^*$ is a feasible solution of the primal LP, it is also a solution of the dual LP, and (b) if $y^*$ is a solution of the dual LP it is also a solution of the primal LP.  [Note: This is a very rare property which is occurring due to the special-structure of the above LP. Typical LPs will never have this property.]
+\item Show that the optimal objective function value of this problem is $0$. [Hint: use result of above question, structure of the objective function of the dual, and strong duality result.]
+%\item Let $w$ be a n-dimensional vector satisfying $w \geq 0$ and $Aw = c$.  Is $w$ a feasible solution for the above LP (\ref{eq:symlp})? If $w$ is feasible for (\ref{eq:symlp}), then what is the objective value of the point $w$ for the LP (\ref{eq:symlp})?
+%\item Is $w$ a feasible solution for the dual LP of the above LP? If $w$ is feasible for the dual LP, then what is the objective value of the point $w$ for the dual LP?
+%\item Now  argue that $w$ is an optimal solution for (\ref{eq:symlp}). [Hint: use the results of the above two questions]
+\end{enumerate}
+%    \item Consider the following robust linear constraint
+%\begin{align}
+%a_1 x_1 + a_2 x_2 \ge 1, \quad \forall \mb{a}\in\mathcal{U}, \label{eq:robconstr}
+%\end{align}
+%where $\mb{a}=(a_1,a_2)^\top$ and $\mathcal{U}$ is the following uncertainty set
+%\begin{align}
+%\mathcal{U} = \{\mb{a}\in\mathbb{R}^2 : |a_1-1|+|a_2-2|\le 1\}.\label{eq:uncerset}
+%\end{align}
+%This uncertainty set describes a region where $a_1$ and $a_2$ can deviate from their nominal values $\bar{a}_1=1$ and $\bar{a}_2 = 2$, and the total absolute deviation is upper bounded by $3$. Answer the following questions.
+%\begin{enumerate}
+%    \item Plot the uncertainty set $\mathcal{U}$.
+%	\item If $a_1$ and $a_2$ take their nominal values, namely $a_1 = 1$ and $a_2 = 2$, then the deterministic linear constraint $x_1 + 2x_2 \ge 1$ describes a half space, which contains the point $(x_1, x_2)=(-1, 1)$. Does this point $(x_1, x_2)=(-1, 1)$ also satisfy the robust linear constraint \eqref{eq:robconstr}-\eqref{eq:uncerset}? Explain your answer.
+%	
+%	\item Reformulate the above robust linear constraint as a finite set of deterministic linear constraints. You may need to introduce additional variables in the reformulation.
+%	
+%	\item Plot the feasible region of the robust linear constraint \eqref{eq:robconstr}-\eqref{eq:uncerset} in the space of $(x_1,x_2)$. In order to do this, you can transform the reformulation in (c) to an equivalent one that only involves variables $x_1, x_2$, then plot these inequalities in $(x_1, x_2)$. Alternatively, since the robust linear constraint is equivalent to the conjunction of infinitely many deterministic linear constraints, the feasible region of the robust linear constraint is the intersection of all these halfspaces. Try if you can find this intersection by plotting many halfspaces. 
+%\end{enumerate}
+
+\item You manage the operations of a tea company. Your company purchases 5 raw ingredients: green tea, black tea, jasmine,  citrus peel, spices, and then blends them in various ratios to produce 3 different blended teas which are then sold.   
+
+\begin{enumerate}
+\item The proportion of raw ingredients in the 3 blended teas are, by weight:
+\begin{table}[htp]
+\caption{Blend compositions (proportion by weight)}
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+& Green tea & Black Tea & Jasmine & Citrus peel & Spices \\
+\hline 
+Blend 1 & 70\% & 0\% & 30\% & 0\%& 0\%\\ 
+\hline 
+Blend 2 &0\%  & 80\%& 0\%& 20\% &0\% \\ 
+\hline
+Blend 3 &  0\%& 80\%& 10\% &0\% & 10\% \\ 
+\hline
+\end{tabular}
+\end{center}
+\label{BlendCompositions}
+\end{table}%
+
+\item The raw ingredients can be purchased every month. The cost (per lb) of purchasing the raw ingredient in the next 6 months are:
+\begin{table}[htp]
+\caption{Costs of raw ingredients (per lb)}
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|c|}
+\hline
+ & Month 1 & Month 2 & Month 3 & Month 4 & Month 5 & Month 6 \\
+\hline
+Green tea & \$2 &\$3  &\$5  &\$4  &\$3 & \$2\\
+\hline 
+Black Tea  & \$3  & \$2 & \$3 & \$3& \$4 & \$4\\ 
+\hline 
+Jasmine & \$1 &\$1 &\$1 &\$2 & \$1& \$1\\ 
+\hline
+Citrus peel & \$1 &\$1 & \$1& \$1& \$1&\$1 \\ 
+\hline
+Spices & \$4 & \$5 & \$6 & \$7 &\$5 & \$4 \\
+\hline 
+\end{tabular}
+\end{center}
+\label{Costs}
+\end{table}%
+
+\item The production of the three blends can be done every month. The cost of production is \$2 per  lb, independent of blend type or month of production. The selling price (per lb) of the three blends are: Blend 1: \$20, Blend 2: \$19, Blend 3: \$23. These selling prices are the same each month. 
+ 
+\item The demand for blended tea of \underline{all three types put together} 
+%(i.e., the total lbs of blended tea required to be sold) 
+for the next six months is: 200, 250, 300, 200, 250, 200 lbs. These demands must be met exactly. Also based on market survey, at least $30\%$ of the tea sold each month must be Blend 1, at least $30\%$ of tea sold each month must be Blend 2, and at least $20\%$ of tea sold each month must be Blend 3. [Example: For the first month,
+%The following choice of sold tea: 
+60 lbs of Blend 1, 60 lbs of Blend 2, and 80 lbs of Blend 3 is feasible, since then it satisfies exactly the total tea demand of month 1 ($60 + 60 + 80 = 200$ lbs), and percentage of Blend 1 is 30\% ($\geq 30\%$), percentage of Blend 2 is 30\% ($\geq 30\%$), and percentage of Blend 3 is \%40 ($\geq 20\%$).]
+
+\item Note that an inventory of both raw ingredients and the three blends can be maintained. There is no cost of storing inventory. Initial inventories of both raw ingredients and tea blends are zero. There should be no inventories of raw ingredients and tea blends at the end of six month. 
+\end{enumerate}
+Write an LP formulation to maximize profit [selling price - (production cost + purchasing cost)], that determines the amount of each of the raw ingredients to be purchased per month and the amount of different blends sold every month.
+
+
+\end{enumerate}
+
+\end{document}

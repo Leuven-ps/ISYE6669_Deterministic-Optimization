@@ -1,0 +1,412 @@
+\documentclass[11pt]{article}
+%\parskip 1.0\parskip plus 3pt minus 1pt
+\renewcommand{\baselinestretch}{1.5}
+
+\setlength{\oddsidemargin}{-0.1in}
+\setlength{\evensidemargin}{-0.1in} 
+\setlength{\textwidth}{6.54in}
+\setlength{\topmargin}{0in} 
+\setlength{\textheight}{8.5in}
+
+\linespread{1}
+
+\usepackage{makeidx}
+\usepackage{amsmath,amssymb, amsthm}
+\usepackage{latexsym,remreset}
+\usepackage[toc,page]{appendix}
+\usepackage{graphicx}
+\usepackage{multirow}
+\usepackage{bbm}
+\usepackage{bm}
+
+\usepackage{url}
+%% Define a new 'leo' style for the package that will use a smaller font.
+\makeatletter
+\def\url@leostyle{%
+  \@ifundefined{selectfont}{\def\UrlFont{\sf}}{\def\UrlFont{\small\ttfamily}}}
+\makeatother
+%% Now actually use the newly defined style.
+\urlstyle{leo}
+
+\newtheorem{assumption}{Assumption}
+\newtheorem{definition}{Definition}
+\newtheorem{lemma}{Lemma}
+\newtheorem{proposition}{Proposition}
+\newtheorem{corollary}{Corollary}
+\newtheorem{remark}{Remark}
+\newtheorem{theorem}{Theorem}
+\newcommand{\mb}[1]{\ensuremath{\boldsymbol{#1}}}
+\newcommand{\vol}{{\sf volume}}
+\newcommand{\Stochb}{$\Pi_{\mathrm {Stoch}}(b)$}
+\newcommand{\tf}{\text{translation factor}}
+
+\def \A{\bm{A}}
+\def \b{\bm{b}}
+\def \c{\bm{c}}
+\def \x{\bm{x}}
+\def \0{\bm{0}}
+
+\title{ISyE6669-OAN Homework Week 9\\
+Fall 2025}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{enumerate}
+
+    \item Directly write down the dual linear programs of the following linear programs. You do not need to write down the Lagrangian relaxation procedure.
+    \begin{enumerate}
+        \item \begin{align*}
+                \max \quad & x + y + z \\
+                \text{s.t.}\quad & 10x - y + 5z \le 2, \\
+                & 2y - 3z = 3,\\
+                & x + y - 2z \ge -4,\\
+                & x\ge 0, y\le 0.
+              \end{align*}
+    
+        \item \begin{align*}
+            \min \quad & \c^\top \x \\
+            \text{s.t.}\quad & \A\x \le \b, \\
+            & \x\ge \0.
+        \end{align*}
+    \end{enumerate}
+
+    \textbf{Solution:}
+    
+    \begin{enumerate}
+        \item For the primal problem:
+              \begin{align*}
+                \max \quad & x + y + z \\
+                \text{s.t.}\quad & 10x - y + 5z \le 2, \\
+                & 2y - 3z = 3,\\
+                & x + y - 2z \ge -4,\\
+                & x\ge 0, y\le 0.
+              \end{align*}
+              
+              The dual is:
+              \begin{align*}
+                \min \quad & 2u_1 + 3u_2 - 4u_3 \\
+                \text{s.t.}\quad & 10u_1 + u_3 \ge 1, \\
+                & -u_1 + 2u_2 + u_3 \le 1,\\
+                & 5u_1 - 3u_2 - 2u_3 = 1,\\
+                & u_1 \ge 0, u_3 \le 0, u_2 \text{ free}.
+              \end{align*}
+    
+        \item For the standard form:
+              \begin{align*}
+                \min \quad & \c^\top \x \\
+                \text{s.t.}\quad & \A\x \le \b, \\
+                & \x\ge \0.
+              \end{align*}
+              
+              The dual is:
+              \begin{align*}
+                \max \quad & \b^\top \bm{y} \\
+                \text{s.t.}\quad & \A^\top \bm{y} \ge \c, \\
+                & \bm{y} \ge \0.
+              \end{align*}
+    \end{enumerate}
+
+    \item Long John Jarvis discovered a vast treasure hidden on a deserted island. There was an unlimited amount of gold and silver coins, jewel-encrusted plates, and ivory statues, all of which were completely unguarded and could be taken at no risk. Unfortunately, Long Jong's ship had been sunk, and he only had a small rowboat to put his treasure. The rowboat could hold up to 400 pounds of treasure with a volume up to 500 cubic feet. The following table gives the value, size, and weight of each type of treasure:
+
+\begin{center}
+\begin{tabular}{cccc}
+\hline
+ & Unit Value (thousands of dollars) & Size (cubic feet) & Weight (pounds) \\
+\hline
+Gold coin & 4 & 2 & 3 \\
+Silver coin & 1 & 1  & 2 \\
+Jewel-encrusted plate & 3 & 3 & 1 \\
+Ivory Statue & 10 & 4 & 6 \\
+\hline
+\end{tabular}
+\end{center}
+
+
+Being a very worldly and intelligent pirate, Long John was familiar with the basic principles of linear programming. He came up with the following decision variables $x_1, x_2, x_3, x_4$ to be the numbers of gold coins, silver coins, jewel-encrusted plates, and ivory statues that he would take. Then, he set up the following LP to decide how much each treasure he should take in order to maximize his wealth. 
+\begin{align*}
+(P)\quad\max \quad & 4x_1 + x_2 + 3x_3 + 10x_4 \\
+\text{s.t.}\quad & 2x_1 + x_2 + 3x_3 + 4x_4 \leq 500\\
+		    & 3x_1 + 2x_2 + x_3 + 6x_4 \leq 400\\
+                       & x_1, x_2, x_3, x_4 \geq 0.
+\end{align*} 
+
+Because the rowboat's limits were merely estimations, Long John was not concerned with restricting his variables to be integers; he could just round up the solution to the nearest integers if necessary. 
+
+A much more important problem for Long John was that his laptop with python and gurobi was destroyed when his ship was sunk, so he could only solve LPs graphically by drawing on the sand with a stick. However, since his LP had four variables, it would require a 4-dimensional graph to solve, which was obviously impossible for Long John to draw.
+
+Not knowing how to solve his LP, Long John just grabbed as many ivory statues (66 statues) as he could and returned home with a wealth of \$660K. However, as a more advanced student of linear programming than Long John was, you can do better! Work through the following steps to retrieve more treasure!
+
+\begin{enumerate}
+\item Form the dual minimization problem of the above LP that Long John came up with. 
+%Think about how to construct the dual by using the logic of finding the best \textit{upper} bound to the primal maximization problem. Extra credit will be awarded if you can articulate the reasoning similar to the three examples shown in class.
+\item Use a computer program to draw the feasible region of your dual problem. Hopefully you don't need a 4-dimensional graph!
+\item Point out on the graph the optimal solution of the dual problem. Find out the numerical values of this optimal dual solution. Hint: You might need to solve a simple set of linear equations, which you can do by writing on the sand, but no need to run any simplex method. 
+\item What is the optimal objective value of the dual problem? So, how much more wealth can you get than Long John did? Notice that we haven't figured out the primal optimal solution yet. So continue.
+\item By just looking at the dual problem, decide which primal constraints must be active at the primal optimal solution. Hint: Look at which dual optimal variables are nonzero. Then use the Primal Complementary Slackness.
+\item By just looking at the dual problem, decide which primal variables of the optimal primal solution
+ must be zero. Hint: Look at which dual constraints are active, and which are not active at the dual optimal solution. Then, use the Dual Complementary Slackness.
+\item Now, find out the primal optimal solution. This again you can do by just writing on the sand. You can grab the treasure now!
+\end{enumerate}
+
+    \textbf{Solution:}
+    
+    \begin{enumerate}
+        \item The dual minimization problem of the primal LP is:
+              \begin{align*}
+              (D)\quad\min \quad & 500y_1 + 400y_2 \\
+              \text{s.t.}\quad & 2y_1 + 3y_2 \ge 4 \\
+              & y_1 + 2y_2 \ge 1 \\
+              & 3y_1 + y_2 \ge 3 \\
+              & 4y_1 + 6y_2 \ge 10 \\
+              & y_1, y_2 \ge 0.
+              \end{align*}
+
+        \item The feasible region is bounded by the four constraints and $y_1, y_2 \ge 0$. This is a 2D region that can be plotted.
+
+        \item To find the optimal solution, we need to check the vertices of the feasible region:
+              - Intersection of $2y_1 + 3y_2 = 4$ and $4y_1 + 6y_2 = 10$: These are parallel, so no unique intersection.
+              - Intersection of $2y_1 + 3y_2 = 4$ and $3y_1 + y_2 = 3$: 
+                From the second: $y_2 = 3 - 3y_1$
+                Substituting: $2y_1 + 3(3 - 3y_1) = 4 \Rightarrow 2y_1 + 9 - 9y_1 = 4 \Rightarrow -7y_1 = -5 \Rightarrow y_1 = \frac{5}{7}$
+                $y_2 = 3 - 3(\frac{5}{7}) = 3 - \frac{15}{7} = \frac{6}{7}$
+                Point: $(\frac{5}{7}, \frac{6}{7})$, objective: $500(\frac{5}{7}) + 400(\frac{6}{7}) = \frac{2500 + 2400}{7} = 700$
+              
+              - Intersection of $3y_1 + y_2 = 3$ and $4y_1 + 6y_2 = 10$:
+                From the first: $y_2 = 3 - 3y_1$
+                Substituting: $4y_1 + 6(3 - 3y_1) = 10 \Rightarrow 4y_1 + 18 - 18y_1 = 10 \Rightarrow -14y_1 = -8 \Rightarrow y_1 = \frac{4}{7}$
+                $y_2 = 3 - 3(\frac{4}{7}) = 3 - \frac{12}{7} = \frac{9}{7}$
+                Point: $(\frac{4}{7}, \frac{9}{7})$, objective: $500(\frac{4}{7}) + 400(\frac{9}{7}) = \frac{2000 + 3600}{7} = 800$
+
+              The optimal solution is $(y_1^*, y_2^*) = (\frac{4}{7}, \frac{9}{7})$.
+
+        \item The optimal objective value is $800$. Long John got $\$660K$, so we can get $\$800K - \$660K = \$140K$ more.
+
+        \item From dual complementary slackness, since $y_1^* > 0$ and $y_2^* > 0$, the corresponding primal constraints must be active:
+              - $2x_1 + x_2 + 3x_3 + 4x_4 = 500$ (volume constraint)
+              - $3x_1 + 2x_2 + x_3 + 6x_4 = 400$ (weight constraint)
+
+        \item From dual complementary slackness, we check which dual constraints are active:
+              - $2y_1 + 3y_2 = 2(\frac{4}{7}) + 3(\frac{9}{7}) = \frac{8 + 27}{7} = 5 > 4$ (not active, so $x_1 = 0$)
+              - $y_1 + 2y_2 = \frac{4}{7} + 2(\frac{9}{7}) = \frac{4 + 18}{7} = \frac{22}{7} > 1$ (not active, so $x_2 = 0$)
+              - $3y_1 + y_2 = 3(\frac{4}{7}) + \frac{9}{7} = \frac{12 + 9}{7} = 3$ (active)
+              - $4y_1 + 6y_2 = 4(\frac{4}{7}) + 6(\frac{9}{7}) = \frac{16 + 54}{7} = 10$ (active)
+              
+              So $x_1 = x_2 = 0$, and $x_3, x_4 > 0$.
+
+        \item With $x_1 = x_2 = 0$ and the active constraints:
+              \begin{align*}
+              3x_3 + 4x_4 &= 500 \\
+              x_3 + 6x_4 &= 400
+              \end{align*}
+              
+              From the second equation: $x_3 = 400 - 6x_4$
+              Substituting: $3(400 - 6x_4) + 4x_4 = 500 \Rightarrow 1200 - 18x_4 + 4x_4 = 500 \Rightarrow -14x_4 = -700 \Rightarrow x_4 = 50$
+              $x_3 = 400 - 6(50) = 400 - 300 = 100$
+              
+              Optimal solution: $(x_1^*, x_2^*, x_3^*, x_4^*) = (0, 0, 100, 50)$
+              
+              Optimal value: $4(0) + 1(0) + 3(100) + 10(50) = 300 + 500 = 800$ thousand dollars.
+    \end{enumerate}
+
+    \item Let $A$ be a $n \times n$ skew-symmetric matrix. Remember that a skew-symmetric matrix is a matrix which is equal to the negative of its transpose, i.e., $A = -A^{\top}$. (For example:  $\left[\begin{array}{ccc} 0 &2 &-7 \\ -2& 0 &-1\\ 7 &1 & 0\end{array}\right]$ is a $3 \times 3$ skew-symmetric matrix.) Consider the linear program:
+\begin{eqnarray}\label{eq:symlp}
+\begin{array}{rcl}
+&\textup{max}& c^{\top}x \\
+&\textup{s.t.}& Ax \leq -c \\
+&& x \geq 0.
+\end{array}
+\end{eqnarray}
+We will assume that the above problem is feasible and bounded. 
+\begin{enumerate}
+\item Write down the dual LP of the above LP (\ref{eq:symlp}).
+\item Show that the feasible region of the primal LP and the dual LP is exactly the same, that is show that (a) if $x^*$ is a feasible solution of the primal LP, it is also a solution of the dual LP, and (b) if $y^*$ is a solution of the dual LP it is also a solution of the primal LP.  [Note: This is a very rare property which is occurring due to the special-structure of the above LP. Typical LPs will never have this property.]
+\item Show that the optimal objective function value of this problem is $0$. [Hint: use result of above question, structure of the objective function of the dual, and strong duality result.]
+%\item Let $w$ be a n-dimensional vector satisfying $w \geq 0$ and $Aw = c$.  Is $w$ a feasible solution for the above LP (\ref{eq:symlp})? If $w$ is feasible for (\ref{eq:symlp}), then what is the objective value of the point $w$ for the LP (\ref{eq:symlp})?
+%\item Is $w$ a feasible solution for the dual LP of the above LP? If $w$ is feasible for the dual LP, then what is the objective value of the point $w$ for the dual LP?
+%\item Now  argue that $w$ is an optimal solution for (\ref{eq:symlp}). [Hint: use the results of the above two questions]
+\end{enumerate}
+
+    \textbf{Solution:}
+    
+    \begin{enumerate}
+        \item The dual LP of the given problem is:
+              \begin{align*}
+              \min \quad & (-c)^\top y \\
+              \text{s.t.}\quad & A^\top y \ge c \\
+              & y \ge 0
+              \end{align*}
+              
+              Which simplifies to:
+              \begin{align*}
+              \min \quad & -c^\top y \\
+              \text{s.t.}\quad & A^\top y \ge c \\
+              & y \ge 0
+              \end{align*}
+
+        \item Since $A$ is skew-symmetric, $A = -A^\top$, so $A^\top = -A$.
+              
+              (a) If $x^*$ is feasible for the primal: $Ax^* \le -c$ and $x^* \ge 0$.
+              For the dual, we need $A^\top x^* \ge c$ and $x^* \ge 0$.
+              Since $A^\top = -A$, we have $-Ax^* \ge c$, which gives $Ax^* \le -c$. This is exactly the primal constraint, so $x^*$ is feasible for the dual.
+              
+              (b) Similarly, if $y^*$ is feasible for the dual: $A^\top y^* \ge c$ and $y^* \ge 0$.
+              This gives $-Ay^* \ge c$, so $Ay^* \le -c$, making $y^*$ feasible for the primal.
+
+        \item Since the feasible regions are the same, any feasible point $x$ satisfies both primal and dual constraints.
+              
+              The primal objective is $c^\top x$ and the dual objective is $-c^\top x$.
+              
+              By strong duality, if both problems are feasible and bounded, then the optimal values are equal:
+              $c^\top x^* = -c^\top x^*$
+              
+              This implies $2c^\top x^* = 0$, so $c^\top x^* = 0$.
+              
+              Therefore, the optimal objective value is $0$.
+    \end{enumerate}
+
+    \item You manage the operations of a tea company. Your company purchases 5 raw ingredients: green tea, black tea, jasmine,  citrus peel, spices, and then blends them in various ratios to produce 3 different blended teas which are then sold.   
+
+\begin{enumerate}
+\item The proportion of raw ingredients in the 3 blended teas are, by weight:
+\begin{table}[htp]
+\caption{Blend compositions (proportion by weight)}
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+& Green tea & Black Tea & Jasmine & Citrus peel & Spices \\
+\hline 
+Blend 1 & 70\% & 0\% & 30\% & 0\%& 0\%\\ 
+\hline 
+Blend 2 &0\%  & 80\%& 0\%& 20\% &0\% \\ 
+\hline
+Blend 3 &  0\%& 80\%& 10\% &0\% & 10\% \\ 
+\hline
+\end{tabular}
+\end{center}
+\label{BlendCompositions}
+\end{table}%
+
+\item The raw ingredients can be purchased every month. The cost (per lb) of purchasing the raw ingredient in the next 6 months are:
+\begin{table}[htp]
+\caption{Costs of raw ingredients (per lb)}
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|c|}
+\hline
+ & Month 1 & Month 2 & Month 3 & Month 4 & Month 5 & Month 6 \\
+\hline
+Green tea & \$2 &\$3  &\$5  &\$4  &\$3 & \$2\\
+\hline 
+Black Tea  & \$3  & \$2 & \$3 & \$3& \$4 & \$4\\ 
+\hline 
+Jasmine & \$1 &\$1 &\$1 &\$2 & \$1& \$1\\ 
+\hline
+Citrus peel & \$1 &\$1 & \$1& \$1& \$1&\$1 \\ 
+\hline
+Spices & \$4 & \$5 & \$6 & \$7 &\$5 & \$4 \\
+\hline 
+\end{tabular}
+\end{center}
+\label{Costs}
+\end{table}%
+
+\item The production of the three blends can be done every month. The cost of production is \$2 per  lb, independent of blend type or month of production. The selling price (per lb) of the three blends are: Blend 1: \$20, Blend 2: \$19, Blend 3: \$23. These selling prices are the same each month. 
+ 
+\item The demand for blended tea of \underline{all three types put together} 
+%(i.e., the total lbs of blended tea required to be sold) 
+for the next six months is: 200, 250, 300, 200, 250, 200 lbs. These demands must be met exactly. Also based on market survey, at least $30\%$ of the tea sold each month must be Blend 1, at least $30\%$ of tea sold each month must be Blend 2, and at least $20\%$ of tea sold each month must be Blend 3. [Example: For the first month,
+%The following choice of sold tea: 
+60 lbs of Blend 1, 60 lbs of Blend 2, and 80 lbs of Blend 3 is feasible, since then it satisfies exactly the total tea demand of month 1 ($60 + 60 + 80 = 200$ lbs), and percentage of Blend 1 is 30\% ($\geq 30\%$), percentage of Blend 2 is 30\% ($\geq 30\%$), and percentage of Blend 3 is \%40 ($\geq 20\%$).]
+
+\item Note that an inventory of both raw ingredients and the three blends can be maintained. There is no cost of storing inventory. Initial inventories of both raw ingredients and tea blends are zero. There should be no inventories of raw ingredients and tea blends at the end of six month. 
+\end{enumerate}
+Write an LP formulation to maximize profit [selling price - (production cost + purchasing cost)], that determines the amount of each of the raw ingredients to be purchased per month and the amount of different blends sold every month.
+
+    \textbf{Solution:}
+    
+    Let's define decision variables:
+    \begin{itemize}
+    \item $p_{it}$ = pounds of raw ingredient $i$ purchased in month $t$ (for $i = 1,2,3,4,5$ and $t = 1,2,3,4,5,6$)
+    \item $s_{jt}$ = pounds of blend $j$ sold in month $t$ (for $j = 1,2,3$ and $t = 1,2,3,4,5,6$)
+    \item $I_{it}$ = inventory of raw ingredient $i$ at end of month $t$
+    \item $B_{jt}$ = inventory of blend $j$ at end of month $t$
+    \item $m_{jt}$ = pounds of blend $j$ produced in month $t$
+    \end{itemize}
+    
+    \textbf{Objective Function:}
+    Maximize total profit = Revenue - Production costs - Purchasing costs
+    \begin{align*}
+    \max \quad & \sum_{j=1}^{3} \sum_{t=1}^{6} (\text{price}_j \cdot s_{jt}) - \sum_{j=1}^{3} \sum_{t=1}^{6} (2 \cdot m_{jt}) - \sum_{i=1}^{5} \sum_{t=1}^{6} (\text{cost}_{it} \cdot p_{it})
+    \end{align*}
+    
+    Where price$_1 = 20$, price$_2 = 19$, price$_3 = 23$, and cost$_{it}$ are given in the table.
+    
+    \textbf{Constraints:}
+    
+    1. \textbf{Demand constraints} (must be met exactly):
+    \begin{align*}
+    s_{1t} + s_{2t} + s_{3t} &= D_t \quad \forall t = 1,2,3,4,5,6
+    \end{align*}
+    where $D = [200, 250, 300, 200, 250, 200]$
+    
+    2. \textbf{Minimum percentage constraints:}
+    \begin{align*}
+    s_{1t} &\ge 0.3 \cdot D_t \quad \forall t \\
+    s_{2t} &\ge 0.3 \cdot D_t \quad \forall t \\
+    s_{3t} &\ge 0.2 \cdot D_t \quad \forall t
+    \end{align*}
+    
+    3. \textbf{Raw ingredient inventory balance:}
+    \begin{align*}
+    I_{it} &= I_{i,t-1} + p_{it} - \text{(amount used for production in month t)} \quad \forall i,t \\
+    I_{i0} &= 0 \quad \forall i \\
+    I_{i6} &= 0 \quad \forall i
+    \end{align*}
+    
+    4. \textbf{Blend inventory balance:}
+    \begin{align*}
+    B_{jt} &= B_{j,t-1} + m_{jt} - s_{jt} \quad \forall j,t \\
+    B_{j0} &= 0 \quad \forall j \\
+    B_{j6} &= 0 \quad \forall j
+    \end{align*}
+    
+    5. \textbf{Production constraints} (based on blend compositions):
+    
+    For Blend 1 production in month $t$:
+    \begin{align*}
+    \text{Green tea used} &= 0.7 \cdot m_{1t} \\
+    \text{Jasmine used} &= 0.3 \cdot m_{1t}
+    \end{align*}
+    
+    For Blend 2 production in month $t$:
+    \begin{align*}
+    \text{Black tea used} &= 0.8 \cdot m_{2t} \\
+    \text{Citrus peel used} &= 0.2 \cdot m_{2t}
+    \end{align*}
+    
+    For Blend 3 production in month $t$:
+    \begin{align*}
+    \text{Black tea used} &= 0.8 \cdot m_{3t} \\
+    \text{Jasmine used} &= 0.1 \cdot m_{3t} \\
+    \text{Spices used} &= 0.1 \cdot m_{3t}
+    \end{align*}
+    
+    Total usage constraints:
+    \begin{align*}
+    I_{1,t-1} + p_{1t} - I_{1t} &= 0.7m_{1t} \quad \text{(Green tea)} \\
+    I_{2,t-1} + p_{2t} - I_{2t} &= 0.8m_{2t} + 0.8m_{3t} \quad \text{(Black tea)} \\
+    I_{3,t-1} + p_{3t} - I_{3t} &= 0.3m_{1t} + 0.1m_{3t} \quad \text{(Jasmine)} \\
+    I_{4,t-1} + p_{4t} - I_{4t} &= 0.2m_{2t} \quad \text{(Citrus peel)} \\
+    I_{5,t-1} + p_{5t} - I_{5t} &= 0.1m_{3t} \quad \text{(Spices)}
+    \end{align*}
+    
+    6. \textbf{Non-negativity constraints:}
+    \begin{align*}
+    p_{it}, s_{jt}, I_{it}, B_{jt}, m_{jt} &\ge 0 \quad \forall i,j,t
+    \end{align*}
+
+\end{enumerate}
+
+\end{document}
