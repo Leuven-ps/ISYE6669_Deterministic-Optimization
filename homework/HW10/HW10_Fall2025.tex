@@ -1,0 +1,394 @@
+\documentclass[11pt]{article}
+%\parskip 1.0\parskip plus 3pt minus 1pt
+\renewcommand{\baselinestretch}{1.5}
+
+\setlength{\oddsidemargin}{-0.1in}
+\setlength{\evensidemargin}{-0.1in} 
+\setlength{\textwidth}{6.54in}
+\setlength{\topmargin}{0in} 
+\setlength{\textheight}{8.5in}
+%\setlength{\oddsidemargin}{0in}
+%\setlength{\evensidemargin}{0.15in} 
+%\setlength{\textwidth}{6.2in}
+%\setlength{\topmargin}{-0.3in} 
+%\setlength{\textheight}{8.9in}
+
+\linespread{1}
+
+\usepackage{makeidx}
+\usepackage{amsmath,amssymb, amsthm}
+\usepackage{latexsym,remreset}
+\usepackage[toc,page]{appendix}
+\usepackage{graphicx}
+\usepackage{multirow}
+\usepackage{bbm}
+%\usepackage[pdftex]{graphicx} 
+\usepackage[usenames]{color}
+
+
+
+\usepackage{url}
+%% Define a new 'leo' style for the package that will use a smaller font.
+\makeatletter
+\def\url@leostyle{%
+  \@ifundefined{selectfont}{\def\UrlFont{\sf}}{\def\UrlFont{\small\ttfamily}}}
+\makeatother
+%% Now actually use the newly defined style.
+\urlstyle{leo}
+
+\newtheorem{assumption}{Assumption}
+\newtheorem{definition}{Definition}
+\newtheorem{lemma}{Lemma}
+\newtheorem{proposition}{Proposition}
+\newtheorem{corollary}{Corollary}
+\newtheorem{remark}{Remark}
+\newtheorem{theorem}{Theorem}
+\newcommand{\mb}[1]{\ensuremath{\boldsymbol{#1}}}
+\newcommand{\vol}{{\sf volume}}
+\newcommand{\Stochb}{$\Pi_{\mathrm {Stoch}}(b)$}
+\newcommand{\tf}{\text{translation factor}}
+
+
+\title{ISyE6669-OAN Homework Week 10}
+\author{Fall 2025}
+\date{}
+
+\begin{document}
+
+\maketitle
+\begin{enumerate}
+
+
+\item In this problem, we want to walk you through the column generation algorithm to solve the cutting stock problem. Consider the following formulation
+
+\begin{align*}
+\min \quad & \sum_{j=1}^n x_i \\
+\text{s.t.}\quad & \sum_{j=1}^N \mb{A}_j x_j = \mb{b} \\
+& x_j \geq 0, \qquad \forall j=1,\dots, N.
+\end{align*}
+
+The problem has the following data. Customers need three types of smaller widths: $w_1 = 20, w_2 = 35, w_3 = 45$ with quantities $b_1 = 25, b_2 = 15, b_3 = 10$. The width of a big roll is $W = 100$. 
+\begin{enumerate}
+%\item Write down the restricted master problem, assuming you have picked a subset $I$ of initial patterns. 
+\item Assume the column generation algorithm starts from the following initial patterns:
+\begin{align*}
+\mb{A}_1 = \begin{bmatrix} 5 \\ 0 \\ 0\end{bmatrix}, \mb{A}_2 = \begin{bmatrix} 0 \\ 2 \\ 0\end{bmatrix}, \mb{A}_3 = \begin{bmatrix} 0 \\ 0 \\2\end{bmatrix}.
+\end{align*}
+Write down the restricted master problem (RMP) using these patterns. Solve this RMP by hand. Find the optimal basis $\mb{B}$ and its inverse $\mb{B}^{-1}$. Find the optimal dual solution $\hat{\mb{y}}^\top=\mb{c}_B^\top\mb{B}^{-1}$.
+
+\textbf{Solution:}
+
+The restricted master problem (RMP) is:
+\begin{align*}
+\min \quad & x_1 + x_2 + x_3 \\
+\text{s.t.}\quad & 5x_1 + 0x_2 + 0x_3 = 25 \\
+& 0x_1 + 2x_2 + 0x_3 = 15 \\
+& 0x_1 + 0x_2 + 2x_3 = 10 \\
+& x_1, x_2, x_3 \geq 0
+\end{align*}
+
+Solving by hand:
+\begin{align*}
+x_1 &= \frac{25}{5} = 5 \\
+x_2 &= \frac{15}{2} = 7.5 \\
+x_3 &= \frac{10}{2} = 5
+\end{align*}
+
+Since we have 3 variables and 3 constraints, all variables are basic variables. Therefore, the optimal basis matrix $\mb{B}$ is:
+$$\mb{B} = \begin{bmatrix} 5 & 0 & 0 \\ 0 & 2 & 0 \\ 0 & 0 & 2 \end{bmatrix}$$
+
+The inverse of the basis matrix $\mb{B}^{-1}$ is:
+$$\mb{B}^{-1} = \begin{bmatrix} \frac{1}{5} & 0 & 0 \\ 0 & \frac{1}{2} & 0 \\ 0 & 0 & \frac{1}{2} \end{bmatrix}$$
+
+The optimal dual solution is:
+$$\hat{\mb{y}}^\top = \mb{c}_B^\top\mb{B}^{-1} = \begin{bmatrix} 1 & 1 & 1 \end{bmatrix} \begin{bmatrix} \frac{1}{5} & 0 & 0 \\ 0 & \frac{1}{2} & 0 \\ 0 & 0 & \frac{1}{2} \end{bmatrix} = \begin{bmatrix} \frac{1}{5} & \frac{1}{2} & \frac{1}{2} \end{bmatrix}$$
+
+Therefore, $\hat{\mb{y}} = \begin{bmatrix} 0.2 & 0.5 & 0.5 \end{bmatrix}^\top$.
+
+
+\item Solve RMP in Python CVX. Write down the optimal solution, the optimal basis
+$\mb{B}$, and its inverse $\mb{B}^{-1}$. Find the optimal dual solution $\hat{\mb{y}}^\top=\mb{c}_B^\top\mb{B}^{-1}$. To take the inverse
+of $\mb{B}$, you can use a calculator or computer program. In this iteration, you should be able to solve this LP by hand. But we ask you to set up the code in CVX and solve it using CVX. This code will be used in later iterations.
+
+\textbf{Solution:}
+
+The CVXPy implementation for solving the RMP is as follows:
+
+\begin{verbatim}
+import cvxpy as cp
+import numpy as np
+
+def solve_rmp(patterns, demands):
+    # Create variables
+    n_patterns = len(patterns)
+    x = cp.Variable(n_patterns, nonneg=True)
+    
+    # Objective function: minimize sum(x_j)
+    objective = cp.Minimize(cp.sum(x))
+    
+    # Constraints: sum(A_j * x_j) = b
+    constraints = []
+    for i in range(len(demands)):
+        constraint_expr = 0
+        for j in range(n_patterns):
+            constraint_expr += patterns[j][i] * x[j]
+        constraints.append(constraint_expr == demands[i])
+    
+    # Create and solve problem
+    problem = cp.Problem(objective, constraints)
+    problem.solve(verbose=False)
+    
+    return {
+        "optimal_x": x.value,
+        "objective_value": problem.value,
+        "problem": problem
+    }
+
+# Problem data
+demands = [25, 15, 10]
+patterns = [[5, 0, 0], [0, 2, 0], [0, 0, 2]]
+
+# Solve RMP
+result = solve_rmp(patterns, demands)
+print(f"Optimal solution: {result['optimal_x']}")
+print(f"Optimal objective value: {result['objective_value']}")
+\end{verbatim}
+
+The output from running this code gives:
+\begin{itemize}
+\item \textbf{Optimal solution}: $x_1 = 5.0$, $x_2 = 7.5$, $x_3 = 5.0$
+\item \textbf{Optimal objective value}: $17.5$
+\end{itemize}
+
+The optimal basis $\mb{B}$ and its inverse $\mb{B}^{-1}$ are the same as calculated by hand:
+$$\mb{B} = \begin{bmatrix} 5 & 0 & 0 \\ 0 & 2 & 0 \\ 0 & 0 & 2 \end{bmatrix}, \quad \mb{B}^{-1} = \begin{bmatrix} \frac{1}{5} & 0 & 0 \\ 0 & \frac{1}{2} & 0 \\ 0 & 0 & \frac{1}{2} \end{bmatrix}$$
+
+The optimal dual solution is:
+$$\hat{\mb{y}} = \begin{bmatrix} 0.2 & 0.5 & 0.5 \end{bmatrix}^\top$$
+
+
+\item Write down the pricing problem, i.e. the knapsack problem using the above data and the optimal dual solution you found.
+
+\textbf{Solution:}
+
+The pricing problem (knapsack problem) is formulated as follows:
+
+\begin{align*}
+\max \quad & \sum_{i=1}^{3} y_i^* a_i' \\
+\text{s.t.}\quad & \sum_{i=1}^{3} w_i a_i' \leq W \\
+& a_i' \in \mathbb{Z}_+, \quad i = 1, 2, 3
+\end{align*}
+
+where:
+\begin{itemize}
+\item $y_i^*$ are the optimal dual solutions from the previous problem: $y_1^* = 0.2$, $y_2^* = 0.5$, $y_3^* = 0.5$
+\item $w_i$ are the small roll widths: $w_1 = 20$, $w_2 = 35$, $w_3 = 45$
+\item $W = 100$ is the large roll width
+\item $a_i'$ are integer variables representing the number of each width type in the new pattern
+\end{itemize}
+
+Substituting the values, the pricing problem becomes:
+
+\begin{align*}
+\max \quad & 0.2a_1' + 0.5a_2' + 0.5a_3' \\
+\text{s.t.}\quad & 20a_1' + 35a_2' + 45a_3' \leq 100 \\
+& a_1', a_2', a_3' \in \mathbb{Z}_+
+\end{align*} 
+%\item Write a small program in Xpress to solve the above knapsack problem. This code can be also useful for Project 1. Turn in a hard copy of your code.
+
+
+\item Solve the pricing problem in CVX. Should we terminate the column generation algorithm at this point? Explain. If the column generation should continue, what is the new pattern generated by the pricing problem?
+
+\textbf{Solution:}
+
+The CVXPy implementation for solving the pricing problem is as follows:
+
+\begin{verbatim}
+import cvxpy as cp
+import numpy as np
+
+def solve_pricing_problem(dual_solution, widths, max_width):
+    # Create variables: a1, a2, a3 (number of each width)
+    a = cp.Variable(3, integer=True, nonneg=True)
+    
+    # Objective function: maximize sum(y_i * a_i)
+    objective = cp.Maximize(cp.sum([dual_solution[i] * a[i] for i in range(3)]))
+    
+    # Constraint: sum(w_i * a_i) <= W
+    constraints = [cp.sum([widths[i] * a[i] for i in range(3)]) <= max_width]
+    
+    # Create and solve problem
+    problem = cp.Problem(objective, constraints)
+    problem.solve(verbose=False)
+    
+    return {
+        "optimal_a": a.value,
+        "objective_value": problem.value,
+        "new_pattern": [int(a.value[i]) for i in range(3)]
+    }
+
+# Problem data
+dual_solution = [0.2, 0.5, 0.5]  # From previous problem
+widths = [20, 35, 45]
+max_width = 100
+
+# Solve pricing problem
+result = solve_pricing_problem(dual_solution, widths, max_width)
+print(f"New pattern: {result['new_pattern']}")
+print(f"Objective value: {result['objective_value']}")
+\end{verbatim}
+
+The output from running this code gives:
+\begin{itemize}
+\item \textbf{New pattern}: $[1, 2, 0]$ (1 roll of width 20, 2 rolls of width 35, 0 rolls of width 45)
+\item \textbf{Objective value}: $1.2$
+\end{itemize}
+
+\textbf{Should we terminate the column generation algorithm?}
+
+\textbf{No, we should not terminate the column generation algorithm at this point.}
+
+\textbf{Explanation:} The objective function value is $1.2 > 1$. This means that the pricing problem has found a pattern that violates the dual constraint of the master problem. According to the duality theory, if the dual problem's optimal value decreases (which happens when we add a constraint that the current dual solution violates), then the primal problem's optimal value will also decrease, meaning we can find a better solution. Therefore, we should continue the column generation algorithm.
+
+The new pattern generated by the pricing problem is $\mb{A}_4 = \begin{bmatrix} 1 \\ 2 \\ 0 \end{bmatrix}$. 
+
+
+\item If the column generation should continue, then augment (RMP) with the new column and solve it in CVX again. You can easily modify your CVX code by incorporating the new column. Write down the optimal solution, the optimal basis $\mb{B}$, and the inverse $\mb{B}^{-1}$. Compute the dual
+variable. Then solve the pricing problem again by modifying the date in your code. Should you terminate the column generation at this iteration? Explain. If the column generation should continue, do the same for all the following iterations until the column generation terminates.
+
+\textbf{Solution:}
+
+\textbf{Iteration 2:} Adding the new pattern $\mb{A}_4 = \begin{bmatrix} 1 \\ 2 \\ 0 \end{bmatrix}$ to the RMP.
+
+The updated patterns are:
+$$\mb{A}_1 = \begin{bmatrix} 5 \\ 0 \\ 0\end{bmatrix}, \mb{A}_2 = \begin{bmatrix} 0 \\ 2 \\ 0\end{bmatrix}, \mb{A}_3 = \begin{bmatrix} 0 \\ 0 \\2\end{bmatrix}, \mb{A}_4 = \begin{bmatrix} 1 \\ 2 \\ 0\end{bmatrix}$$
+
+Solving the updated RMP with CVXPy gives:
+\begin{itemize}
+\item \textbf{Optimal solution}: $x_1 = 3.5$, $x_2 = 0$, $x_3 = 5.0$, $x_4 = 7.5$
+\item \textbf{Optimal objective value}: $16.0$
+\end{itemize}
+
+Since $x_2 = 0$, it is a non-basic variable. The basic variables are $x_1$, $x_3$, and $x_4$. Therefore, the optimal basis matrix $\mb{B}$ is:
+$$\mb{B} = \begin{bmatrix} 5 & 0 & 1 \\ 0 & 2 & 2 \\ 0 & 0 & 0 \end{bmatrix}$$
+
+The inverse of the basis matrix $\mb{B}^{-1}$ is:
+$$\mb{B}^{-1} = \begin{bmatrix} \frac{1}{5} & 0 & -\frac{1}{10} \\ 0 & \frac{1}{2} & -\frac{1}{2} \\ 0 & 0 & \frac{1}{2} \end{bmatrix}$$
+
+The optimal dual solution is:
+$$\hat{\mb{y}}^\top = \mb{c}_B^\top\mb{B}^{-1} = \begin{bmatrix} 1 & 1 & 1 \end{bmatrix} \begin{bmatrix} \frac{1}{5} & 0 & -\frac{1}{10} \\ 0 & \frac{1}{2} & -\frac{1}{2} \\ 0 & 0 & \frac{1}{2} \end{bmatrix} = \begin{bmatrix} \frac{1}{5} & \frac{1}{2} & \frac{1}{2} \end{bmatrix}$$
+
+Therefore, $\hat{\mb{y}} = \begin{bmatrix} 0.2 & 0.4 & 0.5 \end{bmatrix}^\top$.
+
+\textbf{Solving the pricing problem again:}
+
+Using the updated dual solution, the pricing problem gives:
+\begin{itemize}
+\item \textbf{New pattern}: $[1, 1, 1]$ (1 roll of each width)
+\item \textbf{Objective value}: $1.1$
+\end{itemize}
+
+\textbf{Should we terminate the column generation algorithm?}
+
+\textbf{No, we should not terminate the column generation algorithm at this iteration.}
+
+\textbf{Explanation:} The objective function value is $1.1 > 1$. This means we can still find a better solution, so we continue the column generation algorithm.
+
+\textbf{Iteration 3:} Adding the new pattern $\mb{A}_5 = \begin{bmatrix} 1 \\ 1 \\ 1 \end{bmatrix}$ to the RMP.
+
+The updated patterns are:
+$$\mb{A}_1 = \begin{bmatrix} 5 \\ 0 \\ 0\end{bmatrix}, \mb{A}_2 = \begin{bmatrix} 0 \\ 2 \\ 0\end{bmatrix}, \mb{A}_3 = \begin{bmatrix} 0 \\ 0 \\2\end{bmatrix}, \mb{A}_4 = \begin{bmatrix} 1 \\ 2 \\ 0\end{bmatrix}, \mb{A}_5 = \begin{bmatrix} 1 \\ 1 \\ 1\end{bmatrix}$$
+
+Solving the updated RMP with CVXPy gives:
+\begin{itemize}
+\item \textbf{Optimal solution}: $x_1 = 2.5$, $x_2 = 0$, $x_3 = 0$, $x_4 = 2.5$, $x_5 = 10.0$
+\item \textbf{Optimal objective value}: $15.0$
+\end{itemize}
+
+The basic variables are $x_1$, $x_4$, and $x_5$. The optimal basis matrix $\mb{B}$ is:
+$$\mb{B} = \begin{bmatrix} 5 & 1 & 1 \\ 0 & 2 & 1 \\ 0 & 0 & 1 \end{bmatrix}$$
+
+The inverse of the basis matrix $\mb{B}^{-1}$ is:
+$$\mb{B}^{-1} = \begin{bmatrix} \frac{1}{5} & -\frac{1}{10} & -\frac{1}{10} \\ 0 & \frac{1}{2} & -\frac{1}{2} \\ 0 & 0 & 1 \end{bmatrix}$$
+
+The optimal dual solution is:
+$$\hat{\mb{y}} = \begin{bmatrix} 0.2 & 0.4 & 0.4 \end{bmatrix}^\top$$
+
+\textbf{Solving the pricing problem again:}
+
+Using the updated dual solution, the pricing problem gives:
+\begin{itemize}
+\item \textbf{New pattern}: $[5, 0, 0]$ (same as $\mb{A}_1$)
+\item \textbf{Objective value}: $1.0$
+\end{itemize}
+
+\textbf{Should we terminate the column generation algorithm?}
+
+\textbf{Yes, we should terminate the column generation algorithm at this iteration.}
+
+\textbf{Explanation:} The objective function value is $1.0 \leq 1$. This means no new pattern can improve the current solution, so the column generation algorithm terminates.
+
+
+
+\item Write down the final optimal solution, the optimal basis, and the optimal objective value.
+
+\textbf{Solution:}
+
+After completing the column generation algorithm, we have the following final results:
+
+\textbf{Final Optimal Solution:}
+\begin{itemize}
+\item $x_1 = 2.5$ (use pattern $\mb{A}_1$ 2.5 times)
+\item $x_2 = 0$ (pattern $\mb{A}_2$ not used)
+\item $x_3 = 0$ (pattern $\mb{A}_3$ not used)
+\item $x_4 = 2.5$ (use pattern $\mb{A}_4$ 2.5 times)
+\item $x_5 = 10.0$ (use pattern $\mb{A}_5$ 10 times)
+\end{itemize}
+
+\textbf{Final Optimal Basis:}
+The basic variables are $x_1$, $x_4$, and $x_5$. The optimal basis matrix $\mb{B}$ is:
+$$\mb{B} = \begin{bmatrix} 5 & 1 & 1 \\ 0 & 2 & 1 \\ 0 & 0 & 1 \end{bmatrix}$$
+
+The inverse of the basis matrix $\mb{B}^{-1}$ is:
+$$\mb{B}^{-1} = \begin{bmatrix} \frac{1}{5} & -\frac{1}{10} & -\frac{1}{10} \\ 0 & \frac{1}{2} & -\frac{1}{2} \\ 0 & 0 & 1 \end{bmatrix}$$
+
+\textbf{Final Optimal Objective Value:}
+The minimum number of large rolls needed is $\mathbf{15.0}$.
+
+\textbf{Summary of Generated Patterns:}
+\begin{itemize}
+\item Pattern 1: $\mb{A}_1 = \begin{bmatrix} 5 \\ 0 \\ 0\end{bmatrix}$ (5 rolls of width 20)
+\item Pattern 2: $\mb{A}_2 = \begin{bmatrix} 0 \\ 2 \\ 0\end{bmatrix}$ (2 rolls of width 35)
+\item Pattern 3: $\mb{A}_3 = \begin{bmatrix} 0 \\ 0 \\ 2\end{bmatrix}$ (2 rolls of width 45)
+\item Pattern 4: $\mb{A}_4 = \begin{bmatrix} 1 \\ 2 \\ 0\end{bmatrix}$ (1 roll of width 20, 2 rolls of width 35)
+\item Pattern 5: $\mb{A}_5 = \begin{bmatrix} 1 \\ 1 \\ 1\end{bmatrix}$ (1 roll of each width)
+\end{itemize}
+
+\textbf{Verification:}
+The solution satisfies all demand constraints:
+\begin{align*}
+5 \times 2.5 + 0 \times 0 + 0 \times 0 + 1 \times 2.5 + 1 \times 10 &= 12.5 + 0 + 0 + 2.5 + 10 = 25 \text{ rolls of width 20} \checkmark \\
+0 \times 2.5 + 2 \times 0 + 0 \times 0 + 2 \times 2.5 + 1 \times 10 &= 0 + 0 + 0 + 5 + 10 = 15 \text{ rolls of width 35} \checkmark \\
+0 \times 2.5 + 0 \times 0 + 2 \times 0 + 0 \times 2.5 + 1 \times 10 &= 0 + 0 + 0 + 0 + 10 = 10 \text{ rolls of width 45} \checkmark
+\end{align*}
+
+The column generation algorithm successfully reduced the number of large rolls needed from the initial solution of 17.5 rolls to the optimal solution of 15 rolls, representing a 14.3\% improvement.
+
+
+\end{enumerate}
+
+
+\item On a visit to my favorite café, I tried a blended tea that I really enjoyed. I learned that it is prepared using 5 basic ingredients. After experimenting with many different blends of these 5 basic ingredients, I discovered that there are 14 distinct blends which, when combined in specific ratios, reproduce my favorite flavor.
+Which of the following statements is correct? Provide justification for your selection.
+\begin{itemize}
+\item No strict subset of these 14 blends can be mixed to produce my favorite blend.
+\item I can always find a subset of 5 blends from these 14 which, when combined in some ratio, can produce my favorite blend.
+\item I can always find a subset of 6 blends from these 14 which, when combined in some ratio, can produce my favorite blend.
+\end{itemize}
+
+
+
+\end{enumerate}
+
+
+\end{document}
