@@ -1,0 +1,113 @@
+\documentclass[11pt]{article}
+%\parskip 1.0\parskip plus 3pt minus 1pt
+\renewcommand{\baselinestretch}{1.5}
+
+\setlength{\oddsidemargin}{-0.1in}
+\setlength{\evensidemargin}{-0.1in} 
+\setlength{\textwidth}{6.54in}
+\setlength{\topmargin}{0in} 
+\setlength{\textheight}{8.5in}
+%\setlength{\oddsidemargin}{0in}
+%\setlength{\evensidemargin}{0.15in} 
+%\setlength{\textwidth}{6.2in}
+%\setlength{\topmargin}{-0.3in} 
+%\setlength{\textheight}{8.9in}
+
+\linespread{1}
+
+\usepackage{makeidx}
+\usepackage{amsmath,amssymb, amsthm}
+\usepackage{latexsym,remreset}
+\usepackage[toc,page]{appendix}
+\usepackage{graphicx}
+\usepackage{multirow}
+\usepackage{bbm}
+\usepackage{color}
+%\usepackage[pdftex]{graphicx} 
+
+\usepackage{url}
+%% Define a new 'leo' style for the package that will use a smaller font.
+\makeatletter
+\def\url@leostyle{%
+  \@ifundefined{selectfont}{\def\UrlFont{\sf}}{\def\UrlFont{\small\ttfamily}}}
+\makeatother
+%% Now actually use the newly defined style.
+\urlstyle{leo}
+
+\newtheorem{assumption}{Assumption}
+\newtheorem{definition}{Definition}
+\newtheorem{lemma}{Lemma}
+\newtheorem{proposition}{Proposition}
+\newtheorem{corollary}{Corollary}
+\newtheorem{remark}{Remark}
+\newtheorem{theorem}{Theorem}
+\newcommand{\mb}[1]{\ensuremath{\boldsymbol{#1}}}
+\newcommand{\vol}{{\sf volume}}
+\newcommand{\Stochb}{$\Pi_{\mathrm {Stoch}}(b)$}
+\newcommand{\tf}{\text{translation factor}}
+
+\begin{document}
+
+\begin{center}
+{\bf ISyE6669 Deterministic Optimization}
+
+{\bf Homework 12\\ Fall 2021}
+\end{center}
+
+Note: In all your answers, you need to give sufficient details and explanation how you derive or come to your solution.
+
+\begin{enumerate}
+
+\item In the lectures, we introduced the concept of a convex cone and gave three important examples: the nonnegative orthant cone $\mathbb{R}^n_+$, the second-order cone (SOC) $\mathbb{L}^n$, and the positive semidefinite cone (PSD) $\mathbb{S}^n_+$. Given a convex cone $K$, we can compare vectors using the cone $K$ as $x\succeq_K y$ if and only if $x-y\in K$.
+
+For example, if the cone is the nonnegative orthant $\mathbb{R}^n_+ = \{(x_1,\dots,x_n) : x_i\ge 0, \;\forall i=1,2,\dots,n\}$. Then comparing vectors with respect to $\mathbb{R}^n_+$ is the familiar componentwise comparison. That is, $x\succeq_{\mathbb{R}^n_+} y$ if and only if $x_i\ge y_i$ for each $i=1,2,\dots,n$. If the cone is $\mathbb{L}^n$ or $\mathbb{S}^n_+$, the comparison is not componentwise comparison anymore. 
+
+As an exercise, let
+\begin{align*}
+    x = \begin{bmatrix}
+            1 \\ 2 \\ 3
+        \end{bmatrix}, \quad 
+    y = \begin{bmatrix}
+            3\\ 2 \\ 1
+        \end{bmatrix}.
+\end{align*}
+Answer the following questions.
+\begin{enumerate}
+    \item Using $\mathbb{R}^3_+$, is it true that 
+    $x \succeq_{\mathbb{R}^3_+} y$?
+    Explain why. Plot $x-y$ and $\mathbb{R}^3_+$.
+    
+    \item Using $\mathbb{L}^3$, is it true that $x\succeq_{\mathbb{L}^3} y$? Explain why. Plot $x-y$ and $\mathbb{L}^3$. 
+    
+    \item Now define three matrices 
+    \begin{align*}
+        A = \begin{bmatrix}
+            -6 & 7 & 8 \\ 7 & -8 & 9 \\ 8 & 9 & -10
+        \end{bmatrix}, \quad 
+        B = \begin{bmatrix}
+            0 & 1 & 2 \\ 1 & 2 & 3 \\ 2 & 3 & 4
+        \end{bmatrix}, \quad
+        C = \begin{bmatrix}
+            -10 & 9 & 8 \\ 9 & -8 & 7 \\ 8 & 7 & -12            \end{bmatrix}.
+    \end{align*}
+    Is it true that $A\preceq_{\mathbb{S}^3_+} B$? Is it true that $A \succeq_{\mathbb{S}^3_+} C$? Explain why. Remember A real symmetric matrix is positive semidefinite if and only if all of its eigenvalues are nonnegative.
+\end{enumerate}
+
+
+    \item There are $n$ villages with known coordinates $v_1=(x_1,y_1), v_2=(x_2,y_2), \dots, v_n=(x_n,y_n)$, where $x_i$ is the x-coordinate of the point $v_i$ and $y_i$ is the y-coordinate of the point $v_i$.
+    
+    We want to locate a fire station $v=(x,y)$ such that the longest distance from the fire station to a possible fire in the villages is minimized. The distance is measured by the Euclidean distance. That is, the distance between two points $u=(a_1,b_1)$ and $w=(a_2,b_2)$ is given by $\|u-w\|=\sqrt{(a_1-a_2)^2+(b_1-b_2)^2}$. Here, $\|u-w\|$ is also called the $\ell_2$ norm of the vector $u-w$.
+    
+    Formulate a second-order conic program (SOCP) for this problem. Note that the objective function of your SOCP must be a linear function of the variables and the constraints must be either linear constraints or second-order conic constraints.
+    
+    Randomly generate the coordinates of $n=20$ villages: generate the x-y coordinate of a village as a pair of random numbers uniformly distributed on the interval $[0,10]\times[0,10]$. Implement your SOCP model in CVXPY using the coordinates of the 20 villages that you generate. Solve the model and output the fire station's location and the minimum longest distance from the first station to a village.
+    
+
+
+
+    
+\end{enumerate}
+
+
+
+\end{document}
