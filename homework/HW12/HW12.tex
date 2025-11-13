@@ -20,6 +20,7 @@
 \usepackage{latexsym,remreset}
 \usepackage[toc,page]{appendix}
 \usepackage{graphicx}
+\usepackage{float}
 \usepackage{multirow}
 \usepackage{bbm}
 \usepackage{color}
@@ -93,6 +94,62 @@ Answer the following questions.
     Is it true that $A\preceq_{\mathbb{S}^3_+} B$? Is it true that $A \succeq_{\mathbb{S}^3_+} C$? Explain why. Remember A real symmetric matrix is positive semidefinite if and only if all of its eigenvalues are nonnegative.
 \end{enumerate}
 
+\textbf{Solution:}
+
+(a) With the nonnegative orthant $\,\mathbb{R}^3_+\,$ we need $x-y\in\mathbb{R}^3_+$. Here
+\[
+    x-y=\begin{bmatrix}-2\\[2pt]0\\[2pt]2\end{bmatrix},
+\]
+whose first component is negative. Hence $x\succeq_{\mathbb{R}^3_+}y$ is \textbf{false}.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.5\textwidth]{HW12-1.png}
+\caption{Plot of $x-y$ and $\mathbb{R}^3_+$.}
+\end{figure}
+
+(b) Using the standard SOC convention $\mathbb{L}^3=\{(z_1,z_2,z_3):\sqrt{z_1^2+z_2^2}\le z_3\}$, we have $x-y=(-2,0,2)$ and
+\[
+    \sqrt{(-2)^2+0^2}=2\le 2,
+\]
+so $x-y\in\mathbb{L}^3$ and $x\succeq_{\mathbb{L}^3}y$ is \textbf{true}.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.5\textwidth]{HW12-2.png}
+\caption{Plot of $x-y$ and $\mathbb{L}^3$.}
+\end{figure}
+
+(c) Recall $A\preceq_{\mathbb{S}^3_+}B$ iff $B-A\succeq 0$, and $A\succeq_{\mathbb{S}^3_+}C$ iff $A-C\succeq 0$.
+
+For $B-A$:
+\[
+    B-A=\begin{bmatrix}
+        6 & -6 & -6\\
+        -6 & 10 & -6\\
+        -6 & -6 & 14
+    \end{bmatrix}.
+\]
+Its characteristic polynomial is
+\[
+    \chi_{B-A}(\lambda)=\lambda^3-30\lambda^2+176\lambda+672=(\lambda-14)\bigl(\lambda^2-16\lambda-48\bigr),
+\]
+giving eigenvalues $\{14,\;8+4\sqrt{7},\;8-4\sqrt{7}\}$. Since $8-4\sqrt{7}\approx-2.583<0$, $B-A$ is not PSD, so $A\preceq_{\mathbb{S}^3_+}B$ is \textbf{false}.
+
+For $A-C$:
+\[
+    A-C=\begin{bmatrix}
+        4 & -2 & 0\\
+        -2 & 0 & 2\\
+        0 & 2 & 2
+    \end{bmatrix}.
+\]
+Its characteristic polynomial is $\chi_{A-C}(\lambda)=\lambda^3-6\lambda^2+24$, whose eigenvalues are approximately
+\[
+    \{-1.759,\;2.695,\;5.064\}.
+\]
+Because one eigenvalue is negative, $A-C$ is not PSD, so $A\succeq_{\mathbb{S}^3_+}C$ is \textbf{false}.
+
 
     \item There are $n$ villages with known coordinates $v_1=(x_1,y_1), v_2=(x_2,y_2), \dots, v_n=(x_n,y_n)$, where $x_i$ is the x-coordinate of the point $v_i$ and $y_i$ is the y-coordinate of the point $v_i$.
     
@@ -104,6 +161,38 @@ Answer the following questions.
     
 
 
+
+\textbf{Solution:} Introduce an auxiliary variable $t\ge 0$ representing the maximum distance from the fire station to any village. The problem becomes the following SOCP:
+\[
+    \begin{aligned}
+    \min_{x,y,t}\quad & t\\
+    \text{s.t.}\quad & \left\| \begin{bmatrix} x - x_i \\[2pt] y - y_i \end{bmatrix} \right\|_2 \;\le\; t,\qquad i=1,\dots,n,\\
+    & t\ge 0.
+    \end{aligned}
+\]
+The objective is linear in $(x,y,t)$ and each constraint is a second-order cone constraint.
+
+The following Python code implements the SOCP model using CVXPY with $n=20$ uniformly sampled villages on $[0,10]^2$:
+
+\begin{verbatim}
+import numpy as np
+import cvxpy as cp
+
+np.random.seed(0)
+n = 20
+coords = np.random.uniform(0.0, 10.0, size=(n, 2))
+
+x = cp.Variable()
+y = cp.Variable()
+t = cp.Variable(nonneg=True)
+
+constraints = [cp.norm(cp.hstack([x, y]) - coords[i], 2) <= t for i in range(n)]
+prob = cp.Problem(cp.Minimize(t), constraints)
+prob.solve(solver=cp.ECOS)  # or cp.SCS
+
+print("Fire station location (x, y):", float(x.value), float(y.value))
+print("Minimum longest distance t*   :", float(t.value))
+\end{verbatim}
 
     
 \end{enumerate}
