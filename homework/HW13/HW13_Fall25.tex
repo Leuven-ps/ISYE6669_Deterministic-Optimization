@@ -1,0 +1,170 @@
+\documentclass{article}
+\usepackage[usenames]{color} %used for font color
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{array}
+% \usepackage{amsthm}
+\usepackage{bm}
+\usepackage{bbm}
+\usepackage{booktabs}
+\usepackage{cite}
+\usepackage{CJKutf8}
+\usepackage{color}
+\usepackage{comment}
+\usepackage{courier}
+\usepackage{enumerate}
+\usepackage{enumitem}
+\usepackage{epsfig}
+\usepackage{eurosym}
+\usepackage{float}
+\usepackage[stable]{footmisc}
+% \usepackage[bottom]{footmisc}
+\usepackage[top=2.5cm,bottom=2.5cm,left=2.5cm,right=2.5cm]{geometry}
+\usepackage{graphicx}  
+\usepackage{helvet}
+\usepackage{hhline}
+\usepackage{hyperref}
+\usepackage{imakeidx} % allows index generation
+\usepackage{latexsym}
+\usepackage{mathdots}
+\usepackage{mathptmx}
+\usepackage{microtype}
+\usepackage{multicol}
+\usepackage{multirow}
+\usepackage{palatino}
+\usepackage{pgfplots}
+\pgfplotsset{compat=newest}
+\usepackage{pdfsync}
+\usepackage{psfrag}
+\usepackage{pstricks}
+\usepackage{subfigure}
+\usepackage[many]{tcolorbox}
+\usepackage{tikz,pgf}
+\usetikzlibrary{backgrounds}
+\usetikzlibrary{plotmarks}
+\usepackage{tikz-layers}
+\usepackage{type1cm}
+\usepackage{ulem}
+\usepackage{yfonts}
+
+
+\def\x{\mathbf{x}}
+
+
+\def\y{\mathbf{y}}
+\def\c{\mathbf{c}}
+\def\d{\mathbf{d}}
+\def\A{\mathbf{A}}
+\def\B{\mathbf{B}}
+\def\b{\mathbf{b}}
+\def\y{\mathbf{y}}
+\def\Re{\mathbb{R}}
+\def\Z{\mathbb{Z}}
+
+
+\title{ISyE 6669 HW 13}
+\date{Fall 2025}
+\begin{document}
+\maketitle
+
+\begin{enumerate}
+    \item Write linear constraints with continuous and integer variables for the following problems. You need to clearly define the variables that you introduce and give an explanation of your constraints.
+    \begin{enumerate}
+        \item If we invest \$50 or more on project 1, then we can only invest at most \$100 on project 2. Suppose the investment amount on each project is a continuous variable.
+        
+        \item If two continuous variables $x_1, x_2$ satisfy the linear constraint $x_1 + x_2 < 1$, then they also need to satisfy $x_1 - x_2 \ge 1$. Plot the feasible region of $(x_1, x_2)$ that satisfies the above if-then statement. Is this feasible region a convex set? Now use linear constraints with continuous and integer variables to model this if-then statement. Define all the variables you need and explain the constraints that you write down.
+        
+
+    \end{enumerate}
+    
+    \item Suppose that you are interested in choosing a set of
+investments $\{1, \dots, 7\}$. Assume that the investments have cost of
+\$5, \$7, \$6, \$3, \$9, \$12, \$5. Assume there is a budget of \$30.
+Also assume that the eventual expected profit out of each
+investment is \$1, \$3, \$2, \$4, \$1, \$5, \$4. Write an optimization model to maximize profit with the following constraints. The objective function and all the constraints should be linear and there may be integer variables. Define all variables you need and explain the constraints that you write down.
+\begin{enumerate}
+\item You must choose at least one of the investments.
+\item Investment 1 cannot be chosen if investment 3 is chosen.
+\item Investment 4 can be chosen only if investment 2 is also
+chosen.
+\item You must choose either both investments 1 and 5 or
+neither.
+\item You must choose either at least one of the investments
+1, 2, 3 or at least two investment from 2, 4, 5, 6.
+\end{enumerate}
+
+
+\item To graduate from ABC University with a major in Analytics, a student must complete at least two math courses, at least two OR courses, and atleast two computer courses. Some courses can be used to fulfill more than one requirement.
+\begin{enumerate}
+\item Calculus can fulfill the math requirement;
+\item Optimization, math and OR requirements;
+\item Data structures, computer and math requirements;
+\item Computer simulation, OR and computer requirement;
+\item Introduction to computer programming, computer requirement;
+\item Forecasting, OR and math requirement; and
+\item Business Statistics, OR requirement.
+\end{enumerate}
+Some courses are pre requisites for others:
+\begin{enumerate}
+\item Calculus is a prerequisite for Business Statistics.
+\item Introduction to computer programming is a prerequisite for Computer simulation and Data structures
+\item Business Statistics is a prerequisite for Forecasting.
+\end{enumerate}
+Formulate an integer program to minimize the number of courses needed to satisfy the major requirements.
+
+\item A machine tool plant owns four different machines on which it can process jobs. If a machine is used at all, then a setup time is needed. A job cannot be divided between machines, that is each job must be processed by exactly one machine. (Note however that one machine can process more than one job). The relevant times in minutes are given in the following table.\\\\
+\begin{tabular}{|c|c|c|c|c|c|}
+  \hline
+         & Job 1 & Job 2 & Job 3 & Job 4 & Machine Setup \\
+\hline
+  Machine 1 & 42 & 70 & 930 & 710 & 10 \\
+  \hline
+  Machine 2 & 340 & 43 & 120 & 7 & 20 \\
+  \hline
+  Machine 3 & 560 & 32 & 40 & 9 & 60 \\
+  \hline
+  Machine 4 & 71 & 760 & 5 & 80 & 85 \\
+  \hline
+\end{tabular}\\\\
+\begin{enumerate}
+\item  The company's goal is to minimize the sum of the setup and machine operation times needed to complete all jobs. Formulate this problem as an integer linear program.
+
+\item Assume that we want to impose that no more than two jobs can be assigned for any given machine. What constraints should be added to your model to represent this new restriction? (Just write constraint(s) for this part.)
+
+\item Assume that we want to impose the restriction that if machine 1 is used then machine 3 is used. What constraint should be added to your model to represent this new restriction? (Just write constraint(s) for this part.)
+
+\item Assume that we want to impose the restriction that either machine 2 or machine 4 is used. What constraint should be added to your model to represent this new restriction? (Just write constraint(s) for this part.)
+
+\item Assume that we want to impose the restriction that: If machine 1 and machine 3 are both set up, then job 1 should not be assigned to machine 3. (Just write constraint(s) for this part.)
+\end{enumerate}
+
+%\item We have a piecewise linear function $f(x)$ plotted in Figure \ref{fig:plf}. Write linear constraints with continuous and integer variables to model $f(x)$.
+%\begin{figure}[h!]
+%    \centering
+%    \begin{tikzpicture}[scale=0.7]
+%\begin{axis}[xmin=0, xmax=4, 
+%ymin = 0, ymax=5.5, 
+%samples=200, 
+%legend pos=north west, 
+%legend cell align={left},
+%ymajorgrids=true,
+%xmajorgrids = true,
+%grid style=dashed]
+%
+%        \addplot[black, thick, domain=0:1] {4*x};
+%        \addplot[black, thick, domain=1:2] {x+3};
+%        \addplot[black, thick, domain=2:3] {-3*x+11};
+%        \addplot[black, thick, domain=3:4] {2*x-4};
+%        
+%     
+%
+%        \end{axis}
+%    \end{tikzpicture}
+%    \caption{Piecewise linear function $f(x)$.}
+%    \label{fig:plf}
+%\end{figure}
+\end{enumerate}
+
+\end{document}
+
