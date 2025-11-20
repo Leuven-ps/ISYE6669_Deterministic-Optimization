@@ -1,0 +1,110 @@
+\documentclass{article}
+\usepackage[usenames]{color} %used for font color
+\usepackage{amssymb} %maths
+\usepackage{amsmath} %maths
+\usepackage{amsfonts}
+\usepackage[utf8]{inputenc} %useful to type directly diacritic characters
+\usepackage{soul}
+\usepackage{bm}
+
+\usepackage{graphicx}
+\def\x{\bm{x}}
+\def\y{\bm{y}}
+\def\c{\bm{c}}
+\def\d{\bm{d}}
+\def\A{\bm{A}}
+\def\B{\bm{B}}
+\def\b{\bm{b}}
+\def\y{\bm{y}}
+\def\Re{\mathbb{R}}
+\def\Z{\mathbb{Z}}
+
+
+\title{ISyE 6669 HW 14}
+\date{}
+\begin{document}
+\maketitle
+
+\begin{enumerate}
+
+\item Workers at the Execo manufacturing plant work 5 consecutive days a week, e.g. a worker can start work on a Monday and continue till Friday while another can start work on a Wednesday and continue till Sunday etc. Workers who are off on weekends (Saturday and Sunday) are paid \$300 per day (for each of their 5 work days), workers who’s schedules involve one weekend day are paid \$320 per day (for each of their 5 work days), and workers who’s schedules involve both weekend days are paid \$330 per day (for each of their 5 work days). The goal is to determine the number of workers for each schedule to minimize cost subject to the following restrictions:
+\begin{itemize}
+\item There must be at least $25$ workers each day.
+\item There can be at most $35$ workers on at least $3$ of the $7$ days of the week.
+\item If the number of workers that start on a Monday exceed 10 then the number of workers available on a Wednesday should be no more than 28.
+\item The number of workers that start on a Saturday should be less than the number of workers that start on a Monday or a Tuesday.
+\item A total $40$ workers are available.
+\end{itemize}
+Formulate the above problem as a mixed-integer linear problem. Use $x_i$ to denote the number (integer) of workers who start work on day $i$. You may need to introduce additional binary variables. If you use big-M numbers, please provide your best estimates of their values.
+\item Jack and Jill love to watch movies and, as a couple, have vowed to always watch their movies together as a form of spending time with each other. They have subscribed for a $1$ month free trial and estimated that they will watch $20$ movies by the end of the free trial. They have pre-selected $100$ movies that they would like to watch and now want to decide which $20$ out of these $100$ to watch during the free trial month. These $100$ movies are divided as follows: Movies $1-20$ are action movies, Movies $21-40$ are romantic comedies, Movies $41-60$ are TV series, Movies $61-80$ are documentaries and Movies $81-100$ are science fiction.
+
+They associated an estimated common satisfaction index $s_i$ to each movie and wish to maximize their estimated common satisfaction during this month. They also established the following constraints so that  each of them will not be too unhappy: They must choose at least $3$ action movies and at least $3$ romantic comedies, but not more than $5$ science fiction and no more than $2$ documentaries.
+
+(assume that they will be able to watch all movies they request)
+
+\begin{itemize}
+\item[a)] Write an Integer programming formulation that Jack and Jill can use to solve this problem of maximizing their estimated common satisfaction. Clearly indicate your decision variables and what they mean.
+\item[b)] Write one or more linear constraints to express the following additional conditions: (you may add decision variables if necessary, as long as you make it clear what they mean. Also, if you use a Big-M constant,  please provide your best estimates of their values.)
+\begin{itemize}
+\item[i.] Since movies 11, 12 and 13 are part of a series, either they get all of them, or they get none of them.
+\item[ii.] Movies 41--50 are respectively seasons 1--10 of Friends, so they have decided that if they watch one season of Friends, they must watch all seasons before it. For example, if they watch season 6, they must also watch seasons 1--5.
+\item[iii.] If they watch at least 2 movies out of 24, 34 and 77, then they must not watch more than one movie out of 27, 35 and 79.
+\end{itemize}
+\end{itemize}
+
+ 
+\item A power plant has four boilers. If a given boiler is operated, it can be used to produce a quantity of steam (in tons) between the minimum and maximum given in Table~\ref{tabboiler}. The cost of producing a ton of steam on each boiler is also given, as well as the fixed cost of operating each boiler. Steam from the boilers is used to produce power on three turbines. If operated, each turbine can process an amount of steam (in tons) between the minimum and maximum given in Table~\ref{tabturbine}. The cost of processing a ton of steam and the power produced by each turbine is also given. The power plant must produce at least 9,000 Kwh of power.
+
+\begin{table}[h!]
+\begin{center}
+\begin{tabular}{ccccc} \hline
+Boiler \# & Min. & Max. & Cost per ton (\$) & Fixed cost (\$)
+\\ \hline
+1 & 400 & 900 & 9 & 160 \\
+2 & 500 & 700 & 7 & 200 \\
+3 & 300 & 600 & 8 & 190 \\
+4 & 240 & 800 & 6 & 250 \\ \hline
+\end{tabular}
+\end{center} \caption{Data for each of the boilers} \label{tabboiler}
+\end{table}
+
+\begin{table}[h!]
+\begin{center}
+\begin{tabular}{cccccc} \hline
+Turbine \# & Min. & Max. & Kwh per ton of steam & Processing Cost
+per Ton (\$)  \\ \hline
+1 & 100 & 700 & 7 & 9  \\
+2 & 400 & 800 & 3 & 4  \\
+3 & 300 & 600 & 6 & 6  \\ \hline
+\end{tabular}
+\end{center} \caption{Data for each of the turbines}
+\label{tabturbine}
+\end{table}
+Formulate a mixed integer linear program that can be used to minimize the cost while satisfying all constraints. Clearly specify what are the decision variables (and what they mean), as well as the objective function and constraints. Also, if you use a Big-M constant,  please provide your best estimates of their values.
+
+\item Consider the polytope $P$ given by:
+\begin{eqnarray*}
+2x_1 + 3x_2 \leq 100 \\
+x_1 \geq 0 \\
+x_2 \geq 0.
+\end{eqnarray*}
+Notice that the point $(5, 10)$ is a feasible point for $P$. Write an integer programming formulation whose feasible set is exactly the set of integer points in $P$ except $(5,10)$. (No need to give any objective function.)
+
+
+%\item Variables $x$ and $y$ must belong to the set shown in Figure~\ref{fig:allowable-set}.
+%
+%\begin{figure}[h]
+%  \centering
+%  \includegraphics[width=2in]{formques.pdf}
+%  \caption{Allowable set of $(x,y)$.}
+%  \label{fig:allowable-set}
+%\end{figure}
+%
+%\begin{enumerate}
+%  \item Is the allowable set of $x$ and $y$ convex?
+%  \item Write down a mixed-integer programming model (using additional variables) so that $x$ and $y$ belong only to the allowable set.
+%\end{enumerate}
+
+\end{enumerate}
+
+\end{document}
