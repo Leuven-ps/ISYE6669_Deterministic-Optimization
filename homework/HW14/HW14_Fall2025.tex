@@ -87,30 +87,30 @@ y_i \geq 25.
 
 \textbf{(b) At most 35 workers on at least 3 days:}
 
-We introduce binary variables $p_i \in \{0,1\}$ such that $p_i = 1$ when $y_i \leq 35$. This can be expressed by the following constraint:
+We introduce binary variables $p_i \in \{0,1\}$ such that $p_i = 1 \Leftrightarrow y_i \leq 35$. This is expressed by:
 \[
 y_i \geq 36(1-p_i) + 25, \quad \forall i = 0, 1, \ldots, 6.
 \]
-Since constraint (a) ensures $y_i \geq 25$, this representation is valid. When $p_i = 1$, we have $y_i \geq 25$, which is the same as constraint (a) and thus nonbinding. When $p_i = 0$, we have $y_i \geq 36$, which contradicts $y_i \leq 35$. Therefore, when $y_i \leq 35$, we must have $p_i = 1$.
+Since constraint (a) ensures $y_i \geq 25$, this representation is valid. $p_i = 1 \Rightarrow y_i \geq 25$ (nonbinding), and $p_i = 0 \Rightarrow y_i \geq 36$, which contradicts $y_i \leq 35$. Therefore, $y_i \leq 35 \Rightarrow p_i = 1$.
 
-Furthermore, the requirement that at least 3 days have at most 35 workers is expressed as
+The requirement that at least 3 days have at most 35 workers is:
 \[
 p_0 + p_1 + p_2 + p_3 + p_4 + p_5 + p_6 \geq 3.
 \]
 
-\textbf{(c) If $x_0 > 10$, then $y_2 \leq 28$:}
+\textbf{(c) $x_0 > 10 \Rightarrow y_2 \leq 28$:}
 
-We introduce a binary variable $q \in \{0,1\}$ such that $q = 1$ when $x_0 > 10$. This can be expressed by the following constraint:
+We introduce a binary variable $q \in \{0,1\}$ such that $q = 1 \Leftrightarrow x_0 > 10$. This is expressed by:
 \[
 x_0 \leq 10 + 30q.
 \]
-Since constraint (e) implies that the upper bound for $x_i$ is 40, we use $30 \times q$ as the Big-M value. When $q = 0$, we have $x_0 \leq 10$, and when $q = 1$, we have $x_0 \leq 40$, which is nonbinding.
+Since constraint (e) implies that the upper bound for $x_i$ is 40, we use $30$ as the Big-M value. $q = 0 \Rightarrow x_0 \leq 10$, and $q = 1 \Rightarrow x_0 \leq 40$ (nonbinding).
 
-Next, we express the constraint that when $q = 1$, we must have $y_2 \leq 28$:
+Next, we express $q = 1 \Rightarrow y_2 \leq 28$:
 \[
 y_2 \leq 28 + 12(1-q).
 \]
-Since constraint (e) implies that $y_i$ is also bounded above by 40, the right-hand side can be written as $28 + 12(1-q)$ with the upper bound of 40. When $q = 1$, we have $y_2 \leq 28$, and when $q = 0$, we have $y_2 \leq 40$, which is nonbinding.
+Since constraint (e) implies that $y_i$ is also bounded above by 40, the right-hand side can be written as $28 + 12(1-q)$ with the upper bound of 40. $q = 1 \Rightarrow y_2 \leq 28$, and $q = 0 \Rightarrow y_2 \leq 40$ (nonbinding).
 
 \textbf{(d) $x_5 < x_0$ or $x_5 < x_1$:}
 
@@ -210,30 +210,26 @@ Since movies 11, 12, and 13 are part of a series, either all of them are watched
 
 \textbf{(ii) Movies 41--50 are seasons 1--10 of Friends:}
 
-If they watch one season of Friends, they must watch all seasons before it. This means that if season $k$ is watched (where $k \in \{41, 42, \ldots, 50\}$), then all seasons $41, 42, \ldots, k-1$ must also be watched. This is modeled by the following constraints:
+For any season $k \in \{41, 42, \ldots, 50\}$, if season $k$ is watched, then all seasons $41, 42, \ldots, k-1$ must also be watched. This is modeled by:
 \[
 \delta_{41} \geq \delta_{42} \geq \delta_{43} \geq \delta_{44} \geq \delta_{45} \geq \delta_{46} \geq \delta_{47} \geq \delta_{48} \geq \delta_{49} \geq \delta_{50}.
 \]
 
-\textbf{(iii) If at least 2 movies out of 24, 34, and 77 are watched, then at most one movie out of 27, 35, and 79 can be watched:}
+\textbf{(iii) $(\delta_{24} + \delta_{34} + \delta_{77} \geq 2) \Rightarrow (\delta_{27} + \delta_{35} + \delta_{79} \leq 1)$:}
 
-The logical statement is: if $\delta_{24} + \delta_{34} + \delta_{77} \geq 2$, then $\delta_{27} + \delta_{35} + \delta_{79} \leq 1$.
+We introduce an auxiliary binary variable $p \in \{0,1\}$ such that $p = 1 \Leftrightarrow \delta_{24} + \delta_{34} + \delta_{77} \geq 2$.
 
-We introduce an auxiliary binary variable $p \in \{0,1\}$ such that $p = 1$ when $\delta_{24} + \delta_{34} + \delta_{77} \geq 2$.
-
-To express that $p = 1$ when $\delta_{24} + \delta_{34} + \delta_{77} \geq 2$, we use:
+To express $p = 1 \Leftrightarrow \delta_{24} + \delta_{34} + \delta_{77} \geq 2$, we use:
 \[
 \delta_{24} + \delta_{34} + \delta_{77} \leq 1 + 2p.
 \]
+$\delta_{24} + \delta_{34} + \delta_{77} \geq 2 \Rightarrow 2 \leq 1 + 2p \Rightarrow p = 1$, and $\delta_{24} + \delta_{34} + \delta_{77} \leq 1 \Rightarrow 1 \leq 1 + 2p$ allows $p = 0$.
 
-When $\delta_{24} + \delta_{34} + \delta_{77} \geq 2$, we have $2 \leq 1 + 2p$, which forces $p = 1$. When $\delta_{24} + \delta_{34} + \delta_{77} \leq 1$, the constraint $1 \leq 1 + 2p$ allows $p$ to be 0.
-
-Next, we express that when $p = 1$, we must have $\delta_{27} + \delta_{35} + \delta_{79} \leq 1$:
+Next, we express $p = 1 \Rightarrow \delta_{27} + \delta_{35} + \delta_{79} \leq 1$:
 \[
 \delta_{27} + \delta_{35} + \delta_{79} \leq 1 + 2(1-p) = 3 - 2p.
 \]
-
-When $p = 1$, this becomes $\delta_{27} + \delta_{35} + \delta_{79} \leq 1$, enforcing the ``then'' part. When $p = 0$, it becomes $\delta_{27} + \delta_{35} + \delta_{79} \leq 3$, which is nonbinding since each $\delta_i \leq 1$ and the sum is at most 3.
+$p = 1 \Rightarrow \delta_{27} + \delta_{35} + \delta_{79} \leq 1$, and $p = 0 \Rightarrow \delta_{27} + \delta_{35} + \delta_{79} \leq 3$ (nonbinding since each $\delta_i \leq 1$).
 
 \end{itemize}
 

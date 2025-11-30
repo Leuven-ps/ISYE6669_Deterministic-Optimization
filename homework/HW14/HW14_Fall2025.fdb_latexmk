@@ -1,6 +1,6 @@
 # Fdb version 4
-["pdflatex"] 1763900073.72296 "/Users/ryosuke.umeda/codes/OMSCS/ISYE6669_Deterministic-Optimization/homework/HW14/HW14_Fall2025.tex" "HW14_Fall2025.pdf" "HW14_Fall2025" 1763900074.61189 0
-  "/Users/ryosuke.umeda/codes/OMSCS/ISYE6669_Deterministic-Optimization/homework/HW14/HW14_Fall2025.tex" 1763900073.35556 18420 a8a1b6a2f4c8c3ce9b23e44441853efa ""
+["pdflatex"] 1763900256.66019 "/Users/ryosuke.umeda/codes/OMSCS/ISYE6669_Deterministic-Optimization/homework/HW14/HW14_Fall2025.tex" "HW14_Fall2025.pdf" "HW14_Fall2025" 1763900257.35578 0
+  "/Users/ryosuke.umeda/codes/OMSCS/ISYE6669_Deterministic-Optimization/homework/HW14/HW14_Fall2025.tex" 1763900255.45233 17884 35220774640facb743cafcdd83b48d15 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc" 1136849721 2900 1537cc8184ad1792082cd229ecc269f4 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/tfm/jknappen/ec/ectt1000.tfm" 1136768653 1536 06717a2b50de47d4087ac0e6cd759455 ""
@@ -86,8 +86,8 @@
   "/usr/local/texlive/2025/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1753319643 5467155 19efa205003f9ecad95fbbaa6ff24da1 ""
   "/usr/local/texlive/2025/texmf-var/web2c/pdftex/pdflatex.fmt" 1753319602 3345741 fe748b394dd281baab9f649630748946 ""
   "/usr/local/texlive/2025/texmf.cnf" 1741450484 577 418a7058ec8e006d8704f60ecd22c938 ""
-  "HW14_Fall2025.aux" 1763900074.55677 379 66ca540399e0ec2d89261b15f2c46e3d "pdflatex"
-  "HW14_Fall2025.tex" 1763900073.35556 18420 a8a1b6a2f4c8c3ce9b23e44441853efa ""
+  "HW14_Fall2025.aux" 1763900257.29491 379 66ca540399e0ec2d89261b15f2c46e3d "pdflatex"
+  "HW14_Fall2025.tex" 1763900255.45233 17884 35220774640facb743cafcdd83b48d15 ""
   (generated)
   "HW14_Fall2025.aux"
   "HW14_Fall2025.log"
