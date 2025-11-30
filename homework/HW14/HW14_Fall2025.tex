@@ -36,6 +36,115 @@
 \item A total $40$ workers are available.
 \end{itemize}
 Formulate the above problem as a mixed-integer linear problem. Use $x_i$ to denote the number (integer) of workers who start work on day $i$. You may need to introduce additional binary variables. If you use big-M numbers, please provide your best estimates of their values.
+
+\textbf{Solution:}
+
+We introduce an index $i$, where $i = 0$ represents Monday, $i = 1$ represents Tuesday, ..., and $i = 6$ represents Sunday. This indexing is used consistently throughout.
+
+\textbf{Decision variables:}
+\begin{itemize}
+    \item $x_i$: the number of workers who start work on day $i$ (nonnegative integer variable)
+    \item $y_i$: the number of workers who are active on day $i$ (nonnegative integer variable)
+\end{itemize}
+
+\textbf{Objective function:}
+
+We minimize the total cost. Schedules without weekends (Monday start) pay \$300 per day, schedules with one weekend day (Tuesday or Sunday start) pay \$320 per day, and schedules with both weekend days (Wednesday, Thursday, Friday, or Saturday start) pay \$330 per day. Since each worker works for 5 consecutive days, the total cost per worker is the daily rate multiplied by 5. The objective function is
+\[
+\min \quad 1500 \cdot x_0 + 1600 \cdot x_1 + 1650 \cdot x_2 + 1650 \cdot x_3 + 1650 \cdot x_4 + 1650 \cdot x_5 + 1600 \cdot x_6.
+\]
+
+\textbf{Nonnegativity and integrality:}
+\[
+x_i \geq 0, \quad y_i \geq 0, \quad x_i, y_i \in \mathbb{Z}, \quad \forall i = 0, 1, \ldots, 6.
+\]
+
+\textbf{Relationship between $x_i$ and $y_i$:}
+
+Since each worker works for 5 consecutive days, the number of workers active on day $i$, denoted by $y_i$, is the sum of workers who are working on that day. Specifically:
+\begin{align*}
+y_0 &= x_0 + x_3 + x_4 + x_5 + x_6, \\
+y_1 &= x_0 + x_1 + x_4 + x_5 + x_6, \\
+y_2 &= x_0 + x_1 + x_2 + x_5 + x_6, \\
+y_3 &= x_0 + x_1 + x_2 + x_3 + x_6, \\
+y_4 &= x_0 + x_1 + x_2 + x_3 + x_4, \\
+y_5 &= x_1 + x_2 + x_3 + x_4 + x_5, \\
+y_6 &= x_2 + x_3 + x_4 + x_5 + x_6.
+\end{align*}
+
+\textbf{Constraints:}
+
+\textbf{(e) Total of 40 workers available:}
+\[
+x_0 + x_1 + x_2 + x_3 + x_4 + x_5 + x_6 \leq 40.
+\]
+
+\textbf{(a) At least 25 workers each day:}
+For all $i = 0, 1, \ldots, 6$,
+\[
+y_i \geq 25.
+\]
+
+\textbf{(b) At most 35 workers on at least 3 days:}
+
+We introduce binary variables $p_i \in \{0,1\}$ such that $p_i = 1 \Leftrightarrow y_i \leq 35$. This is expressed by:
+\[
+y_i \geq 36(1-p_i) + 25, \quad \forall i = 0, 1, \ldots, 6.
+\]
+Since constraint (a) ensures $y_i \geq 25$, this representation is valid. $p_i = 1 \Rightarrow y_i \geq 25$ (nonbinding), and $p_i = 0 \Rightarrow y_i \geq 36$, which contradicts $y_i \leq 35$. Therefore, $y_i \leq 35 \Rightarrow p_i = 1$.
+
+The requirement that at least 3 days have at most 35 workers is:
+\[
+p_0 + p_1 + p_2 + p_3 + p_4 + p_5 + p_6 \geq 3.
+\]
+
+\textbf{(c) $x_0 > 10 \Rightarrow y_2 \leq 28$:}
+
+We introduce a binary variable $q \in \{0,1\}$ such that $q = 1 \Leftrightarrow x_0 > 10$. This is expressed by:
+\[
+x_0 \leq 10 + 30q.
+\]
+Since constraint (e) implies that the upper bound for $x_i$ is 40, we use $30$ as the Big-M value. $q = 0 \Rightarrow x_0 \leq 10$, and $q = 1 \Rightarrow x_0 \leq 40$ (nonbinding).
+
+Next, we express $q = 1 \Rightarrow y_2 \leq 28$:
+\[
+y_2 \leq 28 + 12(1-q).
+\]
+Since constraint (e) implies that $y_i$ is also bounded above by 40, the right-hand side can be written as $28 + 12(1-q)$ with the upper bound of 40. $q = 1 \Rightarrow y_2 \leq 28$, and $q = 0 \Rightarrow y_2 \leq 40$ (nonbinding).
+
+\textbf{(d) $x_5 < x_0$ or $x_5 < x_1$:}
+
+In logical form, this is $x_5 < x_0$ or $x_5 < x_1$. We introduce auxiliary binary variables:
+\begin{itemize}
+    \item $r_0 \in \{0,1\}$: $r_0 = 1 \Leftrightarrow x_5 < x_0$
+    \item $r_1 \in \{0,1\}$: $r_1 = 1 \Leftrightarrow x_5 < x_1$
+\end{itemize}
+
+We need to model both directions of the equivalence.
+
+For $r_0$:
+\begin{align*}
+x_5 < x_0 &\Rightarrow r_0 = 1 \\
+x_0 - x_5 &\leq 40 r_0, \\
+r_0 = 1 &\Rightarrow x_5 < x_0 \\
+x_5 - x_0 &\leq -1 + 41(1-r_0) = 40 - 41r_0.
+\end{align*}
+
+For $r_1$:
+\begin{align*}
+x_5 < x_1 &\Rightarrow r_1 = 1 \\
+x_1 - x_5 &\leq 40 r_1, \\
+r_1 = 1 &\Rightarrow x_5 < x_1 \\
+x_5 - x_1 &\leq -1 + 41(1-r_1) = 40 - 41r_1.
+\end{align*}
+
+The Big-M value 41 is chosen because $x_5 - x_0$ can be at most 40 (when $x_5 = 40$ and $x_0 = 0$), so $-1 + 41 = 40$ ensures the constraint is nonbinding when $r_0 = 0$.
+
+Finally, we require that at least one condition is satisfied:
+\[
+r_0 + r_1 \geq 1.
+\]
+
 \item Jack and Jill love to watch movies and, as a couple, have vowed to always watch their movies together as a form of spending time with each other. They have subscribed for a $1$ month free trial and estimated that they will watch $20$ movies by the end of the free trial. They have pre-selected $100$ movies that they would like to watch and now want to decide which $20$ out of these $100$ to watch during the free trial month. These $100$ movies are divided as follows: Movies $1-20$ are action movies, Movies $21-40$ are romantic comedies, Movies $41-60$ are TV series, Movies $61-80$ are documentaries and Movies $81-100$ are science fiction.
 
 They associated an estimated common satisfaction index $s_i$ to each movie and wish to maximize their estimated common satisfaction during this month. They also established the following constraints so that  each of them will not be too unhappy: They must choose at least $3$ action movies and at least $3$ romantic comedies, but not more than $5$ science fiction and no more than $2$ documentaries.
@@ -44,12 +153,84 @@ They associated an estimated common satisfaction index $s_i$ to each movie and w
 
 \begin{itemize}
 \item[a)] Write an Integer programming formulation that Jack and Jill can use to solve this problem of maximizing their estimated common satisfaction. Clearly indicate your decision variables and what they mean.
+
+\textbf{Solution:}
+
+We introduce binary decision variables $\delta_i \in \{0,1\}$ for $i = 1, 2, \ldots, 100$, where $\delta_i = 1$ if movie $i$ is watched and $\delta_i = 0$ otherwise.
+
+\textbf{Objective function:}
+
+We maximize the total satisfaction:
+\[
+\max \quad \sum_{i=1}^{100} s_i \delta_i.
+\]
+
+\textbf{Constraints:}
+
+The total number of movies watched must be 20:
+\[
+\sum_{i=1}^{100} \delta_i = 20.
+\]
+
+At least 3 action movies (movies 1--20) must be chosen:
+\[
+\sum_{i=1}^{20} \delta_i \geq 3.
+\]
+
+At least 3 romantic comedies (movies 21--40) must be chosen:
+\[
+\sum_{i=21}^{40} \delta_i \geq 3.
+\]
+
+At most 2 documentaries (movies 61--80) can be chosen:
+\[
+\sum_{i=61}^{80} \delta_i \leq 2.
+\]
+
+At most 5 science fiction movies (movies 81--100) can be chosen:
+\[
+\sum_{i=81}^{100} \delta_i \leq 5.
+\]
+
 \item[b)] Write one or more linear constraints to express the following additional conditions: (you may add decision variables if necessary, as long as you make it clear what they mean. Also, if you use a Big-M constant,  please provide your best estimates of their values.)
 \begin{itemize}
 \item[i.] Since movies 11, 12 and 13 are part of a series, either they get all of them, or they get none of them.
 \item[ii.] Movies 41--50 are respectively seasons 1--10 of Friends, so they have decided that if they watch one season of Friends, they must watch all seasons before it. For example, if they watch season 6, they must also watch seasons 1--5.
 \item[iii.] If they watch at least 2 movies out of 24, 34 and 77, then they must not watch more than one movie out of 27, 35 and 79.
 \end{itemize}
+
+\textbf{Solution:}
+
+\textbf{(i) Movies 11, 12, and 13 are part of a series:}
+
+Since movies 11, 12, and 13 are part of a series, either all of them are watched or none of them are watched. This is expressed as:
+\[
+\delta_{11} = \delta_{12} = \delta_{13}.
+\]
+
+\textbf{(ii) Movies 41--50 are seasons 1--10 of Friends:}
+
+For any season $k \in \{41, 42, \ldots, 50\}$, if season $k$ is watched, then all seasons $41, 42, \ldots, k-1$ must also be watched. This is modeled by:
+\[
+\delta_{41} \geq \delta_{42} \geq \delta_{43} \geq \delta_{44} \geq \delta_{45} \geq \delta_{46} \geq \delta_{47} \geq \delta_{48} \geq \delta_{49} \geq \delta_{50}.
+\]
+
+\textbf{(iii) $(\delta_{24} + \delta_{34} + \delta_{77} \geq 2) \Rightarrow (\delta_{27} + \delta_{35} + \delta_{79} \leq 1)$:}
+
+We introduce an auxiliary binary variable $p \in \{0,1\}$ such that $p = 1 \Leftrightarrow \delta_{24} + \delta_{34} + \delta_{77} \geq 2$.
+
+To express $p = 1 \Leftrightarrow \delta_{24} + \delta_{34} + \delta_{77} \geq 2$, we use:
+\[
+\delta_{24} + \delta_{34} + \delta_{77} \leq 1 + 2p.
+\]
+$\delta_{24} + \delta_{34} + \delta_{77} \geq 2 \Rightarrow 2 \leq 1 + 2p \Rightarrow p = 1$, and $\delta_{24} + \delta_{34} + \delta_{77} \leq 1 \Rightarrow 1 \leq 1 + 2p$ allows $p = 0$.
+
+Next, we express $p = 1 \Rightarrow \delta_{27} + \delta_{35} + \delta_{79} \leq 1$:
+\[
+\delta_{27} + \delta_{35} + \delta_{79} \leq 1 + 2(1-p) = 3 - 2p.
+\]
+$p = 1 \Rightarrow \delta_{27} + \delta_{35} + \delta_{79} \leq 1$, and $p = 0 \Rightarrow \delta_{27} + \delta_{35} + \delta_{79} \leq 3$ (nonbinding since each $\delta_i \leq 1$).
+
 \end{itemize}
 
  
@@ -82,6 +263,89 @@ per Ton (\$)  \\ \hline
 \end{table}
 Formulate a mixed integer linear program that can be used to minimize the cost while satisfying all constraints. Clearly specify what are the decision variables (and what they mean), as well as the objective function and constraints. Also, if you use a Big-M constant,  please provide your best estimates of their values.
 
+\textbf{Solution:}
+
+\textbf{Decision variables:}
+
+For boilers $i = 1, 2, 3, 4$:
+\begin{itemize}
+    \item $u_i \in \{0,1\}$: binary variable, equals 1 if boiler $i$ is ON, 0 if OFF
+    \item $x_i \geq 0$: continuous variable, the amount of steam (in tons) produced by boiler $i$
+    \item $c_i \geq 0$: continuous variable, the cost of operating boiler $i$
+\end{itemize}
+
+For turbines $i = 1, 2, 3$:
+\begin{itemize}
+    \item $v_i \in \{0,1\}$: binary variable, equals 1 if turbine $i$ is ON, 0 if OFF
+    \item $y_i \geq 0$: continuous variable, the amount of steam (in tons) consumed by turbine $i$
+    \item $z_i \geq 0$: continuous variable, the amount of power (in Kwh) produced by turbine $i$
+    \item $p_i \geq 0$: continuous variable, the cost of processing steam on turbine $i$
+\end{itemize}
+
+\textbf{Objective function:}
+
+We minimize the total cost:
+\[
+\min \quad \sum_{i=1}^{4} c_i + \sum_{i=1}^{3} p_i.
+\]
+
+\textbf{Constraints:}
+
+\textbf{Boiler constraints:}
+
+For each boiler $i = 1, 2, 3, 4$, the steam production $x_i$ must be between the minimum and maximum values when the boiler is ON, and must be 0 when OFF:
+\begin{align*}
+400 u_1 &\leq x_1 \leq 900 u_1, \\
+500 u_2 &\leq x_2 \leq 700 u_2, \\
+300 u_3 &\leq x_3 \leq 600 u_3, \\
+240 u_4 &\leq x_4 \leq 800 u_4.
+\end{align*}
+
+The cost for each boiler $i$ consists of a fixed cost and a variable cost:
+\begin{align*}
+c_1 &= 160 u_1 + 9 x_1, \\
+c_2 &= 200 u_2 + 7 x_2, \\
+c_3 &= 190 u_3 + 8 x_3, \\
+c_4 &= 250 u_4 + 6 x_4.
+\end{align*}
+
+\textbf{Turbine constraints:}
+
+For each turbine $i = 1, 2, 3$, the steam consumption $y_i$ must be between the minimum and maximum values when the turbine is ON, and must be 0 when OFF:
+\begin{align*}
+100 v_1 &\leq y_1 \leq 700 v_1, \\
+400 v_2 &\leq y_2 \leq 800 v_2, \\
+300 v_3 &\leq y_3 \leq 600 v_3.
+\end{align*}
+
+The power produced by each turbine $i$ is proportional to the steam consumed:
+\begin{align*}
+z_1 &= 7 y_1, \\
+z_2 &= 3 y_2, \\
+z_3 &= 6 y_3.
+\end{align*}
+
+The processing cost for each turbine $i$ is:
+\begin{align*}
+p_1 &= 9 y_1, \\
+p_2 &= 4 y_2, \\
+p_3 &= 6 y_3.
+\end{align*}
+
+\textbf{Steam balance constraint:}
+
+The total steam produced by all boilers must be at least the total steam consumed by all turbines:
+\[
+\sum_{i=1}^{4} x_i \geq \sum_{i=1}^{3} y_i.
+\]
+
+\textbf{Power production constraint:}
+
+The total power produced must be at least 9,000 Kwh:
+\[
+\sum_{i=1}^{3} z_i \geq 9000.
+\]
+
 \item Consider the polytope $P$ given by:
 \begin{eqnarray*}
 2x_1 + 3x_2 \leq 100 \\
@@ -90,8 +354,87 @@ x_2 \geq 0.
 \end{eqnarray*}
 Notice that the point $(5, 10)$ is a feasible point for $P$. Write an integer programming formulation whose feasible set is exactly the set of integer points in $P$ except $(5,10)$. (No need to give any objective function.)
 
+\textbf{Solution:}
 
-%\item Variables $x$ and $y$ must belong to the set shown in Figure~\ref{fig:allowable-set}.
+We introduce binary variables $\delta_1, \delta_2 \in \{0,1\}$ such that:
+\[
+x_1 = 5 \Rightarrow \delta_1 = 1, \quad x_2 = 10 \Rightarrow \delta_2 = 1.
+\]
+
+To exclude $(5, 10)$, we require:
+\[
+\delta_1 + \delta_2 \leq 1.
+\]
+
+\textbf{Modeling $x_1 = 5 \Rightarrow \delta_1 = 1$:}
+
+Taking the contrapositive: $\delta_1 = 0 \Rightarrow x_1 \neq 5$. Since $x_1 \in \mathbb{Z}_{\geq 0}$, we have:
+\[
+\delta_1 = 0 \Rightarrow (x_1 \geq 6 \text{ XOR } x_1 \leq 4).
+\]
+
+To model the XOR, we introduce auxiliary binary variables $p_1, p_2 \in \{0,1\}$ such that:
+\[
+p_1 = 1 \Leftrightarrow x_1 \geq 6, \quad p_2 = 1 \Leftrightarrow x_1 \leq 4.
+\]
+
+For $p_1$:
+\begin{align*}
+x_1 \geq 6 &\Rightarrow p_1 = 1 \quad \text{(contrapositive: } p_1 = 0 \Rightarrow x_1 \leq 5\text{)} \\
+x_1 &\leq 5 + 45p_1, \\
+p_1 = 1 &\Rightarrow x_1 \geq 6 \\
+x_1 &\geq 6p_1.
+\end{align*}
+
+For $p_2$:
+\begin{align*}
+x_1 \leq 4 &\Rightarrow p_2 = 1 \quad \text{(contrapositive: } p_2 = 0 \Rightarrow x_1 \geq 5\text{)} \\
+x_1 &\geq 5(1-p_2), \\
+p_2 = 1 &\Rightarrow x_1 \leq 4 \\
+x_1 &\leq 50 - 46p_2.
+\end{align*}
+
+The XOR condition is expressed as:
+\[
+p_1 + p_2 = 1 - \delta_1.
+\]
+
+The Big-M values are chosen as: $x_1 \leq 50$ (from $2x_1 + 3x_2 \leq 100$ with $x_2 = 0$), so $45 = 50 - 5$ and $46 = 50 - 4$.
+
+\textbf{Modeling $x_2 = 10 \Rightarrow \delta_2 = 1$:}
+
+Taking the contrapositive: $\delta_2 = 0 \Rightarrow x_2 \neq 10$. Since $x_2 \in \mathbb{Z}_{\geq 0}$, we have:
+\[
+\delta_2 = 0 \Rightarrow (x_2 \geq 11 \text{ XOR } x_2 \leq 9).
+\]
+
+To model the XOR, we introduce auxiliary binary variables $q_1, q_2 \in \{0,1\}$ such that:
+\[
+q_1 = 1 \Leftrightarrow x_2 \geq 11, \quad q_2 = 1 \Leftrightarrow x_2 \leq 9.
+\]
+
+For $q_1$:
+\begin{align*}
+x_2 \geq 11 &\Rightarrow q_1 = 1 \quad \text{(contrapositive: } q_1 = 0 \Rightarrow x_2 \leq 10\text{)} \\
+x_2 &\leq 10 + 23q_1, \\
+q_1 = 1 &\Rightarrow x_2 \geq 11 \\
+x_2 &\geq 11q_1.
+\end{align*}
+
+For $q_2$:
+\begin{align*}
+x_2 \leq 9 &\Rightarrow q_2 = 1 \quad \text{(contrapositive: } q_2 = 0 \Rightarrow x_2 \geq 10\text{)} \\
+x_2 &\geq 10(1-q_2), \\
+q_2 = 1 &\Rightarrow x_2 \leq 9 \\
+x_2 &\leq 33 - 24q_2.
+\end{align*}
+
+The XOR condition is expressed as:
+\[
+q_1 + q_2 = 1 - \delta_2.
+\]
+
+The Big-M values are chosen as: $x_2 \leq 33$ (from $2x_1 + 3x_2 \leq 100$ with $x_1 = 0$), so $23 = 33 - 10$ and $24 = 33 - 9$.
 %
 %\begin{figure}[h]
 %  \centering
