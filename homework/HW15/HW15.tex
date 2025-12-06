@@ -75,7 +75,53 @@ that:
 |2x_1 - x_2 - x_3| \geq 2
 \]
 by introducing an additional binary variable. 
- \item Let $x_1, x_2, x_3$ be binary variables with the following relationship:
+
+\textbf{Solution:}
+
+The absolute value constraint $|2x_1 - x_2 - x_3| \geq 2$ is equivalent to the disjunction:
+\[
+(2x_1 - x_2 - x_3 \geq 2) \quad \text{XOR} \quad (2x_1 - x_2 - x_3 \leq -2).
+\]
+
+We introduce two binary variables $\delta_1, \delta_2 \in \{0,1\}$ such that:
+\begin{align*}
+\delta_1 = 1 &\Rightarrow 2x_1 - x_2 - x_3 \geq 2, \\
+\delta_2 = 1 &\Rightarrow 2x_1 - x_2 - x_3 \leq -2.
+\end{align*}
+
+To ensure that exactly one of these conditions holds (XOR condition), we impose:
+\[
+\delta_1 + \delta_2 = 1.
+\]
+
+Now we model the implications using Big-$M$ constraints. Since $x_1, x_2, x_3 \in [0, 10]$, we have:
+\begin{align*}
+\max(2x_1 - x_2 - x_3) &= 2 \cdot 10 - 0 - 0 = 20, \\
+\min(2x_1 - x_2 - x_3) &= 2 \cdot 0 - 10 - 10 = -20.
+\end{align*}
+
+To enforce $\delta_1 = 1 \Rightarrow 2x_1 - x_2 - x_3 \geq 2$, we use:
+\[
+2x_1 - x_2 - x_3 \geq 2 - m(1 - \delta_1),
+\]
+where $m$ is chosen such that when $\delta_1 = 0$, the constraint is nonbinding. Since the minimum value of $2x_1 - x_2 - x_3$ is $-20$, we need $2 - m \leq -20$, so $m \geq 22$. We choose $m = 22$.
+
+To enforce $\delta_2 = 1 \Rightarrow 2x_1 - x_2 - x_3 \leq -2$, we use:
+\[
+2x_1 - x_2 - x_3 \leq -2 + M(1 - \delta_2),
+\]
+where $M$ is chosen such that when $\delta_2 = 0$, the constraint is nonbinding. Since the maximum value of $2x_1 - x_2 - x_3$ is $20$, we need $-2 + M \geq 20$, so $M \geq 22$. We choose $M = 22$.
+
+Therefore, the complete set of constraints is:
+\begin{align*}
+2x_1 - x_2 - x_3 &\geq 2 - 22(1 - \delta_1), \\
+2x_1 - x_2 - x_3 &\leq -2 + 22(1 - \delta_2), \\
+\delta_1 + \delta_2 &= 1, \\
+\delta_1, \delta_2 &\in \{0,1\}, \\
+x_1, x_2, x_3 &\in [0, 10].
+\end{align*}
+
+ \item Let $x_1, x_2, x_3$ be binary variables with the following relationship shown in Table~\ref{tab:xor}:
  \begin{table}[h!]
 \centering
 \begin{tabular}{|c|c|c|}
@@ -89,6 +135,7 @@ by introducing an additional binary variable.
 \hline
 \end{tabular}
 \caption{Truth table for XOR operation}
+\label{tab:xor}
 \end{table}
 \begin{enumerate}
 \item In the following formulation correct? Explain what each constraint is doing?
@@ -98,7 +145,83 @@ x_1 + (1 - x_2) + x_3 &\geq & \frac{1}{2}\\
 x_1 + x_2 + (1 - x_3) & \geq & \frac{1}{2}\\
 (1 - x_1) + (1 - x_2) + (1 - x_3) &\geq& \frac{1}{2}\\
 \end{eqnarray*}
+
+\textbf{Solution:}
+
+Yes, this formulation is correct. We verify that each constraint correctly enforces the XOR relationship by checking all four cases from the truth table.
+
+For each case $(x_1, x_2)$, we analyze the four constraints to determine the feasible range for $x_3$:
+
+\textbf{Case 1: $(x_1, x_2) = (0, 0)$}
+
+Substituting into the constraints:
+\begin{align*}
+(1 - 0) + 0 + x_3 &\geq \frac{1}{2} \quad \Rightarrow \quad x_3 \geq -\frac{1}{2}, \\
+0 + (1 - 0) + x_3 &\geq \frac{1}{2} \quad \Rightarrow \quad x_3 \geq -\frac{1}{2}, \\
+0 + 0 + (1 - x_3) &\geq \frac{1}{2} \quad \Rightarrow \quad x_3 \leq \frac{1}{2}, \\
+(1 - 0) + (1 - 0) + (1 - x_3) &\geq \frac{1}{2} \quad \Rightarrow \quad x_3 \leq \frac{5}{2}.
+\end{align*}
+
+Combining these: $-\frac{1}{2} \leq x_3 \leq \frac{1}{2}$. Since $x_3$ is binary, we must have $x_3 = 0$, which matches the truth table.
+
+\textbf{Case 2: $(x_1, x_2) = (0, 1)$}
+
+Substituting into the constraints:
+\begin{align*}
+(1 - 0) + 1 + x_3 &\geq \frac{1}{2} \quad \Rightarrow \quad x_3 \geq -\frac{3}{2}, \\
+0 + (1 - 1) + x_3 &\geq \frac{1}{2} \quad \Rightarrow \quad x_3 \geq \frac{1}{2}, \\
+0 + 1 + (1 - x_3) &\geq \frac{1}{2} \quad \Rightarrow \quad x_3 \leq \frac{3}{2}, \\
+(1 - 0) + (1 - 1) + (1 - x_3) &\geq \frac{1}{2} \quad \Rightarrow \quad x_3 \leq \frac{3}{2}.
+\end{align*}
+
+Combining these: $\frac{1}{2} \leq x_3 \leq \frac{3}{2}$. Since $x_3$ is binary, we must have $x_3 = 1$, which matches the truth table.
+
+\textbf{Case 3: $(x_1, x_2) = (1, 0)$}
+
+Substituting into the constraints:
+\begin{align*}
+(1 - 1) + 0 + x_3 &\geq \frac{1}{2} \quad \Rightarrow \quad x_3 \geq \frac{1}{2}, \\
+1 + (1 - 0) + x_3 &\geq \frac{1}{2} \quad \Rightarrow \quad x_3 \geq -\frac{3}{2}, \\
+1 + 0 + (1 - x_3) &\geq \frac{1}{2} \quad \Rightarrow \quad x_3 \leq \frac{3}{2}, \\
+(1 - 1) + (1 - 0) + (1 - x_3) &\geq \frac{1}{2} \quad \Rightarrow \quad x_3 \leq \frac{3}{2}.
+\end{align*}
+
+Combining these: $\frac{1}{2} \leq x_3 \leq \frac{3}{2}$. Since $x_3$ is binary, we must have $x_3 = 1$, which matches the truth table.
+
+\textbf{Case 4: $(x_1, x_2) = (1, 1)$}
+
+Substituting into the constraints:
+\begin{align*}
+(1 - 1) + 1 + x_3 &\geq \frac{1}{2} \quad \Rightarrow \quad x_3 \geq -\frac{1}{2}, \\
+1 + (1 - 1) + x_3 &\geq \frac{1}{2} \quad \Rightarrow \quad x_3 \geq -\frac{1}{2}, \\
+1 + 1 + (1 - x_3) &\geq \frac{1}{2} \quad \Rightarrow \quad x_3 \leq \frac{5}{2}, \\
+(1 - 1) + (1 - 1) + (1 - x_3) &\geq \frac{1}{2} \quad \Rightarrow \quad x_3 \leq \frac{1}{2}.
+\end{align*}
+
+Combining these: $-\frac{1}{2} \leq x_3 \leq \frac{1}{2}$. Since $x_3$ is binary, we must have $x_3 = 0$, which matches the truth table.
+
+Therefore, the formulation correctly models the XOR operation.
+
 \item Can you write a formulation using \emph{one equation}? Hint: You may need to use an additional  variable. 
+
+\textbf{Solution:}
+
+We introduce an auxiliary binary variable $y \in \{0,1\}$ and use the following single equation:
+\[
+2y + x_3 = x_1 + x_2.
+\]
+
+This equation correctly models the XOR operation. To verify, we check all four cases:
+
+\begin{itemize}
+    \item When $(x_1, x_2) = (0, 0)$: $2y + x_3 = 0$. Since $y, x_3 \in \{0,1\}$, we must have $y = 0$ and $x_3 = 0$, which matches the truth table.
+    \item When $(x_1, x_2) = (0, 1)$: $2y + x_3 = 1$. Since $y, x_3 \in \{0,1\}$, we must have $y = 0$ and $x_3 = 1$, which matches the truth table.
+    \item When $(x_1, x_2) = (1, 0)$: $2y + x_3 = 1$. Since $y, x_3 \in \{0,1\}$, we must have $y = 0$ and $x_3 = 1$, which matches the truth table.
+    \item When $(x_1, x_2) = (1, 1)$: $2y + x_3 = 2$. Since $y, x_3 \in \{0,1\}$, we must have $y = 1$ and $x_3 = 0$, which matches the truth table.
+\end{itemize}
+
+The auxiliary variable $y$ effectively represents the AND operation of $x_1$ and $x_2$ (i.e., $y = x_1 \cdot x_2$), and the equation $2y + x_3 = x_1 + x_2$ ensures that $x_3$ takes the correct value for the XOR operation.
+
  \end{enumerate}
  \item A plantation is in the business of commercially growing and harvesting trees for lumber. The plantation is divided into 10 grids as shown below:
 \begin{center}
@@ -108,9 +231,76 @@ We are planning for the next four years. Each year, the plantation cuts all the 
 $$x_{it} = \left\{\begin{array}{cl} 1& \textup{if trees in grid }i\textup{ are harvested in year }t\\ 0 & \textup{otherwise}\end{array}\right.$$
 \begin{enumerate}
 \item A profit of $p_{it}$ is earned if the grid $i$ is harvested in time period $t$. Write down a linear objective function that represents maximizing total profit.
+
+\textbf{Solution:}
+\[
+\max \sum_{t=1}^{4} \sum_{i=1}^{10} p_{it} x_{it}
+\]
+
 \item No more than 6 grids can be harvested in a single year.  Write  linear inequalities to model this constraint.
+
+\textbf{Solution:}
+\[
+\sum_{i=1}^{10} x_{it} \leq 6, \quad \forall t \in \{1, 2, 3, 4\}
+\]
+
 \item  Because trees need time to grow, each grid may be harvested at most 2 times over the next four years, and it may not be harvested in consecutive years. Write linear inequalities to model these constraints.
+
+\textbf{Solution:}
+
+For each grid $i \in \{1, \ldots, 10\}$:
+
+First, the total number of harvests is at most 2:
+\[
+\sum_{t=1}^{4} x_{it} \leq 2, \quad \forall i \in \{1, \ldots, 10\}
+\]
+
+Second, the grid cannot be harvested in consecutive years. This means for any two consecutive years $t$ and $t+1$, we cannot have $x_{it} = 1$ and $x_{i,t+1} = 1$. This can be written as:
+\[
+x_{it} + x_{i,t+1} \leq 1, \quad \forall t \in \{1, 2, 3\}, \quad \forall i \in \{1, \ldots, 10\}
+\]
+
 \item  Ecological considerations require the implementation of following rule: In any given year, the set of unharvested grids must be connected. For example: harvesting grids $1, 2, 5, 6$ in time period 1 is not allowed since the unharvested grids are disconnected into two blocks $3, 4$ and $7,8,9,10$. Write linear inequalities to represent the above constraints. You may introduce artificial variables as necessary. 
+
+\textbf{Solution:}
+
+We introduce binary variables $y_{it} \in \{0,1\}$ to represent whether grid $i$ is \textbf{unharvested} in year $t$:
+\[
+y_{it} = 1 - x_{it}
+\]
+where $y_{it} = 1$ means the grid is unharvested, and $y_{it} = 0$ means it is harvested.
+
+We assume the grids $1, \ldots, 10$ are arranged linearly. To ensure the set of unharvested grids is connected (i.e., forms a single block of 1s), we track the number of times the status changes from "harvested" ($0$) to "unharvested" ($1$) as we scan from grid 1 to 10. If the unharvested grids form a single connected component (or are empty), there can be at most one such $0 \to 1$ transition.
+
+We introduce a dummy boundary condition $y_{0,t} = 0$ for all $t$ (assuming grid 0 is always harvested/empty).
+
+We introduce auxiliary binary variables $v_{it}, w_{it} \in \{0,1\}$ for $i \in \{1, \ldots, 10\}$ and $t \in \{1, \ldots, 4\}$ such that:
+\begin{itemize}
+    \item $v_{it} = 1$ if a $0 \to 1$ transition occurs at $i$ (i.e., $y_{i-1,t}=0$ and $y_{it}=1$).
+    \item $w_{it} = 1$ if a $1 \to 0$ transition occurs at $i$ (i.e., $y_{i-1,t}=1$ and $y_{it}=0$).
+\end{itemize}
+
+The relationship is modeled by:
+\[
+v_{it} - w_{it} = y_{it} - y_{i-1,t}, \quad \forall i \in \{1, \ldots, 10\}, \forall t \in \{1, \ldots, 4\}
+\]
+with $y_{0,t} = 0$.
+
+The connectivity requirement implies that we can have at most one start of an unharvested block:
+\[
+\sum_{i=1}^{10} v_{it} \leq 1, \quad \forall t \in \{1, \ldots, 4\}
+\]
+
+Explanation: Since we start with $y_{0,t}=0$, if there is any block of unharvested grids, the sequence of $y$'s must go from 0 to 1 exactly once at the start of that block. If there were two disconnected blocks (e.g., 0...0110...0110...0), there would be two $0 \to 1$ transitions, violating the sum constraint.
+
+Summary of constraints for (d):
+\begin{align*}
+y_{it} &= 1 - x_{it}, && \forall i \in \{1..10\}, t \in \{1..4\} \\
+v_{it} - w_{it} &= y_{it} - y_{i-1,t}, && \forall i \in \{1..10\}, t \in \{1..4\} \quad (\text{with } y_{0,t}=0) \\
+\sum_{i=1}^{10} v_{it} &\leq 1, && \forall t \in \{1..4\} \\
+y_{it}, v_{it}, w_{it} &\in \{0,1\}
+\end{align*}
+
 \end{enumerate}
 
 
@@ -123,6 +313,62 @@ $$x_{it} = \left\{\begin{array}{cl} 1& \textup{if trees in grid }i\textup{ are h
 \item At least 5 junior nurses must be aiding surgeries.
 \end{enumerate}
 Formulate an integer program to find a feasible schedule.
+
+\textbf{Solution:}
+
+We introduce binary decision variables $x_{ij} \in \{0,1\}$ for $i \in \{1, \ldots, 25\}$ and $j \in \{1, \ldots, 10\}$, where $x_{ij} = 1$ if nurse $i$ is assigned to surgery $j$, and $x_{ij} = 0$ otherwise.
+
+\textbf{Constraints:}
+
+\textbf{(a) A nurse can aid in a surgery only if qualified:}
+\[
+x_{ij} \leq d_{ij}, \quad \forall i \in \{1, \ldots, 25\}, \forall j \in \{1, \ldots, 10\}
+\]
+
+\textbf{(b) Each surgery must have at least 1 senior qualified nurse:}
+\[
+\sum_{i=1}^{15} x_{ij} \geq 1, \quad \forall j \in \{1, \ldots, 10\}
+\]
+
+\textbf{(c) Nurse 1 and Nurse 20 cannot be scheduled to the same surgery:}
+\[
+x_{1j} + x_{20j} \leq 1, \quad \forall j \in \{1, \ldots, 10\}
+\]
+
+\textbf{(d) Each nurse can aid in at most 2 surgeries:}
+\[
+\sum_{j=1}^{10} x_{ij} \leq 2, \quad \forall i \in \{1, \ldots, 25\}
+\]
+
+\textbf{(e) At least 5 junior nurses must be aiding surgeries:}
+
+We introduce auxiliary binary variables $y_i \in \{0,1\}$ for $i \in \{16, \ldots, 25\}$ such that $y_i = 1$ if nurse $i$ (a junior nurse) is assigned to at least one surgery, and $y_i = 0$ otherwise.
+
+To model $y_i = 1 \Leftrightarrow \sum_{j=1}^{10} x_{ij} \geq 1$, we use:
+\begin{align*}
+\sum_{j=1}^{10} x_{ij} &\geq y_i, && \forall i \in \{16, \ldots, 25\} \\
+\sum_{j=1}^{10} x_{ij} &\leq 2 y_i, && \forall i \in \{16, \ldots, 25\}
+\end{align*}
+
+The first constraint ensures that if $y_i = 1$, then nurse $i$ is assigned to at least one surgery. The second constraint ensures that if nurse $i$ is assigned to at least one surgery, then $y_i = 1$ (since if $\sum_{j=1}^{10} x_{ij} \geq 1$ and $y_i = 0$, the constraint would require $\sum_{j=1}^{10} x_{ij} \leq 0$, which is a contradiction).
+
+The requirement that at least 5 junior nurses must be aiding surgeries is:
+\[
+\sum_{i=16}^{25} y_i \geq 5
+\]
+
+\textbf{Basic requirement:}
+
+Each surgery requires exactly 2 nurses:
+\[
+\sum_{i=1}^{25} x_{ij} = 2, \quad \forall j \in \{1, \ldots, 10\}
+\]
+
+\textbf{Variable definitions:}
+\begin{align*}
+x_{ij} &\in \{0,1\}, && \forall i \in \{1, \ldots, 25\}, \forall j \in \{1, \ldots, 10\} \\
+y_i &\in \{0,1\}, && \forall i \in \{16, \ldots, 25\}
+\end{align*}
 
 \item Consider the following branch-and-bound tree for solving a two variable integer programming problem.
 
@@ -180,13 +426,40 @@ node[above right=3pt] {Node 7} (n7);
 
 \begin{enumerate}
 \item  Is this a minimization or a maximization problem?
+
+\textbf{Solution:}
+
+This is a **minimization problem**.
+
+The reason is that as we add more constraints (branching), the objective function value increases. The most relaxed problem (Node 1) has the smallest objective value $z^* = 28.9$, and as we add constraints and branch further, the values increase: $29.5$ (Node 2), $30.1$ (Node 4), $36$ (Node 6), and $39$ (Node 5). This pattern indicates that we are minimizing: tighter constraints (more restrictions) lead to worse (larger) objective values, which is characteristic of a minimization problem.
+
 \item  For each of the following nodes, indicate whether you need to further branch on the node.
 \begin{itemize}
     \item[] Node 3:
     \item[] Node 5:
     \item[] Node 7:
 \end{itemize}
+
+\textbf{Solution:}
+
+\textbf{Node 3:} No further branching is needed. Node 3 is INFEASIBLE, so adding more constraints will not yield a feasible solution.
+
+\textbf{Node 5:} No further branching is needed. Node 5 has an objective value of $z^* = 39$. The current best feasible solution is at Node 6 with $z^* = 36$. Since this is a minimization problem, adding more constraints (branching) will only increase the objective value. Therefore, any solution obtained by further branching from Node 5 will have an objective value $\geq 39$, which is worse than the current best solution of $36$.
+
+\textbf{Node 7:} Further branching is needed. Node 7 has an objective value of $z^* = 29.3$, which is less than the current best feasible solution of $36$ (Node 6). Since this is a minimization problem, there is a possibility that further branching from Node 7 may yield a better (smaller) objective value than $36$.
+
 \item According to this branch-and-bound tree, what is the range (lower and upper bounds) in which the optimal IP value lies? Explain your answer.
+
+\textbf{Solution:}
+
+The optimal IP value lies in the range: **$29.3 \leq z^* \leq 36$**.
+
+\textbf{Upper bound (36):} The current best feasible solution is at Node 6 with $z^* = 36$, where $x_1^* = 3$ and $x_2^* = 4$ are both integers. This is a feasible integer solution, so it provides an upper bound on the optimal value for this minimization problem.
+
+\textbf{Lower bound (29.3):} The lower bound is given by the smallest objective value among all leaf nodes (nodes that have not been pruned and are candidates for further exploration). Among the active leaf nodes, Node 7 has the smallest objective value of $z^* = 29.3$. This represents the best possible value that could be obtained by further branching from the unexplored nodes.
+
+Therefore, the optimal IP value must lie between $29.3$ (lower bound) and $36$ (upper bound).
+
 \end{enumerate}
  
 \end{enumerate}
