@@ -1,0 +1,14 @@
+# macOS
+.DS_Store
+
+# LaTeX build files
+*.aux
+*.fdb_latexmk
+*.fls
+*.log
+*.synctex.gz
+*.out
+*.pdfsync
+
+# Keep PDF files (they contain solutions)
+# *.pdf
